@@ -36,7 +36,10 @@
 - 안드로이드
 - HTML, CSS, JS
 
-## 설계도 (기획중)
+## 일정
+검토중 입니다.
+
+## 설계도
 
 ![설계도](https://github.com/2017yjcpa1/smart_mirror/blob/master/20170307.png?raw=true)
 
