@@ -14,7 +14,22 @@
 
 즉, 아무런 계획없이 진행하지 않으며 그렇다고 지나친 계획으로 스트레스, 비용을 낭비하지 않는 중간의 타협점을 찾아 2주 단위로 그때 그때의 요구사항을 수립하여 프로젝트의 버전을 점점 발전해가며 커다란 소프트웨어로 완성시키는 것. 
 
-## 팀원및 역할
+## 목차
+
+ * [팀원및 역할](#about_us)
+ * [목표](#goals)
+ * [개발환경](#develop_enviorment)
+ * [배경도](#background)
+ * [실용적인 스타일](#practical)
+ * [이름을 짓는 방법](#naming)
+ * [자잘한 것들](#misc)
+ * [네이티브 & 호스트 객체](#native)
+ * [주석 달기](#comments)
+ * [한 언어로 작성하기](#language)
+
+------------------------------------------------
+
+## <a name="about_us">팀원및 역할</a>
 
 ### 팀장
 - 차명도 (aw9223) : 총괄및 기초 설계
@@ -27,21 +42,18 @@
 - 이준호 (dkrdj8989) : 검토중 입니다.
 - 한지호 (jihohan1312) : 검토중 입니다.
 
-## 목표
+## <a name="goals">목표</a>
 본 저장소는 라즈베리파이(Raspberry Pi) 인터페이스를 이용하여 모션인식, 음성인식을 활용함으로써 사용자에게 각종 데이터혹은 피드백을 제공해주는 스마트거울 개발 목표를 두고있습니다.
 
-## 개발환경
+## <a name="develop_enviorment">개발환경</a>
 - 라즈베리파이
 - 아두이노
 - 안드로이드
-- HTML, CSS, JS
+- HTML, CSS, JS 
 
-## 일정
-검토중 입니다.
+## <a name="background">배경도</a>
 
-## 설계도
-
-![설계도](https://github.com/2017yjcpa1/smart_mirror/blob/master/20170307.png?raw=true)
+![배경도](https://github.com/2017yjcpa1/smart_mirror/blob/master/20170307.png?raw=true)
 
 ### 스마트미러
 
