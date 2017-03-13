@@ -47,6 +47,7 @@
 - 안드로이드
 - HTML, CSS, JS 
 - PHP
+- Kinect
 
 ## <a name="background">배경도</a>
 
