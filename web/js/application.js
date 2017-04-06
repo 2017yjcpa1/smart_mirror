@@ -2,47 +2,57 @@ define(['jquery'], function ($) {
     
     var activities = [];
     
-    function startActivity(activity, data) {
-        var isRunning = require.defined('activity/' + activity);
+    /*
+     * 1. 액티비티 스택
+     * 2. 부모, 자식 액티비티연결
+     * 3. z-index 갱신
+     * 4. startActivityForResult 구현
+     */
+    function startActivity(activityId, data) {
+        var isRunning = require.defined('activity/' + activityId);
         
-        require(['activity/' + activity], function (activity) {
+        require(['activity/' + activityId], function (activity) {
             
-            if ( ! isRunning) {    
-                if (typeof(activity.layoutHTML) !== 'undefined') {
-                    var layoutWrapper = $(document.createElement('div'));
-
-                    layoutWrapper.load('res/layout/' + activity.layoutHTML);
-                    layoutWrapper.appendTo('body');
-                }
+            if ( ! isRunning) {
+                var rootLayout = $(document.createElement('div'))
+                                        .load('res/layout/' + activity.layoutHTML)
+                                        .appendTo('body')
+                                        .css('z-index', 9999);
+                    
+                activity.id = activityId;
+                activity.rootLayout = rootLayout[0]; 
                 
                 activity.init();
             }
             
             activity.resume(data);
-        })
+            
+            activities.push(activity);
+        });
     }
     
-    function finishActivity(activity) {
-        if (typeof(activity) === 'undefined') {
-            activity = activities[ activities.length - 1 ];
+    function finishActivity(activityId) {
+        if (typeof(activityId) === 'undefined' && activities.length > 1) {
+            activityId = activities[ activities.length - 1 ].id;
         }
         
-        if ( ! require.defined('activity/' + activity)) {
-            throw new Error(activity + ' 이 실행되어 있지않음');
+        if ( ! require.defined('activity/' + activityId)) {
+            throw new Error(activityId + ' 이 실행되어 있지않음');
         }
         
-        require(['activity/' + activity], function (activity) {
+        require(['activity/' + activityId], function (activity) {
             activity.pause();
             activity.destroy();
+             
+            $(activity.rootLayout).remove(); 
             
-            require.undef(activity);
+            require.undef(activityId);
         });
     }
     
     return {
         
         startActivity : startActivity,
-        
         finishActivity : finishActivity,
         
         init : function () {
