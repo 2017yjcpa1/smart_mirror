@@ -1,4 +1,4 @@
-package com.github.yjcpa1_2017;
+package com.github.yjcpa1.smart_mirror;
 
 import edu.ufl.digitalworlds.j4k.J4KSDK;
 import edu.ufl.digitalworlds.j4k.Skeleton;
