@@ -1,4 +1,4 @@
-package com.github.aw9223.motionjs;
+package com.github.yjcpa1_2017;
 
 import com.google.gson.annotations.SerializedName;
 
