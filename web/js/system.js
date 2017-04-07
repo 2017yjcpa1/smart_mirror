@@ -41,16 +41,23 @@ define(['jquery'], function ($) {
                 var rootLayout = $(activity.rootLayout);
                 if ( ! isCreated) {
                     rootLayout.appendTo('body');
-                    activity.init();
+                    
+                    if (typeof(activity.init) === 'function') {
+                        activity.init();
+                    }
                 }
                 
                 rootLayout.css('z-index', 1000);
 
-                activity.resume(data);
+                if (typeof(activity.resume) === 'function') {
+                   activity.resume(data);
+                }
 
                 if (activities.length > 0) {
                     var parentActivity = activities[activities.length - 1];
-                    parentActivity.pause();
+                    if (typeof(parentActivity.pause) === 'function') {
+                        parentActivity.pause();
+                    }
 
                     $(parentActivity.rootLayout).css('z-index', -1);
 
@@ -93,15 +100,22 @@ define(['jquery'], function ($) {
             if (parentActivity) {
                 $(parentActivity.rootLayout).css('z-index', 1000);
                 
-                parentActivity.resume();
+                if (typeof(parentActivity.resume) === 'function') {
+                    parentActivity.resume();
+                }
             }
             
-            activity.pause(); 
+            if (typeof(activity.pause) === 'function') {
+                activity.pause(); 
+            }
+            
             $(activity.rootLayout).remove();
             
             require.undef(activityId);
             
-            activity.destroy();
+            if (typeof(activity.destroy) === 'function') {
+                activity.destroy();
+            }
         });
     }
     
@@ -129,7 +143,9 @@ define(['jquery'], function ($) {
                 widget.id = widgetId;
                 widget.rootLayout = rootLayout[0]; 
 
-                widget.init();
+                if (typeof(widget.init) === 'function') {
+                    widget.init();
+                }
 
                 updateWidget(widgetId);
             };
@@ -144,7 +160,10 @@ define(['jquery'], function ($) {
         }
         
         require(['widget/' + widgetId], function (widget) {
-            widget.update(); 
+            
+            if (typeof(widget.update) === 'function') {
+                widget.update(); 
+            }
         });
     }
     

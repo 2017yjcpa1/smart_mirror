@@ -7,6 +7,7 @@ define([ 'system' ],function (system) {
         layoutHTML : 'activity_home.html',
         
         init : function () {
+            console.log('home init');
             system.attachWidget('menu_widget');
             system.attachWidget('skeleton_widget');
         },

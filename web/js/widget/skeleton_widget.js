@@ -8,6 +8,8 @@ define([
     var context = false;
     
     function init() {
+        console.log('skeleton init');
+        
         canvas = $('#skeletonWidget canvas');
         context = canvas[0].getContext('2d');
         
@@ -63,8 +65,5 @@ define([
         layoutHTML : 'widget_skeleton.html',
         
         init : init,
-        
-        update: function () {
-        },
     }
 });
