@@ -1,4 +1,4 @@
-define([ 'application' ],function (application) {
+define([ 'system' ],function (system) {
     
     return {
         
@@ -7,16 +7,11 @@ define([ 'application' ],function (application) {
         layoutHTML : 'home.html',
         
         init : function () {
-            console.log('home init');
+            system.attachWidget('activities');
         },
         
         resume : function () {
             console.log('home resume');
-            application.startActivity('clock');
-            
-            window.setTimeout(function () {
-                application.finishActivity('clock');
-            }, 1000 * 5);
         },
         
         pause : function () {

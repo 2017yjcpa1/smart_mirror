@@ -6,14 +6,14 @@ requirejs.config({
 });
 
 require([
-    'application',
+    'system',
     
     'kinect',
     'kinect/cursor',
     'kinect/skeleton',
-], function (application, kinect, cursor, skeleton) {
+], function (system, kinect, cursor, skeleton) {
     
-    application.init();
+    system.init();
     
     kinect.init();
     

@@ -2,9 +2,9 @@ define(['jquery'], function ($) {
     
     var activities = new Array();
     
-    activities.indexOf = function (activityId) {
+    activities.indexOf = function (id) {
         for (var n = 0; n < this.length; ++n) {
-            if (this[n].id === activityId) {
+            if (this[n].id === id) {
                 return n;
             }
         }
@@ -12,12 +12,12 @@ define(['jquery'], function ($) {
         return -1;
     }
     
-    activities.contains = function (activityId) {
-        return this.indexOf(activityId) !== -1;
+    activities.contains = function (id) {
+        return this.indexOf(id) !== -1;
     }
     
-    activities.remove = function (activityId) {
-        var n = this.indexOf(activityId);
+    activities.remove = function (id) {
+        var n = this.indexOf(id);
         
         this.splice(n, 1);
     }
@@ -33,6 +33,7 @@ define(['jquery'], function ($) {
             if ( ! isRunning) {
                 var rootLayout = $(document.createElement('div'))
                                         .load('res/layout/' + activity.layoutHTML)
+                                        .addClass('activity')
                                         .appendTo('body');
                     
                 activity.id = activityId;
@@ -43,7 +44,7 @@ define(['jquery'], function ($) {
                 activities.remove(activityId);
             }
             
-            $(activity.rootLayout).css('z-index', 9999);
+            $(activity.rootLayout).css('z-index', 1000);
             
             activity.resume(data);
             
@@ -61,12 +62,12 @@ define(['jquery'], function ($) {
     }
     
     function finishActivity(activityId) {
-        // 액티비티 resume
-        // z-index 정리
-        // 부모, 자식 액티비티연결 정리
-
         if (typeof(activityId) === 'undefined' && activities.length > 1) {
             activityId = activities[ activities.length - 1 ].id;
+        }
+        
+        if (activityId === 'home') {
+            throw new Error('홈 화면은 닫을 수 없습니다.');
         }
         
         if ( ! require.defined('activity/' + activityId)) {
@@ -76,7 +77,7 @@ define(['jquery'], function ($) {
         require(['activity/' + activityId], function (activity) {
             var parentActivity = activity.parentActivity;
             if (parentActivity) {
-                $(parentActivity.rootLayout).css('z-index', 9999);
+                $(parentActivity.rootLayout).css('z-index', 1000);
                 
                 parentActivity.resume();
             }
@@ -90,10 +91,52 @@ define(['jquery'], function ($) {
         });
     }
     
+    function attachWidget(widgetId) {
+        if (require.defined('widget/' + widgetId)) {
+            return;
+        }
+        
+        require(['widget/' + widgetId], function (widget) {
+            var rootLayout = $(document.createElement('div'))
+                                    .addClass('widget')
+                                    .load('res/layout/' + widget.layoutHTML);
+            
+            if (widget.alwaysOnTop === true) {
+                rootLayout.appendTo('body');
+            } else {
+                var homeActivity = activities[ activities.indexOf('home') ];
+                
+                rootLayout.appendTo(homeActivity.rootLayout);
+            }
+            
+            rootLayout.css('z-index', 9999);
+
+            widget.id = widgetId;
+            widget.rootLayout = rootLayout[0]; 
+
+            widget.init();
+            
+            updateWidget(widgetId);
+        });
+    }
+    
+    function updateWidget(widgetId) {
+        if ( ! require.defined('widget/' + widgetId)) {
+            throw new Error(widgetId + ' 을 찾을수 없습니다.');
+        }
+        
+        require(['widget/' + widgetId], function (widget) {
+            widget.update(); 
+        });
+    }
+    
     return {
         
         startActivity : startActivity,
         finishActivity : finishActivity,
+        
+        attachWidget : attachWidget,
+        updateWidget : updateWidget,
         
         init : function () {
             startActivity('home');
