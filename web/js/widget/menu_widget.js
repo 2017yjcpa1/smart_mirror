@@ -1,6 +1,6 @@
 define([ 'system' ],function (system) {
     
-    
+    /*
     function scrollTo(amount) {
         var windowHeight = $(window).height();
         var oldSelect = $('.largeSize', menuList);
@@ -17,11 +17,12 @@ define([ 'system' ],function (system) {
         var newTop = windowHeight / 2 - 250 * (menuItems.index(newSelect) + 1) / 2;
         menuList.css('top', newTop);
     }
+    */
     
     return {
         
         alwaysOnTop : true,
-        layoutHTML : 'menu.html',
+        layoutHTML : 'widget_menu.html',
         
         /**
          * 위젯을 생성하였을때 초기화 작업하는 이벤트

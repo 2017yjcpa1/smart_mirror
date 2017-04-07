@@ -10,7 +10,6 @@ require([
     
     'kinect',
     'kinect/cursor',
-    'kinect/skeleton',
 ], function (system, kinect, cursor, skeleton) {
     
     system.init();
@@ -18,5 +17,4 @@ require([
     kinect.init();
     
     cursor.init();
-    skeleton.init();
 });

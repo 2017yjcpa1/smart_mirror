@@ -33,38 +33,44 @@ define(['jquery'], function ($) {
             return;
         }
         
-        var isRunning = require.defined('activity/' + activityId);
+        var isInit = ! require.defined('activity/' + activityId);
         
-        require(['activity/' + activityId], function (activity) {            
-            if ( ! isRunning) {
+        require(['activity/' + activityId], function (activity) {
+            
+            var loadComplete = function () {
+                if (isInit) {
+                    $(activity.rootLayout).appendTo('body');
+                    
+                    activity.init();
+                }
+                
+                $(activity.rootLayout).css('z-index', 1000);
+
+                activity.resume(data);
+
+                if (activities.length > 0) {
+                    var parentActivity = activities[activities.length - 1];
+                    parentActivity.pause();
+
+                    $(parentActivity.rootLayout).css('z-index', -1);
+
+                    activity.parentActivity = parentActivity;
+                }
+
+                activities.push(activity);
+            }
+            
+            if (isInit) {
                 var rootLayout = $(document.createElement('div'))
-                                        .load('res/layout/' + activity.layoutHTML)
+                                        .load('res/layout/' + activity.layoutHTML, loadComplete)
                                         .attr('id', camelize(activityId))
-                                        .addClass('activity')
-                                        .appendTo('body');
+                                        .addClass('activity');
                     
                 activity.id = activityId;
                 activity.rootLayout = rootLayout[0]; 
-                
-                activity.init();
             } else {
                 activities.remove(activityId);
             }
-            
-            $(activity.rootLayout).css('z-index', 1000);
-            
-            activity.resume(data);
-            
-            if (activities.length > 0) {
-                var parentActivity = activities[activities.length - 1];
-                parentActivity.pause();
-            
-                $(parentActivity.rootLayout).css('z-index', -1);
-                
-                activity.parentActivity = parentActivity;
-            }
-            
-            activities.push(activity);
         });
     }
     
@@ -106,25 +112,28 @@ define(['jquery'], function ($) {
         require(['widget/' + widgetId], function (widget) {
             var rootLayout = $(document.createElement('div'))
                                     .addClass('widget')
-                                    .attr('id', camelize(widgetId))
-                                    .load('res/layout/' + widget.layoutHTML);
-            
-            if (widget.alwaysOnTop === true) {
-                rootLayout.appendTo('body');
-            } else {
-                var homeActivity = activities[ activities.indexOf('home') ];
-                
-                rootLayout.appendTo(homeActivity.rootLayout);
-            }
-            
-            rootLayout.css('z-index', 9999);
+                                    .attr('id', camelize(widgetId));
+                            
+            var loadComplete = function () {
+                if (widget.alwaysOnTop === true) {
+                    rootLayout.appendTo('body');
+                } else {
+                    var homeActivity = activities[ activities.indexOf('home') ];
 
-            widget.id = widgetId;
-            widget.rootLayout = rootLayout[0]; 
+                    rootLayout.appendTo(homeActivity.rootLayout);
+                }
 
-            widget.init();
+                rootLayout.css('z-index', 9999);
+
+                widget.id = widgetId;
+                widget.rootLayout = rootLayout[0]; 
+
+                widget.init();
+
+                updateWidget(widgetId);
+            };
             
-            updateWidget(widgetId);
+            rootLayout.load('res/layout/' + widget.layoutHTML, loadComplete);      
         });
     }
     

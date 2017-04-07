@@ -4,10 +4,11 @@ define([ 'system' ],function (system) {
         
         title : '홈화면',
         icon : 'ic_home.png',
-        layoutHTML : 'home.html',
+        layoutHTML : 'activity_home.html',
         
         init : function () {
             system.attachWidget('menu_widget');
+            system.attachWidget('skeleton_widget');
         },
         
         resume : function () {
