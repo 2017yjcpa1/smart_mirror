@@ -22,6 +22,12 @@ define(['jquery'], function ($) {
         this.splice(n, 1);
     }
     
+    function camelize(str) {
+        return str.replace(/[_.-](\w|$)/g, function (_, x) {
+            return x.toUpperCase();
+        });
+    }
+    
     function startActivity(activityId, data) {
         if (activities.length > 0 && activities[activities.length - 1].id === activityId) {
             return;
@@ -33,6 +39,7 @@ define(['jquery'], function ($) {
             if ( ! isRunning) {
                 var rootLayout = $(document.createElement('div'))
                                         .load('res/layout/' + activity.layoutHTML)
+                                        .attr('id', camelize(activityId))
                                         .addClass('activity')
                                         .appendTo('body');
                     
@@ -99,6 +106,7 @@ define(['jquery'], function ($) {
         require(['widget/' + widgetId], function (widget) {
             var rootLayout = $(document.createElement('div'))
                                     .addClass('widget')
+                                    .attr('id', camelize(widgetId))
                                     .load('res/layout/' + widget.layoutHTML);
             
             if (widget.alwaysOnTop === true) {
@@ -139,7 +147,7 @@ define(['jquery'], function ($) {
         updateWidget : updateWidget,
         
         init : function () {
-            startActivity('home');
+            startActivity('home_activity');
         }
     };
 })
