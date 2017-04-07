@@ -169,10 +169,24 @@ define(['jquery'], function ($) {
     
     return {
         
+        /**
+         * 액티비티를 시작하기위한 함수
+         */
         startActivity : startActivity,
+        
+        /**
+         * 액티비티를 종료하기위한 함수
+         */
         finishActivity : finishActivity,
         
-        attachWidget : attachWidget,
+        /**
+         * 외부에서 무분별하게 호출을 막기위해 함수앞에 언더바(_)를 붙여 표식
+         */
+        _attachWidget : attachWidget,
+        
+        /**
+         * 외부에서 위젯을 업데이트 하기위한 함수
+         */
         updateWidget : updateWidget,
         
         init : function () {
