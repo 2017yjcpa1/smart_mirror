@@ -33,18 +33,18 @@ define(['jquery'], function ($) {
             return;
         }
         
-        var isInit = ! require.defined('activity/' + activityId);
+        var isCreated = require.defined('activity/' + activityId);
         
         require(['activity/' + activityId], function (activity) {
             
-            var loadComplete = function () {
-                if (isInit) {
-                    $(activity.rootLayout).appendTo('body');
-                    
+            var layoutHTMLLoaded = function () {
+                var rootLayout = $(activity.rootLayout);
+                if ( ! isCreated) {
+                    rootLayout.appendTo('body');
                     activity.init();
                 }
                 
-                $(activity.rootLayout).css('z-index', 1000);
+                rootLayout.css('z-index', 1000);
 
                 activity.resume(data);
 
@@ -60,17 +60,18 @@ define(['jquery'], function ($) {
                 activities.push(activity);
             }
             
-            if (isInit) {
+            if ( ! isCreated) {
                 var rootLayout = $(document.createElement('div'))
-                                        .load('res/layout/' + activity.layoutHTML, loadComplete)
+                                        .load('res/layout/' + activity.layoutHTML, layoutHTMLLoaded)
                                         .attr('id', camelize(activityId))
                                         .addClass('activity');
                     
                 activity.id = activityId;
-                activity.rootLayout = rootLayout[0]; 
-            } else {
-                activities.remove(activityId);
+                activity.rootLayout = rootLayout[0];    
+                return;
             }
+            
+            activities.remove(activityId);
         });
     }
     
@@ -114,7 +115,7 @@ define(['jquery'], function ($) {
                                     .addClass('widget')
                                     .attr('id', camelize(widgetId));
                             
-            var loadComplete = function () {
+            var layoutHTMLLoaded = function () {
                 if (widget.alwaysOnTop === true) {
                     rootLayout.appendTo('body');
                 } else {
@@ -133,7 +134,7 @@ define(['jquery'], function ($) {
                 updateWidget(widgetId);
             };
             
-            rootLayout.load('res/layout/' + widget.layoutHTML, loadComplete);      
+            rootLayout.load('res/layout/' + widget.layoutHTML, layoutHTMLLoaded);      
         });
     }
     
