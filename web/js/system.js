@@ -37,7 +37,7 @@ define(['jquery'], function ($) {
         
         require(['activity/' + activityId], function (activity) {
             
-            var layoutHTMLLoaded = function () {
+            var layoutLoaded = function () {
                 var rootLayout = $(activity.rootLayout);
                 if ( ! isCreated) {
                     rootLayout.appendTo('body');
@@ -62,7 +62,7 @@ define(['jquery'], function ($) {
             
             if ( ! isCreated) {
                 var rootLayout = $(document.createElement('div'))
-                                        .load('res/layout/' + activity.layoutHTML, layoutHTMLLoaded)
+                                        .load('res/layout/' + activity.layoutHTML, layoutLoaded)
                                         .attr('id', camelize(activityId))
                                         .addClass('activity');
                     
@@ -115,7 +115,7 @@ define(['jquery'], function ($) {
                                     .addClass('widget')
                                     .attr('id', camelize(widgetId));
                             
-            var layoutHTMLLoaded = function () {
+            var layoutLoaded = function () {
                 if (widget.alwaysOnTop === true) {
                     rootLayout.appendTo('body');
                 } else {
@@ -134,7 +134,7 @@ define(['jquery'], function ($) {
                 updateWidget(widgetId);
             };
             
-            rootLayout.load('res/layout/' + widget.layoutHTML, layoutHTMLLoaded);      
+            rootLayout.load('res/layout/' + widget.layoutHTML, layoutLoaded);      
         });
     }
     
