@@ -10,7 +10,7 @@ define([
     function init() {
         console.log('skeleton init');
         
-        canvas = $('#skeletonWidget canvas');
+        canvas = $('canvas', this.rootLayout);
         context = canvas[0].getContext('2d');
         
         kinect.addEventListener('skeleton', update);
