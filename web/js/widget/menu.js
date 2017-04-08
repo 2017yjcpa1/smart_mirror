@@ -1,10 +1,13 @@
-define([ 'system' ],function (system) {
+define([ 
+    'jquery',
+    'system' 
+], function ($, system) {
     
-    /*
     function scrollTo(amount) {
+        var menu = $(this.rootLayout);
         var windowHeight = $(window).height();
-        var oldSelect = $('.largeSize', menuList);
-        var menuItems = $('li', menuList);
+        var oldSelect = $('.largeSize', this.rootLayout);
+        var menuItems = $('li', this.rootLayout);
 
         var newSelect = menuItems.eq((oldSelect.index(newSelect) + amount) % menuItems.length);
 
@@ -15,9 +18,8 @@ define([ 'system' ],function (system) {
         newSelect.prev().addClass('mediumSize');
 
         var newTop = windowHeight / 2 - 250 * (menuItems.index(newSelect) + 1) / 2;
-        menuList.css('top', newTop);
+        menu.css('top', newTop);
     }
-    */
     
     return {
         

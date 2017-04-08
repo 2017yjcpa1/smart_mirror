@@ -1,6 +1,6 @@
 define([
     'jquery',
-    'kinect',
+    'kinect/bridge',
     'math/vec3d',
     'math/mat2d',
 ], function ($, kinect, vec3d, mat2d) {
@@ -8,7 +8,7 @@ define([
     var active = false;
     var capturePos;
     
-    var cursor = $(document.createElement('div'))
+    var hand = $(document.createElement('div'))
                     .css({
                         'opacity' : 0,
 
@@ -18,7 +18,7 @@ define([
                         'width' : 60,
                         'height' : 60,
 
-                        'background' : 'url(res/drawable/img_palm.png)',
+                        'background' : 'url(res/drawable/img_hand.png)',
                         'background-size' : 'contain',
 
                         'transform-origin' : 'center',
@@ -29,14 +29,14 @@ define([
     function activate() {
         active = true;
         
-        cursor.css('opacity', 1);
+        hand.css('opacity', 1);
     }
 
     function deactivate() {
         active = false;
         capturePos = null;
         
-        cursor.css('opacity', 0);
+        hand.css('opacity', 0);
     }
     
     function updateAngle(data) {
@@ -48,7 +48,7 @@ define([
             return;
         }
         
-        cursor.css('transform', mat2d.rotation(rad).toCSSTransform());
+        hand.css('transform', mat2d.rotation(rad).toCSSTransform());
     }
     
     function isActive(data) {
@@ -83,7 +83,7 @@ define([
         
         var currentPos = data.handRight;
 
-        cursor.css({
+        hand.css({
             'left' : (currentPos.x - capturePos.x) / 0.2 * windowWidth  + windowWidth / 2,
             'top' : -(currentPos.y - capturePos.y) / 0.2 * windowHeight + windowHeight / 2,
         });
@@ -95,7 +95,7 @@ define([
     }
     
     function init() {
-        cursor.appendTo('body');
+        hand.appendTo('body');
 
         kinect.addEventListener('skeleton', update);
     }

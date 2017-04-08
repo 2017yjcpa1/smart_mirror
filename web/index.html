@@ -36,7 +36,20 @@
                 background: black;
             }
         </style>
-        <script data-main="js/main" src="js/lib/require-2.3.3.min.js"></script>
+        <script type="text/javascript" src="js/lib/require-2.3.3.min.js"></script>
+        <script type="text/javascript">
+            requirejs.config({
+                'baseUrl': './js',
+                'paths': {
+                    'jquery': 'lib/jquery-3.2.0.min'
+                }
+            });
+
+            require(['system', 'kinect/cursor'], function (system, cursor) {
+                system.init();
+                cursor.init();
+            });
+        </script>
     </head>
     <body>
     </body>

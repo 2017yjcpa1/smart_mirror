@@ -1,6 +1,6 @@
 define([
     'jquery',
-    'kinect',
+    'kinect/bridge',
     'math/vec2d'
 ], function ($, kinect, vec2d) {
     
@@ -22,7 +22,7 @@ define([
         
         context.clearRect(0, 0, canvasWidth, canvasHeight);
         
-        // 목에서 척추
+        // 머리에서 척추
         drawSegments([ data.head, data.neck, data.spineMid, data.spineBase ]);
         
         // 어깨에서 손

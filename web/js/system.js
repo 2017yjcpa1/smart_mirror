@@ -1,4 +1,8 @@
-define(['jquery'], function ($) {
+define([
+    'jquery',
+    
+    'var/string'
+], function ($) {
     
     var activities = new Array();
     
@@ -20,12 +24,6 @@ define(['jquery'], function ($) {
         var n = this.indexOf(id);
         
         this.splice(n, 1);
-    }
-    
-    function camelize(str) {
-        return str.replace(/[_.-](\w|$)/g, function (_, x) {
-            return x.toUpperCase();
-        });
     }
     
     function startActivity(activityId, data) {
@@ -70,7 +68,7 @@ define(['jquery'], function ($) {
             if ( ! isCreated) {
                 var rootLayout = $(document.createElement('div'))
                                         .load('res/layout/' + activity.layoutHTML, layoutLoaded)
-                                        .attr('id', camelize(activityId))
+                                        .attr('id', activityId.camelize())
                                         .addClass('activity');
                     
                 activity.id = activityId;
@@ -127,7 +125,7 @@ define(['jquery'], function ($) {
         require(['widget/' + widgetId], function (widget) {
             var rootLayout = $(document.createElement('div'))
                                     .addClass('widget')
-                                    .attr('id', camelize(widgetId));
+                                    .attr('id', widgetId.camelize());
                             
             var layoutLoaded = function () {
                 if (widget.alwaysOnTop === true) {
@@ -179,10 +177,7 @@ define(['jquery'], function ($) {
          */
         finishActivity : finishActivity,
         
-        /**
-         * 외부에서 무분별하게 호출을 막기위해 함수앞에 언더바(_)를 붙여 표식
-         */
-        _attachWidget : attachWidget,
+        attachWidget : attachWidget,
         
         /**
          * 외부에서 위젯을 업데이트 하기위한 함수
@@ -190,7 +185,7 @@ define(['jquery'], function ($) {
         updateWidget : updateWidget,
         
         init : function () {
-            startActivity('home_activity');
+            startActivity('home');
         }
     };
-})
+});
