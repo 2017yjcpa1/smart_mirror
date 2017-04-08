@@ -136,7 +136,7 @@ define([
                     rootLayout.appendTo(homeActivity.rootLayout);
                 }
 
-                rootLayout.css('z-index', 9999);
+                rootLayout.css('z-index', 5000);
 
                 widget.id = widgetId;
                 widget.rootLayout = rootLayout[0]; 

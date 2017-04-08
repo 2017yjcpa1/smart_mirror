@@ -4,23 +4,23 @@ define([
     'math/vec2d'
 ], function ($, kinect, vec2d) {
     
-    var canvas = false;
-    var context = false;
+    var cvs = false;
+    var ctx = false;
     
     function init() {
         console.log('skeleton init');
         
-        canvas = $('canvas', this.rootLayout);
-        context = canvas[0].getContext('2d');
+        cvs = $('canvas', this.rootLayout);
+        ctx = cvs[0].getContext('2d');
         
         kinect.addEventListener('skeleton', update);
     }
     
     function update(data) {
-        var canvasWidth = parseInt(canvas.width());
-        var canvasHeight = parseInt(canvas.height());
+        var canvasWidth = parseInt(cvs.width());
+        var canvasHeight = parseInt(cvs.height());
         
-        context.clearRect(0, 0, canvasWidth, canvasHeight);
+        ctx.clearRect(0, 0, canvasWidth, canvasHeight);
         
         // 머리에서 척추
         drawSegments([ data.head, data.neck, data.spineMid, data.spineBase ]);
@@ -35,28 +35,31 @@ define([
     }
     
     function drawSegments(segments) {
-        var centerX = parseInt(canvas.width()) / 2;
-        var centerY = parseInt(canvas.height()) / 2;
-    
-        context.beginPath();
-        
-        for (var n = 1; n < segments.length; ++n) {		
-            var segment1 = vec2d(segments[n - 1]);            
-            segment1.x = segment1.x * centerX + centerX;
-            segment1.y = -segment1.y * centerY + centerY;
-            
-            var segment2 = vec2d(segments[n]);
-            segment2.x = segment2.x * centerX + centerX;
-            segment2.y = -segment2.y * centerY + centerY;
-            
-            context.moveTo(segment1.x, segment1.y);
-            context.lineTo(segment2.x, segment2.y);
+        if (segments.length < 2) {
+            return;
         }
         
-        context.lineWidth = 5; 
-        context.strokeStyle = '#ffffff';
+        var centerX = parseInt(cvs.width()) / 2;
+        var centerY = parseInt(cvs.height()) / 2;
+    
+        ctx.beginPath();
+        	
+        var seg = vec2d(segments[0]);            
+        seg.x = seg.x * centerX + centerX;
+        seg.y = -seg.y * centerY + centerY;
+        ctx.moveTo(seg.x, seg.y);
+
+        for (var n = 1; n < segments.length; ++n) {
+            var seg = vec2d(segments[n]);
+            seg.x = seg.x * centerX + centerX;
+            seg.y = -seg.y * centerY + centerY;
+            ctx.lineTo(seg.x, seg.y);
+        }
         
-        context.stroke();
+        ctx.lineWidth = 5; 
+        ctx.strokeStyle = '#ffffff';
+        
+        ctx.stroke();
     }
     
     return {

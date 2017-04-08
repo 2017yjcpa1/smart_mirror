@@ -17,6 +17,7 @@ define([
                         'left' : 0,
                         'width' : 60,
                         'height' : 60,
+                        'z-index' : 9999,
 
                         'background' : 'url(res/drawable/img_hand.png)',
                         'background-size' : 'contain',
