@@ -34,8 +34,8 @@ define([
         drawSegments([ data.spineBase, data.hipLeft, data.kneeLeft, data.ankleLeft, data.footLeft ]);
     }
     
-    function drawSegments(segments) {
-        if (segments.length < 2) {
+    function drawSegments(segs) {
+        if (segs.length < 2) {
             return;
         }
         
@@ -44,18 +44,19 @@ define([
     
         ctx.beginPath();
         	
-        var seg = vec2d(segments[0]);            
+        var seg = vec2d(segs[0]);            
         seg.x = seg.x * centerX + centerX;
         seg.y = -seg.y * centerY + centerY;
         ctx.moveTo(seg.x, seg.y);
 
-        for (var n = 1; n < segments.length; ++n) {
-            var seg = vec2d(segments[n]);
+        for (var n = 1; n < segs.length; ++n) {
+            var seg = vec2d(segs[n]);
             seg.x = seg.x * centerX + centerX;
             seg.y = -seg.y * centerY + centerY;
             ctx.lineTo(seg.x, seg.y);
         }
         
+        ctx.lineJoin = 'round';
         ctx.lineWidth = 5; 
         ctx.strokeStyle = '#ffffff';
         
