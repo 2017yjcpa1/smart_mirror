@@ -13,11 +13,15 @@ define(function () {
         
         if (typeof(a) === 'object') {
             if (typeof(a.style) !== 'undefined') { // element 로 들어왔을시
-                var mat2d = window.getComputedStyle(a, null).transform,
-                    mat2d = mat2d.split('(')[1],
-                    mat2d = mat2d.split(')')[0],
-                    mat2d = mat2d.split(',')
-                ;          
+                var mat2d = window.getComputedStyle(a, null).transform;
+                if (mat2d > '') {
+                    return { a : 1, b : 0, c : 0, 
+                             d : 1, e : 0, f : 0 };
+                }
+                
+                mat2d = mat2d.split('(')[1];
+                mat2d = mat2d.split(')')[0];
+                mat2d = mat2d.split(',');          
                 
                 return __overload__(mat2d);
             }
@@ -100,7 +104,7 @@ define(function () {
         var cos = Math.cos(rad);
         var sin = Math.sin(rad);
         return mat2d(cos, sin, -sin, cos, 0, 0);
-    }
+    }    
     
     return mat2d;
 });

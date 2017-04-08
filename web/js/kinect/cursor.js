@@ -5,39 +5,39 @@ define([
     'math/mat2d',
 ], function ($, kinect, vec3d, mat2d) {
     
-    var active = false;
+    var isActive = false;
     var capturePos;
     
-    var hand = $(document.createElement('div'))
-                    .css({
-                        'opacity' : 0,
+    var handElement = $(document.createElement('div'))
+                            .css({
+                                'opacity' : 0,
 
-                        'position' : 'fixed',
-                        'top' : 0,
-                        'left' : 0,
-                        'width' : 60,
-                        'height' : 60,
-                        'z-index' : 9999,
+                                'position' : 'fixed',
+                                'top' : 0,
+                                'left' : 0,
+                                'width' : 60,
+                                'height' : 60,
+                                'z-index' : 9999,
 
-                        'background' : 'url(res/drawable/img_hand.png)',
-                        'background-size' : 'contain',
+                                'background' : 'url(res/drawable/img_hand.png)',
+                                'background-size' : 'contain',
 
-                        'transform-origin' : 'center',
-                        
-                        'transition' : 'all 0.1s',
-                    });
+                                'transform-origin' : 'center',
+
+                                'transition' : 'all 0.1s',
+                            });
     
     function activate() {
-        active = true;
+        isActive = true;
         
-        hand.css('opacity', 1);
+        handElement.css('opacity', 1);
     }
 
     function deactivate() {
-        active = false;
+        isActive = false;
         capturePos = null;
         
-        hand.css('opacity', 0);
+        handElement.css('opacity', 0);
     }
     
     function updateAngle(data) {
@@ -49,26 +49,18 @@ define([
             return;
         }
         
-        hand.css('transform', mat2d.rotation(rad).toCSSTransform());
+        handElement.css('transform', mat2d.rotation(rad).toCSSTransform());
     }
     
-    function isActive(data) {
+    function updatePos(data) {
         if (data.handRight.y < data.hipRight.y) {
             deactivate();
             return false;
         }
 
-        if ( ! active) {
+        if ( ! isActive) {
             window.setTimeout(activate, 1000 * 0.7);
             return false;
-        }
-        
-        return true;
-    }
-    
-    function updatePos(data) {
-        if ( ! isActive(data)) {
-            return;
         }
 
         if (capturePos === null) {
@@ -84,7 +76,7 @@ define([
         
         var currentPos = data.handRight;
 
-        hand.css({
+        handElement.css({
             'left' : (currentPos.x - capturePos.x) / 0.2 * windowWidth  + windowWidth / 2,
             'top' : -(currentPos.y - capturePos.y) / 0.2 * windowHeight + windowHeight / 2,
         });
@@ -96,7 +88,7 @@ define([
     }
     
     function init() {
-        hand.appendTo('body');
+        handElement.appendTo('body');
 
         kinect.addEventListener('skeleton', update);
     }
