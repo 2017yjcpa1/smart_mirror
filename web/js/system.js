@@ -67,9 +67,9 @@ define([
             
             if ( ! isCreated) {
                 var rootLayout = $(document.createElement('div'))
+                                        .addClass('activity')
                                         .load('res/layout/' + activity.layoutHTML, layoutLoaded)
-                                        .attr('id', activityId.camelize())
-                                        .addClass('activity');
+                                        .attr('id', String(activityId + "_activity").camelize());
                     
                 activity.id = activityId;
                 activity.rootLayout = rootLayout[0];    
@@ -125,7 +125,7 @@ define([
         require(['widget/' + widgetId], function (widget) {
             var rootLayout = $(document.createElement('div'))
                                     .addClass('widget')
-                                    .attr('id', widgetId.camelize());
+                                    .attr('id', String(widgetId + "_widget").camelize());
                             
             var layoutLoaded = function () {
                 if (widget.alwaysOnTop === true) {

@@ -35,10 +35,7 @@ define(function () {
         return;
     }
 
-    var socket = new WebSocket("ws://127.0.0.1:9003/");
-    socket.onerror = function () {
-        window.alert('오류가 발생하였습니다.');
-    }
+    var socket = new WebSocket("ws://127.0.0.1:9003/"); 
 
     socket.onmessage = function (event) {
         dispatchEvent('skeleton', event.data);
