@@ -1,26 +1,26 @@
 define([
     'jquery',
-    'kinect/bridge',
-    'math/vec2d'
-], function ($, kinect, vec2d) {
+    'input/kinectBridge',
+    'math/vec3d'
+], function ($, kinect, vec3d) {
     
-    var cvs = false;
-    var ctx = false;
+    var canvas = false;
+    var context = false;
     
     function init() {
         console.log('skeleton init');
         
-        cvs = $('canvas', this.rootLayout);
-        ctx = cvs[0].getContext('2d');
+        canvas = $('canvas', this.rootLayout);
+        context = canvas[0].getContext('2d');
         
         kinect.addEventListener('skeleton', update);
     }
     
     function update(data) {
-        var canvasWidth = parseInt(cvs.width());
-        var canvasHeight = parseInt(cvs.height());
+        var canvasWidth = parseInt(canvas.width());
+        var canvasHeight = parseInt(canvas.height());
         
-        ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+        context.clearRect(0, 0, canvasWidth, canvasHeight);
         
         // 머리에서 척추
         drawSegments([ data.head, data.neck, data.spineMid, data.spineBase ]);
@@ -39,28 +39,28 @@ define([
             return;
         }
         
-        var centerX = parseInt(cvs.width()) / 2;
-        var centerY = parseInt(cvs.height()) / 2;
+        var centerX = parseInt(canvas.width()) / 2;
+        var centerY = parseInt(canvas.height()) / 2;
     
-        ctx.beginPath();
+        context.beginPath();
         	
-        var seg = vec2d(segs[0]);            
+        var seg = vec3d(segs[0]);            
         seg.x = seg.x * centerX + centerX;
         seg.y = -seg.y * centerY + centerY;
-        ctx.moveTo(seg.x, seg.y);
+        context.moveTo(seg.x, seg.y);
 
         for (var n = 1; n < segs.length; ++n) {
-            var seg = vec2d(segs[n]);
+            var seg = vec3d(segs[n]);
             seg.x = seg.x * centerX + centerX;
             seg.y = -seg.y * centerY + centerY;
-            ctx.lineTo(seg.x, seg.y);
+            context.lineTo(seg.x, seg.y);
         }
         
-        ctx.lineJoin = 'round';
-        ctx.lineWidth = 5; 
-        ctx.strokeStyle = '#ffffff';
+        context.lineJoin = 'round';
+        context.lineWidth = 5; 
+        context.strokeStyle = '#ffffff';
         
-        ctx.stroke();
+        context.stroke();
     }
     
     return {

@@ -32,18 +32,28 @@
                 background: black;
             }
         </style>
-        <script type="text/javascript" src="js/lib/require-2.3.3.min.js"></script>
+        <script type="text/javascript" src="js/require-2.3.3.min.js"></script>
         <script type="text/javascript">
+            
+            Math.toDegrees = function (rad) {
+                return rad * 180.0 / Math.PI;
+            }
+            
+            String.prototype.camelize = function () {
+                return this.replace(/[_.-](\w|$)/g, function (_, str) {
+                    return str.toUpperCase();
+                });
+            };
+    
             requirejs.config({
                 'baseUrl': './js',
                 'paths': {
-                    'jquery': 'lib/jquery-3.2.0.min'
+                    'jquery': 'jquery-3.2.0.min'
                 }
             });
 
-            require(['system', 'kinect/cursor'], function (system, cursor) {
+            require(['system'], function (system) {
                 system.init();
-                cursor.init();
             });
         </script>
     </head>

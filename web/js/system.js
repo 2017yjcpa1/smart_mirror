@@ -1,8 +1,9 @@
 define([
     'jquery',
     
-    'var/string'
-], function ($) {
+    'input/kinectCursor',
+    'input/voiceCommand',
+], function ($, kinectCursor, voiceCommand) {
     
     var activities = new Array();
     
@@ -69,7 +70,7 @@ define([
                 var rootLayout = $(document.createElement('div'))
                                         .addClass('activity')
                                         .load('res/layout/' + activity.layoutHTML, layoutLoaded)
-                                        .attr('id', String(activityId + "_activity").camelize());
+                                        .attr('id', activityId);
                     
                 activity.id = activityId;
                 activity.rootLayout = rootLayout[0];    
@@ -125,7 +126,7 @@ define([
         require(['widget/' + widgetId], function (widget) {
             var rootLayout = $(document.createElement('div'))
                                     .addClass('widget')
-                                    .attr('id', String(widgetId + "_widget").camelize());
+                                    .attr('id', widgetId);
                             
             var layoutLoaded = function () {
                 if (widget.alwaysOnTop === true) {
@@ -185,7 +186,10 @@ define([
         updateWidget : updateWidget,
         
         init : function () {
-            startActivity('home');
+            kinectCursor.init();
+            voiceCommand.init();
+            
+            startActivity('homeActivity');
         }
     };
 });

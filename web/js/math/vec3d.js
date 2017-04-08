@@ -60,7 +60,7 @@ define(function () {
         /* //사칙연산 */
         
         /* 내적, 외적 */
-        dot : function (x, y, z) {
+        dotProduct : function (x, y, z) {
             var args = __overload__(x, y, z);
             
             return args.x * this.x 
@@ -69,7 +69,7 @@ define(function () {
         },
         /* 내적, 외적 */
         
-        norm : function (len) {
+        normalize : function (len) {
             len = len || 1;
             len = this.length() / len;
 
@@ -80,7 +80,7 @@ define(function () {
             return vec;
         },
         
-        dist : function (x, y, z) {
+        distance : function (x, y, z) {
             var args = __overload__(x, y, z);
             
             return this.sub(args).length();

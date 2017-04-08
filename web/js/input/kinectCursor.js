@@ -1,14 +1,14 @@
 define([
     'jquery',
-    'kinect/bridge',
+    'input/kinectBridge',
     'math/vec3d',
     'math/mat2d',
-], function ($, kinect, vec3d, mat2d) {
+], function ($, kinectBridge, vec3d, mat2d) {
     
     var isActive = false;
-    var capturePos;
+    var capturePos = false;
     
-    var handElement = $(document.createElement('div'))
+    var handCursor = $(document.createElement('div'))
                             .css({
                                 'opacity' : 0,
 
@@ -30,26 +30,26 @@ define([
     function activate() {
         isActive = true;
         
-        handElement.css('opacity', 1);
+        handCursor.css('opacity', 1);
     }
 
     function deactivate() {
         isActive = false;
         capturePos = null;
         
-        handElement.css('opacity', 0);
+        handCursor.css('opacity', 0);
     }
     
     function updateAngle(data) {
         var vec = vec3d(data.handRight).sub(data.wristRight);
         var rad = Math.atan2(-vec.y, vec.x);
-        var deg = rad * 180.0 / Math.PI;
+        var deg = Math.toDegrees(rad);
 
         if ( ! (20 <= deg && deg <= 140)) {
             return;
         }
         
-        handElement.css('transform', mat2d.rotation(rad).toCSSTransform());
+        handCursor.css('transform', mat2d.rotation(rad).toCSSTransform());
     }
     
     function updatePos(data) {
@@ -76,7 +76,7 @@ define([
         
         var currentPos = data.handRight;
 
-        handElement.css({
+        handCursor.css({
             'left' : (currentPos.x - capturePos.x) / 0.2 * windowWidth  + windowWidth / 2,
             'top' : -(currentPos.y - capturePos.y) / 0.2 * windowHeight + windowHeight / 2,
         });
@@ -88,13 +88,12 @@ define([
     }
     
     function init() {
-        handElement.appendTo('body');
-
-        kinect.addEventListener('skeleton', update);
+        handCursor.appendTo('body');
+                            
+        kinectBridge.addEventListener('skeleton', update);
     }
     
     return {
-        
-        init : init,
-    };
+        init : init
+    }
 })

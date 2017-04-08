@@ -8,8 +8,8 @@ define([ 'system' ],function (system) {
         
         init : function () {
             console.log('home init');
-            system.attachWidget('menu');
-            system.attachWidget('skeleton');
+            system.attachWidget('menuWidget');
+            system.attachWidget('skeletonWidget');
         },
         
         resume : function () {
