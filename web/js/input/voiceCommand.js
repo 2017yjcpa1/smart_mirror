@@ -1,25 +1,34 @@
-define(['jquery'], function ($) {
+define([
+    'jquery',
+    'util/eventListener'
+], function ($, EventListener) {
 
-    var recog = new webkitSpeechRecognition();
-    recog.continuous = true;
-    recog.interimResults = true; // 음성인식 과정을 onresult 에 발생
+    var eventListener = new EventListener();
+
+    var speechRecog = new webkitSpeechRecognition();
+    speechRecog.continuous = true;
+    speechRecog.interimResults = true; // 음성인식 과정을 onresult 에 발생
     
-    recog.onresult = function (event) {
-        var res = event.results;
+    speechRecog.onresult = function (event) {
         
-        var str = '';
-        for (var n = event.resultIndex; n < res.length; ++n) {
-            if (res[n].isFinal)
-                str += res[n][0].transcript;
-        }
+        for (var n = event.resultIndex; n < event.results.length; ++n) {
             
-        $('#homeActivity').html(str);
+            var res = {};
+            res.isFinal = event.results[n].isFinal;
+            res.transcript = event.results[n][0].transcript;
+            
+            eventListener.dispatchEvent('result', res);
+        }
     };
 
     return {
         
+        addEventListener : function (type, method) {
+            eventListener.addEventListener(type, method);
+        },
+        
         init : function() {
-            recog.start();
+            speechRecog.start();
         }
     }
 })
