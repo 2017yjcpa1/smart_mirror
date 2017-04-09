@@ -35,7 +35,11 @@ define(function () {
                 var isFinal = results[n].isFinal;
                 var transcript = results[n][0].transcript;
 
-                console.log(isFinal, transcript)
+                console.log(isFinal, transcript);
+                if (isFinal) {
+                    transcript = '인식결과<br/>' + transcript;
+                }
+                $('#speechRecog').html(transcript);
             }
         }
         
