@@ -2,8 +2,8 @@ define([
     'jquery',
     
     'input/kinectCursor',
-    'input/voiceCommand',
-], function ($, kinectCursor, voiceCommand) {
+    'input/speechRecog',
+], function ($, kinectCursor, speechRecog) {
     
     var activities = new Array();
     
@@ -187,7 +187,7 @@ define([
         
         init : function () {
             kinectCursor.init();
-            voiceCommand.init();
+            speechRecog.init();
             
             startActivity('homeActivity');
         }

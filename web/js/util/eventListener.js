@@ -7,8 +7,6 @@ define(function () {
     EventListener.prototype = {
     
         addEventListener : function (type, method) {
-            type = type.toLowerCase();
-
             var handlers = null;
             if ( ! (handlers = this.listeners[type])) {
                 handlers = this.listeners[type] = [];
@@ -18,8 +16,6 @@ define(function () {
         },
         
         dispatchEvent : function (type, data) {
-            type = type.toLowerCase();
-
             var handlers = null;
             if ( ! (handlers = this.listeners[type])) {
                 return;
