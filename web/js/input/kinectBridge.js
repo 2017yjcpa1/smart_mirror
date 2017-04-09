@@ -19,8 +19,8 @@ define(function () {
             data = JSON.parse(data);
         }
 
-        for (var loop = 0; loop < handlers.length; ++loop) {
-            handlers[loop](data);
+        for (var n = 0; n < handlers.length; ++n) {
+            handlers[n](data);
         }
     }
     
