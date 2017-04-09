@@ -1,29 +1,25 @@
-define([
-    'jquery',
-], function ($) {
+define(['jquery'], function ($) {
 
-    var recog;
-
-    function init() {
-        recog = new webkitSpeechRecognition();
-        recog.continuous = true;
-        recog.interimResults = true;
+    var recog = new webkitSpeechRecognition();
+    recog.continuous = true;
+    recog.interimResults = true; // 음성인식 과정을 onresult 에 발생
+    
+    recog.onresult = function (event) {
+        var res = event.results;
         
-        recog.onresult = function (event) {
-            var str = '';
-            for (var n = event.resultIndex; n < event.results.length; ++n) {
-                if (event.results[n].isFinal)
-                    str += event.results[n][0].transcript;
-            }
+        var str = '';
+        for (var n = event.resultIndex; n < res.length; ++n) {
+            if (res[n].isFinal)
+                str += res[n][0].transcript;
+        }
             
-            $('#homeActivity').html(str);
-        };
-
-        recog.start();
-    }
-
+        $('#homeActivity').html(str);
+    };
 
     return {
-        init: init
+        
+        init : function() {
+            recog.start();
+        }
     }
 })

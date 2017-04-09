@@ -1,9 +1,11 @@
 define(function () {
     
-    var __event__ = {
-      
-        listeners : [],
-        
+    function EventListener() {
+        this.listeners = [];
+    }
+    
+    EventListener.prototype = {
+    
         addEventListener : function (type, method) {
             type = type.toLowerCase();
 
@@ -33,8 +35,5 @@ define(function () {
         }
     };
     
-    function F() {};
-    F.prototype = __event__;
-
-    return F;
+    return EventListener;
 })
