@@ -2,7 +2,6 @@ define([
     'jquery',
     'util/eventListener'
 ], function ($, EventListener) {
-
     var eventListener = new EventListener();
 
     var speechRecog = new webkitSpeechRecognition();
@@ -16,7 +15,6 @@ define([
             var res = {};
             res.isFinal = event.results[n].isFinal;
             res.transcript = event.results[n][0].transcript;
-            
             eventListener.dispatchEvent('result', res);
         }
     };

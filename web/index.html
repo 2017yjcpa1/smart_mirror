@@ -32,7 +32,7 @@
                 background: black;
             }
         </style>
-        <script type="text/javascript" src="js/require-2.3.3.min.js"></script>
+        <script type="text/javascript" src="js/lib/require-2.3.3.min.js"></script>
         <script type="text/javascript">
             
             Math.toDegrees = function (rad) {
@@ -48,7 +48,13 @@
             requirejs.config({
                 'baseUrl': './js',
                 'paths': {
-                    'jquery': 'jquery-3.2.0.min'
+                    'jquery': 'lib/jquery-3.2.0.min',
+                    'responsivevoice' : 'lib/responsivevoice-1.5.2.min'
+                },
+                shim: {
+                    'responsivevoice' : {
+                        'exports' : 'responsivevoice'
+                    }
                 }
             });
 
