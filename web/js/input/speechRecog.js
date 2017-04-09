@@ -8,6 +8,20 @@ define(function () {
     
     var speechRecog = null;
     
+    function start() {
+        if ( ! speechRecog) {
+            init();
+        }
+        
+        speechRecog.start();
+    }
+    
+    function result(isFinal, transcript) {
+        console.log(isFinal, transcript);
+        
+        $('#speechRecog').html(transcript);
+    }
+    
     function init() { 
         if (speechRecog && speechRecog.abort) {
             speechRecog.abort();
@@ -17,36 +31,19 @@ define(function () {
         speechRecog.continuous = true;
         speechRecog.interimResults = true; // 음성인식 중간과정을 onresult 에 발생
 
-        speechRecog.onstart = function () {
-            console.log('speechRecocg onstart');
-        }
-
-        speechRecog.onend = function () {
-            console.log('speechRecocg onend');
-            
-            speechRecog.start();
-        }
-
+        speechRecog.onend = start;
         speechRecog.onresult = function (event) {
-            console.log('speechRecocg onresult');
-            
             var results = event.results;
             
             for (var n = event.resultIndex; n < results.length; ++n) {
-                
                 var isFinal = results[n].isFinal;
                 var transcript = results[n][0].transcript;
-
-                console.log(isFinal, transcript);
-                if (isFinal) {
-                    transcript = '인식결과<br/>' + transcript;
-                }
                 
-                $('#speechRecog').html(transcript);
+                result(isFinal, transcript);
             }
         }
         
-        speechRecog.start();
+        start();
     }
     
     return {
