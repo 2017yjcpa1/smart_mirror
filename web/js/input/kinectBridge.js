@@ -1,23 +1,40 @@
-define([
-    'util/eventListener',
-], function (EventListener) {
-    var eventListener = new EventListener();
+define(function () {
+    
+    var listeners = [];
+    var kinectServer = new WebSocket("ws://127.0.0.1:9003/");
 
-    if ( ! window.WebSocket) {
-        window.alert('WebSocket 을 지원하지않는 브라우저입니다.');
-        return;
-    }
+    kinectServer.onmessage = function (event) {
+        dispatchEvent('skeleton', event.data);
+    } 
+        
+    function dispatchEvent(type, data) {
+        type = type.toLowerCase();
 
-    var socket = new WebSocket("ws://127.0.0.1:9003/");
+        var handlers = null;
+        if ( ! (handlers = listeners[type])) {
+            return;
+        }
 
-    socket.onmessage = function (event) {
-        eventListener.dispatchEvent('skeleton', event.data);
+        if (typeof(data) === 'string') {
+            data = JSON.parse(data);
+        }
+
+        for (var loop = 0; loop < handlers.length; ++loop) {
+            handlers[loop](data);
+        }
     }
     
     return {
         
         addEventListener : function (type, method) {
-            eventListener.addEventListener(type, method);
+            type = type.toLowerCase();
+
+            var handlers = null;
+            if ( ! (handlers = listeners[type])) {
+                handlers = listeners[type] = [];
+            }
+
+            handlers.push(method);
         }
     }
 })

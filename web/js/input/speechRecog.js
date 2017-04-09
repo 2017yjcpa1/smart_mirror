@@ -1,53 +1,28 @@
-define([
-    'jquery',
-    'util/eventListener'
-], function ($, EventListener) {
+define(function () {
     
-    var eventListener = new EventListener();
+    var SpeechRecognition = window.SpeechRecognition ||
+                            window.webkitSpeechRecognition ||
+                            window.mozSpeechRecognition ||
+                            window.msSpeechRecognition ||
+                            window.oSpeechRecognition;
     
-    eventListener.dispatchEvent = function (transcript) {
-        
-        var listeners = this.listeners;
-        
-        for (var regex in listeners) {
-            if ( ! regex.test(transcript)) {
-                continue;
-            }
-            
-            var handlers = listeners[regex];
- 
-            for (var n = 0; n < handlers.length; ++n) {
-                handlers[n](transcript);
-            }
-        }
-    }
-    
-    var speechRecog = new webkitSpeechRecognition();
+    var speechRecog = new SpeechRecognition();
     speechRecog.continuous = true;
-    speechRecog.interimResults = true; // 음성인식 과정을 onresult 에 발생
+    speechRecog.interimResults = true; // 음성인식 중간과정을 onresult 에 발생
     
     speechRecog.onresult = function (event) {
-        for (var n = event.resultIndex; n < event.results.length; ++n) {
-            var res = {};
-            res.isFinal = event.results[n].isFinal;
-            res.transcript = event.results[n][0].transcript;
+        var results = event.results;
+        
+        for (var n = event.resultIndex; n < results.length; ++n) {
+            var isFinal = results[n].isFinal;
+            var transcript = results[n][0].transcript;
             
-            eventListener.dispatchEvent(res.transcript);
         }
     };
     
     return {
         
-        addEventListener : function (type, method) {
-            eventListener.addEventListener(type, method);
-        },
-        
         init : function() {
-            
-            this.addEventListener(/[가-힣]/g, function () {
-                console.log(arguments)
-            })
-            
             speechRecog.start();
         }
     }
