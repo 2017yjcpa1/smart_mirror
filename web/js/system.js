@@ -187,7 +187,7 @@ define([
         
         init : function () {
             kinectCursor.init();
-            speechRecog.init();
+            speechRecog.start();
             
             startActivity('homeActivity');
         }

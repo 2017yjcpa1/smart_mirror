@@ -8,21 +8,7 @@ define(function () {
     
     var speechRecog = null;
     
-    function start() {
-        if ( ! speechRecog) {
-            init();
-        }
-        
-        speechRecog.start();
-    }
-    
-    function result(isFinal, transcript) {
-        console.log(isFinal, transcript);
-        
-        $('#speechRecog').html(transcript);
-    }
-    
-    function init() { 
+    function init() {
         if (speechRecog && speechRecog.abort) {
             speechRecog.abort();
         }
@@ -33,21 +19,39 @@ define(function () {
 
         speechRecog.onend = start;
         speechRecog.onresult = function (event) {
-            var results = event.results;
-            
-            for (var n = event.resultIndex; n < results.length; ++n) {
-                var isFinal = results[n].isFinal;
-                var transcript = results[n][0].transcript;
-                
-                result(isFinal, transcript);
+            var isFinal = false;
+            var transcript = '';
+
+            var results = event.results[event.resultIndex];
+            for (var n = 0; n < results.length; ++n) {
+                isFinal = results.isFinal;
+                transcript += results[0].transcript;
             }
+            
+            if (isFinal) {
+                finalResult(transcript);
+            } else {
+                interimResult(transcript);
+            }
+        };
+    }
+    
+    function start() {
+        if ( ! speechRecog) {
+            init();
         }
-        
-        start();
+        speechRecog.start();
+    }
+    
+    function interimResult(transcript) {
+        console.log('interimResult', transcript);
+    }
+    
+    function finalResult(transcript) {
+        console.log('finalResult', transcript);
     }
     
     return {
-        
-        init : init
+        start : start
     }
 })
