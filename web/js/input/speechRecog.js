@@ -23,15 +23,17 @@ define(function () {
 
         speechRecog.onend = function () {
             console.log('speechRecocg onend');
-
-            speechRecog.start(); // 계속 음성인식을 활성화 하기위해 끝나면 바로 start() 호출
+            
+            speechRecog.start();
         }
 
         speechRecog.onresult = function (event) {
             console.log('speechRecocg onresult');
+            
             var results = event.results;
-
+            
             for (var n = event.resultIndex; n < results.length; ++n) {
+                
                 var isFinal = results[n].isFinal;
                 var transcript = results[n][0].transcript;
 
@@ -39,6 +41,7 @@ define(function () {
                 if (isFinal) {
                     transcript = '인식결과<br/>' + transcript;
                 }
+                
                 $('#speechRecog').html(transcript);
             }
         }
