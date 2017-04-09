@@ -8,6 +8,7 @@ define([ 'system' ],function (system) {
         
         init : function () {
             console.log('home init');
+            
             system.attachWidget('menuWidget');
             system.attachWidget('skeletonWidget');
         },
