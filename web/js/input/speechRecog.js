@@ -7,7 +7,7 @@ define(function () {
                             window.oSpeechRecognition;
     
     var listeners = [];
-    var speechRecog = null;
+    var speechRecog = null; 
     
     function init() {
         if (speechRecog && speechRecog.abort) {
@@ -29,6 +29,7 @@ define(function () {
                 transcript += results[0].transcript;
             }
             
+            console.log(isFinal, transcript)
             dispatchEvent(isFinal, transcript);
         };
     }
@@ -37,6 +38,7 @@ define(function () {
         if ( ! speechRecog) {
             init();
         }
+        
         speechRecog.start();
     }
     
@@ -45,7 +47,7 @@ define(function () {
         if ( ! (handlers = listeners[regex])) {
             handlers = listeners[regex] = [];
         }
-
+        
         handlers.push(method);
     }
 
@@ -53,11 +55,9 @@ define(function () {
         var handlers = [];
 
         for(var regex in listeners) {
-            
             if ( ! new RegExp(regex, 'i').test(transcript)) {
                 continue;
             }
-            
             handlers = handlers.concat(listeners[regex]);
         }
 

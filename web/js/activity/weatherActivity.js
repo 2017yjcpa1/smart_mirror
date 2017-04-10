@@ -4,7 +4,7 @@ define([ 'system' ],function (system) {
         
         id : 'weatherActivity',
         title : '날씨',
-        icon : 'ic_sample.png',
+        icon : 'ic_weather.png',
         layoutHTML : 'activity_weather.html',
         
         init : function () {

@@ -4,7 +4,7 @@ define([ 'system' ],function (system) {
         
         id : 'calendarActivity',
         title : '달력',
-        icon : 'ic_sample.png',
+        icon : 'ic_calendar.png',
         layoutHTML : 'activity_calendar.html',
         
         init : function () {

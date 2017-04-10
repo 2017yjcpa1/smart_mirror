@@ -3,11 +3,29 @@ define([
     'system' 
 ], function ($, system) {
     
-    $(document).on('click', '#menuWidget li', function () {
-        var activityId = $(this).data('id');
+    function createMenu(activity) {
+        $('<li>' +
+            '<img src="res/drawable/' + activity.icon + '"/>' +
+            '<span>' +
+                activity.title +
+            '</span>' +
+        '</li>')
+            .appendTo('#menuWidget ul')
+            .click(function () {
+                system.startActivity(activity.id);
+            });
+    }
+    
+    // +드래그
+    // +포커싱
+    
+    function show() {
         
-        system.startActivity(activityId);
-    })
+    }
+    
+    function hide() {
+        
+    }
     
     return {
         
@@ -20,30 +38,15 @@ define([
          * @return {undefined}
          */
         init : function () {
-            console.log('menu init');
-
-            var activities = [
+            require([
                 'activity/homeActivity',
                 'activity/calendarActivity',
                 'activity/newsActivity',
                 'activity/weatherActivity',
                 'activity/youtubeActivity',
-            ];
-            
-            require(activities, function () {
-                
+            ], function () {
                 for(var n = 0; n < arguments.length; ++n) {
-                    
-                    $([
-                        '<li>',
-                            '<img src="res/drawable/', arguments[n].icon, '"/>',
-                            '<span>', 
-                                arguments[n].title, 
-                            '</span>',
-                        '</li>'
-                    ].join(''))
-                        .data('id', arguments[n].id)
-                        .appendTo('#menuWidget ul')
+                    createMenu(arguments[n]);
                 }
             })
         },

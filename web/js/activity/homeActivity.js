@@ -3,8 +3,8 @@ define([ 'system' ],function (system) {
     return {
         
         id : 'homeActivity',
-        title : '홈화면',
-        icon : 'ic_sample.png',
+        title : '홈 화면',
+        icon : 'ic_home.png',
         layoutHTML : 'activity_home.html',
         
         init : function () {

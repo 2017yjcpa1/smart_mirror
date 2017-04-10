@@ -4,7 +4,7 @@ define([ 'system' ],function (system) {
         
         id : 'newsActivity',
         title : '뉴스',
-        icon : 'ic_sample.png',
+        icon : 'ic_news.png',
         layoutHTML : 'activity_news.html',
         
         init : function () {

@@ -37,7 +37,7 @@ define([
         init : function () {
             init();
             
-            speechRecog.addEventListener('[a-z가-힣0-9]+', update);
+            speechRecog.addEventListener('.+', update);
         }
     }
 });
