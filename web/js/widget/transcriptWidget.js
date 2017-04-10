@@ -1,6 +1,4 @@
-define([
-    'jquery',
-], function ($) {
+define(['jquery'], function ($) {
     
     var timeoutId = -1;
     
@@ -15,6 +13,12 @@ define([
         $('span', rootLayout).text('대기중...');
     }
     
+    /**
+     * 
+     * @param {boolean} data.isFinal
+     * @param {string} data.transcript
+     * @returns {undefined}
+     */
     function update(data) {
         var isFinal = data.isFinal;
         var transcript = data.transcript;
