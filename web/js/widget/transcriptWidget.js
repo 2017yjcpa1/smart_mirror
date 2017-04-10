@@ -1,7 +1,6 @@
 define([
     'jquery',
-    'input/speechRecog',
-], function ($, speechRecog) {
+], function ($) {
     
     var timeoutId = -1;
     

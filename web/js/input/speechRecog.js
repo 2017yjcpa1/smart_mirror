@@ -30,7 +30,8 @@ define(['system'], function (system) {
             }
             
             dispatchEvent(isFinal, transcript);
-            system.updateWidget('transcript', isFinal, transcript);
+            system.updateWidget('transcript', { 'isFinal' : isFinal, 
+                                                'transcript' : transcript });
         };
     }
     

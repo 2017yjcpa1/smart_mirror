@@ -151,16 +151,14 @@ define([
         });
     }
     
-    function updateWidget(widgetId) {
-        var args = Array.prototype.slice.call(arguments, 1);
-        
+    function updateWidget(widgetId, data) { 
         if ( ! require.defined('widget/' + widgetId)) {
             throw new Error(widgetId + ' 을 찾을수 없습니다.');
         }
         
         require(['widget/' + widgetId], function (widget) {
             if (typeof(widget.update) === 'function') {
-                widget.update.apply(widget, args); 
+                widget.update.apply(widget, data); 
             }
         });
     }
