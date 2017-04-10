@@ -17,16 +17,7 @@ define([
         $('span', rootLayout).text('대기중...');
     }
     
-    /**
-     * 
-     * @param {boolean} data.isFinal
-     * @param {string} data.transcript
-     * @returns {undefined}
-     */
-    function update(data) {
-        var isFinal = data.isFinal;
-        var transcript = data.transcript;
-        
+    function update(isFinal, transcript) {
         var rootLayout = $('#transcriptWidget');
         
         if (isFinal) {
@@ -46,7 +37,7 @@ define([
         init : function () {
             init();
             
-            speechRecog.addEventListener('.+', update);
+            speechRecog.addEventListener('[a-z가-힣0-9]+', update);
         }
     }
 });
