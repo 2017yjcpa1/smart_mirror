@@ -6,6 +6,7 @@ define(function () {
                             window.msSpeechRecognition ||
                             window.oSpeechRecognition;
     
+    var listeners = [];
     var speechRecog = null;
     
     function init() {
@@ -28,11 +29,7 @@ define(function () {
                 transcript += results[0].transcript;
             }
             
-            if (isFinal) {
-                finalResult(transcript);
-            } else {
-                interimResult(transcript);
-            }
+            dispatchEvent(isFinal, transcript);
         };
     }
     
@@ -43,15 +40,33 @@ define(function () {
         speechRecog.start();
     }
     
-    function interimResult(transcript) {
-        console.log('interimResult', transcript);
+    function addEventListener(regex, method) {
+        var handlers = null;
+        if ( ! (handlers = listeners[regex])) {
+            handlers = listeners[regex] = [];
+        }
+
+        handlers.push(method);
     }
-    
-    function finalResult(transcript) {
-        console.log('finalResult', transcript);
+
+    function dispatchEvent(isFinal, transcript) {
+        var handlers = [];
+
+        for(var regex in listeners) {
+            if (new RegExp(regex, 'i').test(transcript)) {
+                handlers = handlers.concat(listeners[regex]);
+            }
+        }
+
+        for(var n = 0; n < handlers.length; ++n) {
+            handlers[n](isFinal, transcript);
+        }
     }
     
     return {
+        
+        addEventListener : addEventListener,
+        
         start : start
     }
 })
