@@ -183,7 +183,7 @@ define([
         updateWidget : updateWidget,
         
         init : function () {
-            kinectCursor.init();
+            kinectCursor.start();
             speechRecog.start();
             
             startActivity('homeActivity');

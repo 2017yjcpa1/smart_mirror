@@ -89,13 +89,13 @@ define([
         updatePos(data); 
     }
     
-    function init() {
+    function start() {
         handCursor.appendTo('body');
                             
         kinectBridge.addEventListener('skeleton', update);
     }
     
     return {
-        init : init
+        start : start
     }
 })
