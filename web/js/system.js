@@ -86,7 +86,7 @@ define([
             activityId = activities[ activities.length - 1 ].id;
         }
         
-        if (activityId === 'home') {
+        if (activityId === 'homeActivity') {
             throw new Error('홈 화면은 닫을 수 없습니다.');
         }
         
@@ -132,7 +132,7 @@ define([
                 if (widget.alwaysOnTop === true) {
                     rootLayout.appendTo('body');
                 } else {
-                    var homeActivity = activities[ activities.indexOf('home') ];
+                    var homeActivity = activities[ activities.indexOf('homeActivity') ];
 
                     rootLayout.appendTo(homeActivity.rootLayout);
                 }

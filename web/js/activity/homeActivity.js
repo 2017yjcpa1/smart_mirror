@@ -3,7 +3,7 @@ define([ 'system' ],function (system) {
     return {
         
         title : '홈화면',
-        icon : 'ic_home.png',
+        icon : 'ic_sample.png',
         layoutHTML : 'activity_home.html',
         
         init : function () {
