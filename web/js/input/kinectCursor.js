@@ -1,6 +1,8 @@
 define([
     'jquery',
+    
     'input/kinectBridge',
+    
     'math/vec3d',
     'math/mat2d',
 ], function ($, kinectBridge, vec3d, mat2d) {

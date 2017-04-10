@@ -53,9 +53,12 @@ define(function () {
         var handlers = [];
 
         for(var regex in listeners) {
-            if (new RegExp(regex, 'i').test(transcript)) {
-                handlers = handlers.concat(listeners[regex]);
+            
+            if ( ! new RegExp(regex, 'i').test(transcript)) {
+                continue;
             }
+            
+            handlers = handlers.concat(listeners[regex]);
         }
 
         for(var n = 0; n < handlers.length; ++n) {

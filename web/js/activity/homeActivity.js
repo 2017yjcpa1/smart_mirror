@@ -11,6 +11,7 @@ define([ 'system' ],function (system) {
             
             system.attachWidget('menuWidget');
             system.attachWidget('skeletonWidget');
+            system.attachWidget('transcriptWidget');
         },
         
         resume : function () {

@@ -1,0 +1,39 @@
+<style>
+    #transcriptWidget {
+        position: absolute;
+        bottom: 0;
+        left: 170px;
+        margin-bottom: 10px;
+        font-size: 20pt;
+    }
+    
+    #transcriptWidget > div:before {
+        content: '';
+        
+        position: absolute;
+        top: 0px;
+        left: 30px;
+        
+        border: 5px solid red;
+        border-radius: 50%;
+        
+        z-index: -1;
+        
+        -webkit-animation: twinkle 1.0s infinite;
+    }
+    
+    #transcriptWidget.recognized > div:before {
+        -webkit-animation: none;
+    }
+    
+    @-webkit-keyframes twinkle {
+        0% { opacity: 1.0 }
+        100% { opacity: 0.0 }
+    }
+</style>
+<div>
+    <img src="res/drawable/ic_mic.png" width="40" valign="middle"/>
+    <span>
+        헬로우
+    </span>
+</div>
