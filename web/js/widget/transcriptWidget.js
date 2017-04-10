@@ -1,4 +1,8 @@
-define(['jquery'], function ($) {
+define([
+    'jquery',
+    
+    'input/speechRecog'
+], function ($, speechRecog) {
     
     var timeoutId = -1;
     
@@ -39,8 +43,10 @@ define(['jquery'], function ($) {
         alwaysOnTop : true,
         layoutHTML : 'widget_transcript.html',
         
-        init : init,
-        
-        update : update
+        init : function () {
+            init();
+            
+            speechRecog.addEventListener('.+', update);
+        }
     }
 });

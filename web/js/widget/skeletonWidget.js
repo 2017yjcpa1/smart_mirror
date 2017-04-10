@@ -2,7 +2,7 @@ define([
     'jquery',
     'input/kinectBridge',
     'math/vec3d'
-], function ($, kinect, vec3d) {
+], function ($, kinectBridge, vec3d) {
     
     var canvas = false;
     var context = false;
@@ -13,10 +13,12 @@ define([
         canvas = $('canvas', this.rootLayout);
         context = canvas[0].getContext('2d');
         
-        kinect.addEventListener('skeleton', update);
+        kinectBridge.addEventListener('skeleton', update);
     }
     
     function update(data) {
+        //console.log('skeleton update');
+        
         var canvasWidth = parseInt(canvas.width());
         var canvasHeight = parseInt(canvas.height());
         

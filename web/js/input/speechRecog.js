@@ -1,4 +1,4 @@
-define(['system'], function (system) {
+define(function () {
     
     var SpeechRecognition = window.SpeechRecognition ||
                             window.webkitSpeechRecognition ||
@@ -30,8 +30,6 @@ define(['system'], function (system) {
             }
             
             dispatchEvent(isFinal, transcript);
-            system.updateWidget('transcript', { 'isFinal' : isFinal, 
-                                                'transcript' : transcript });
         };
     }
     
