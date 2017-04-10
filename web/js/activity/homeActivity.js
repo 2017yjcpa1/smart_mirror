@@ -2,6 +2,7 @@ define([ 'system' ],function (system) {
     
     return {
         
+        id : 'homeActivity',
         title : '홈화면',
         icon : 'ic_sample.png',
         layoutHTML : 'activity_home.html',

@@ -2,6 +2,7 @@ define([ 'system' ],function (system) {
     
     return {
         
+        id : 'weatherActivity',
         title : '날씨',
         icon : 'ic_sample.png',
         layoutHTML : 'activity_weather.html',

@@ -2,6 +2,7 @@ define([ 'system' ],function (system) {
     
     return {
         
+        id : 'newsActivity',
         title : '뉴스',
         icon : 'ic_sample.png',
         layoutHTML : 'activity_news.html',

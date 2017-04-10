@@ -3,6 +3,12 @@ define([
     'system' 
 ], function ($, system) {
     
+    $(document).on('click', '#menuWidget li', function () {
+        var activityId = $(this).data('id');
+        
+        system.startActivity(activityId);
+    })
+    
     return {
         
         alwaysOnTop : true,
@@ -15,37 +21,29 @@ define([
          */
         init : function () {
             console.log('menu init');
-            
-            require([
+
+            var activities = [
                 'activity/homeActivity',
                 'activity/calendarActivity',
                 'activity/newsActivity',
                 'activity/weatherActivity',
                 'activity/youtubeActivity',
-            ], function (homeActivity, 
-                         calendarActivity, 
-                         newsActivity, 
-                         weatherActivity, 
-                         youtubeActivity) {
+            ];
+            
+            require(activities, function () {
                 
-                var activities = [
-                    homeActivity,
-                    calendarActivity,
-                    newsActivity,
-                    weatherActivity,
-                    youtubeActivity
-                ];
-                
-                $('#menuWidget ul').empty();
-                
-                for(var n = 0; n < activities.length; ++n) {
+                for(var n = 0; n < arguments.length; ++n) {
+                    
                     $([
                         '<li>',
-                            '<img src="res/drawable/', activities[n].icon, '"/>',
-                            '<span>', activities[n].title, '</span>',
-                        '</li>',
+                            '<img src="res/drawable/', arguments[n].icon, '"/>',
+                            '<span>', 
+                                arguments[n].title, 
+                            '</span>',
+                        '</li>'
                     ].join(''))
-                        .appendTo('#menuWidget ul');
+                        .data('id', arguments[n].id)
+                        .appendTo('#menuWidget ul')
                 }
             })
         },

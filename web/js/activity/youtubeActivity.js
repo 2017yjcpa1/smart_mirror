@@ -2,6 +2,7 @@ define([ 'system' ],function (system) {
     
     return {
         
+        id : 'youtubeActivity',
         title : '유튜브',
         icon : 'ic_youtube.png',
         layoutHTML : 'activity_youtube.html',

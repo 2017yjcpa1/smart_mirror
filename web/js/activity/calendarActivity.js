@@ -2,6 +2,7 @@ define([ 'system' ],function (system) {
     
     return {
         
+        id : 'calendarActivity',
         title : '달력',
         icon : 'ic_sample.png',
         layoutHTML : 'activity_calendar.html',

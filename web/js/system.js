@@ -35,6 +35,7 @@ define([
         var isCreated = require.defined('activity/' + activityId);
         
         require(['activity/' + activityId], function (activity) {
+            isCreated = isCreated && $(activity.rootLayout).length > 0;
             
             var layoutLoaded = function () {
                 var rootLayout = $(activity.rootLayout);
@@ -72,12 +73,12 @@ define([
                                         .load('res/layout/' + activity.layoutHTML, layoutLoaded)
                                         .attr('id', activityId);
                     
-                activity.id = activityId;
                 activity.rootLayout = rootLayout[0];    
                 return;
             }
             
             activities.remove(activityId);
+            layoutLoaded();
         });
     }
     
