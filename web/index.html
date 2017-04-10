@@ -35,6 +35,10 @@
         <script type="text/javascript" src="js/lib/require-2.3.3.min.js"></script>
         <script type="text/javascript">
             
+            Array.prototype.peek = function () {
+                return this[ this.length - 1 ];
+            }
+            
             Math.toDegrees = function (rad) {
                 return rad * 180.0 / Math.PI;
             }
