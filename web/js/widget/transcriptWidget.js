@@ -15,7 +15,10 @@ define([
         $('span', rootLayout).text('대기중...');
     }
     
-    function update(isFinal, transcript) {
+    function update(data) {
+        var isFinal = data.isFinal;
+        var transcript = data.transcript;
+        
         var rootLayout = $('#transcriptWidget');
         
         if (isFinal) {
