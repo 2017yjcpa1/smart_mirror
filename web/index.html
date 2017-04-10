@@ -40,8 +40,8 @@
             }
             
             String.prototype.camelize = function () {
-                return this.replace(/[_.-](\w|$)/g, function (_, str) {
-                    return str.toUpperCase();
+                return this.replace(/[_.-](\w|$)/g, function (_, char) {
+                    return char.toUpperCase();
                 });
             };
     
