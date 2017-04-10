@@ -3,7 +3,7 @@ define([ 'system' ],function (system) {
     return {
         
         title : '유튜브',
-        icon : 'ic_sample.png',
+        icon : 'ic_youtube.png',
         layoutHTML : 'activity_youtube.html',
         
         init : function () {

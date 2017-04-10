@@ -15,6 +15,39 @@ define([
          */
         init : function () {
             console.log('menu init');
+            
+            require([
+                'activity/homeActivity',
+                'activity/calendarActivity',
+                'activity/newsActivity',
+                'activity/weatherActivity',
+                'activity/youtubeActivity',
+            ], function (homeActivity, 
+                         calendarActivity, 
+                         newsActivity, 
+                         weatherActivity, 
+                         youtubeActivity) {
+                
+                var activities = [
+                    homeActivity,
+                    calendarActivity,
+                    newsActivity,
+                    weatherActivity,
+                    youtubeActivity
+                ];
+                
+                $('#menuWidget ul').empty();
+                
+                for(var n = 0; n < activities.length; ++n) {
+                    $([
+                        '<li>',
+                            '<img src="res/drawable/', activities[n].icon, '"/>',
+                            '<span>', activities[n].title, '</span>',
+                        '</li>',
+                    ].join(''))
+                        .appendTo('#menuWidget ul');
+                }
+            })
         },
         
         /** 
