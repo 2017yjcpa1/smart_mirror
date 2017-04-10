@@ -35,8 +35,8 @@ define([
         
         init : function () {
             init();
-            
-            speechRecog.addEventListener('[a-z가-힣0-9\s]+', update);
-        }
+        },
+        
+        update : update
     }
 });

@@ -145,8 +145,6 @@ define([
                 if (typeof(widget.init) === 'function') {
                     widget.init();
                 }
-
-                updateWidget(widgetId);
             };
             
             rootLayout.load('res/layout/' + widget.layoutHTML, layoutLoaded);      
@@ -154,14 +152,15 @@ define([
     }
     
     function updateWidget(widgetId) {
+        var args = Array.prototype.slice.call(arguments, 1);
+        
         if ( ! require.defined('widget/' + widgetId)) {
             throw new Error(widgetId + ' 을 찾을수 없습니다.');
         }
         
         require(['widget/' + widgetId], function (widget) {
-            
             if (typeof(widget.update) === 'function') {
-                widget.update(); 
+                widget.update.apply(widget, args); 
             }
         });
     }
