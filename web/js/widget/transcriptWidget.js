@@ -39,9 +39,7 @@ define(['jquery'], function ($) {
         alwaysOnTop : true,
         layoutHTML : 'widget_transcript.html',
         
-        init : function () {
-            init();
-        },
+        init : init,
         
         update : update
     }
