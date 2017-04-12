@@ -23,11 +23,15 @@ define([
     
     activities.remove = function (id) {
         var n = this.indexOf(id);
+        if (n < 0) {
+            return;
+        }
         
         this.splice(n, 1);
     }
     
     function startActivity(activityId, data) {
+        console.log(activities)
         if (activities.length > 0 && activities.peek().id === activityId) {
             return;
         }
@@ -47,7 +51,9 @@ define([
                     }
                 }
                 
-                rootLayout.css('z-index', 1000);
+                $('.activity').removeClass('showEffect hideEffect activityOnTop')
+                
+                rootLayout.addClass('showEffect activityOnTop');
 
                 if (typeof(activity.resume) === 'function') {
                    activity.resume(data);
@@ -59,7 +65,7 @@ define([
                         parentActivity.pause();
                     }
 
-                    $(parentActivity.rootLayout).css('z-index', -1);
+                    $(parentActivity.rootLayout).addClass('hideEffect')
 
                     activity.parentActivity = parentActivity;
                 }
@@ -98,7 +104,7 @@ define([
         require(['activity/' + activityId], function (activity) {
             var parentActivity = activity.parentActivity;
             if (parentActivity) {
-                $(parentActivity.rootLayout).css('z-index', 1000);
+                $(parentActivity.rootLayout).addClass('activityOnTop');
                 
                 if (typeof(parentActivity.resume) === 'function') {
                     parentActivity.resume();

@@ -17,7 +17,7 @@
                 
                 overflow: hidden;
 
-                background: black;
+                background: #333;
                 color: white;
             }
             
@@ -26,10 +26,47 @@
                 top: 0;
                 left: 0;
                 
+                z-index: 0;
+                
                 width: 100%;
                 height: 100%;
                 
                 background: black;
+                visibility: hidden;
+                
+                perspective: 1200px;
+                transform-style: preserve-3d;
+                transform: translate3d(0, 0, 0);
+            }
+            
+            body > .activity.activityOnTop {
+                z-index: 1000;
+                visibility: visible;
+            }
+            
+            body > .activity.showEffect {
+                visibility: visible;
+                animation: scale-up-down .5s ease both;
+                animation-delay: .3s; 
+            }
+            
+            body > .activity.hideEffect {
+                visibility: visible;
+                animation: scale-down .5s ease both;
+            }
+            
+            .activity {
+                text-align: center;
+                font-size: 50pt;
+                line-height: 15;
+            }
+            
+            @keyframes scale-down {
+                to { opacity: 0; transform: scale(.8); }
+            }
+            
+            @keyframes scale-up-down {
+                from { opacity: 0; -webkit-transform: scale(1.2); }
             }
         </style>
         <script type="text/javascript" src="js/lib/require-2.3.3.min.js"></script>
