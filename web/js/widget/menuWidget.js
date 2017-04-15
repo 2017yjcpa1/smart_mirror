@@ -42,7 +42,7 @@ define([
          */
         init : function () {
             
-            $('#menuWidget').draggable();
+            $('#menuWidget').draggable({ axis: 'y' });
             
             require([
                 'activity/homeActivity',

@@ -1,15 +1,15 @@
 (function (factory) {
     if (typeof define === 'function' && define.amd) {
-        define(['jquery'], factory);
+        define(['jquery', 'math/vec2d'], factory);
     } else {
-        factory(jQuery);
+        factory(jQuery, vec2d);
     }
-}(function ($) {
+}(function ($, vec2d) {
 
     $.fn.draggable = function (options) {
         
         var settings = $.extend({
-            // TODO ...
+            axis : 'xy',
         }, options);
         
         return this.each(function() { 
@@ -38,18 +38,27 @@
                 var y = parseInt(self.style.top, 10) || 0; 
 
                 // ((현재이벤트 - 이전이벤트) = 움직인거리)
-                var dx = event.pageX - prevEvent.pageX;
-                var dy = event.pageY - prevEvent.pageY;
+                var vec = vec2d(prevEvent.pageX, prevEvent.pageY).sub(event.pageX, event.pageY);
 
-                self.style.left = (x + dx) + 'px'; 
-                self.style.top = (y + dy) + 'px';
+                if (settings.axis.indexOf('x') !== -1) self.style.left = (x + vec.x) + 'px'; 
+                if (settings.axis.indexOf('y') !== -1) self.style.top = (y + vec.y) + 'px';
+                
+                $(self).trigger('drag', [ vec.length(), vec.x, vec.y ]);
                 
                 prevEvent = event;
             }
             
             
             $(self)
-                .css('position', 'absolute')
+                .css({
+                    'position' : 'absolute',
+                    '-webkit-touch-callout': 'none', /* iOS Safari */
+                      '-webkit-user-select': 'none', /* Safari */
+                       '-khtml-user-select': 'none', /* Konqueror HTML */
+                         '-moz-user-select': 'none', /* Firefox */
+                          '-ms-user-select': 'none', /* Internet Explorer/Edge */
+                              'user-select': 'none' /* Non-prefixed version, currently supported by Chrome and Opera */
+                })
                 .bind('mousedown', mousePress)
             
         });
