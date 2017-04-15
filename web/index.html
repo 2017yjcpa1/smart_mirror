@@ -89,7 +89,15 @@
             requirejs.config({
                 'baseUrl': './js',
                 'paths': {
-                    'jquery': 'lib/jquery-3.2.0.min'
+                      'jquery': 'lib/jquery-3.2.0.min'
+                    , 'jquery-draggable': 'lib/jquery-draggable-1.0'
+                },
+                
+                shim : {
+                    'jquery-draggable' : {
+                        exports : '$',
+                        deps : ['jquery']
+                    }
                 }
             });
 
