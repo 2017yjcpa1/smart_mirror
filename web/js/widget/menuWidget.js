@@ -6,6 +6,8 @@ define([
     'jquery-draggable',
 ], function ($, system) {
     
+    var isDrag = false;
+    
     function createMenu(activity) {
         $('<li>' +
             '<img src="res/drawable/' + activity.icon + '"/>' +
@@ -14,8 +16,12 @@ define([
             '</span>' +
         '</li>')
             .appendTo('#menuWidget ul')
-            .click(function (event) {
-                system.startActivity(activity.id); 
+            .click(function () {
+                if ( ! isDrag) {
+                    system.startActivity(activity.id);
+                }
+                
+                isDrag = false;
             });
     }
     
@@ -42,7 +48,11 @@ define([
          */
         init : function () {
             
-            $('#menuWidget').draggable({ axis: 'y' });
+            $('#menuWidget')
+                .draggable({ axis: 'y' })
+                .on('dragend', function () {
+                    isDrag = true;
+                })
             
             require([
                 'activity/homeActivity',
