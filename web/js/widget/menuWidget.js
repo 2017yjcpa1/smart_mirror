@@ -2,7 +2,6 @@ define([
     'jquery',
     'system',
     
-    
     'jquery-draggable',
 ], function ($, system) {
     
