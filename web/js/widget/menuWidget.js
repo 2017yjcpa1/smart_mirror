@@ -6,6 +6,7 @@ define([
 ], function ($, system) {
     
     var isDrag = false;
+    var showTimeoutId = -1;
     
     function createMenu(activity) {
         $('<li>' +
@@ -18,21 +19,30 @@ define([
             .click(function () {
                 if ( ! isDrag) {
                     system.startActivity(activity.id);
+            
+                    hide();
                 }
                 
                 isDrag = false;
             });
     }
     
-    // +드래그
-    // +포커싱
+    (function () {
+        if (showTimeoutId !== -1) {
+            window.clearTimeout(showTimeoutId);
+            
+            showTimeoutId = -1;
+        }
+        
+        showTimeoutId = window.setTimeout(hide, 1000 * 5);  
+    })
     
     function show() {
-        
+        $('#menuWidget').addClass('showMenus');
     }
     
-    function hide() {
-        
+    function hide() {        
+        $('#menuWidget').removeClass('showMenus');
     }
     
     return {
@@ -47,36 +57,18 @@ define([
          */
         init : function () {
             
-            $('#menuWidget')
+            $('#menuWidget #showButton').click(show)
+            
+            $('#menuWidget ul')
                 .draggable({ 
                     axis: 'y',
                 })
-                .on('dragging', function () {
-                    
-                    var rootLayout = $('#menuWidget');
-                    
-                    var windowHeight = $(window).height();
-                    var rootHeight = rootLayout.height();
-                    var rootY = parseInt(rootLayout[0].style.top, 10) || 0;
-                    
-                    //console.log(windowHeight / 2);
-                    //console.log(rootHeight / 2 );
-                    
-                    
-                    var eq = (windowHeight - rootY - (100 * 5) - (250 / 2)) / 100;
-                    
-                    
-                    eq = Math.max(eq, 0);
-                    eq = Math.min(eq, $('#menuWidget li').length - 1);
-                    eq = Math.round(eq);
-  
-                    var newSelect = $('#menuWidget li').removeClass('largeSize mediumSize').eq(eq);
-                     
-                    newSelect.addClass('largeSize');
-                    newSelect.next().addClass('mediumSize');
-                    newSelect.prev().addClass('mediumSize');
-                })
                 .on('dragend', function () {
+                    
+                    // 410
+                    //var menuWrapper = $('#menuWidget ul');
+                    //menuWrapper.height() +
+                    
                     isDrag = true;
                 })
             

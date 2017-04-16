@@ -1,20 +1,28 @@
 <style>
     #menuWidget {
         position: absolute;
-        top: 0;
+        width: 100%;
+        height: 100%;
+    }
+    
+    #menuWidget.showMenus ul {
         right: 0;
-        
-        width: auto;
-        height: auto;
     }
     
     #menuWidget ul {
         list-style: none;
         
+        position: absolute;
+        top: 0;
+        right: -100%;
+        
+        width: auto;
+        height: auto;
+        
+        transition: right 0.8s;
+        
         padding: 0;
         margin: 0;
-
-        /*transition: top 0.3s, right 0.8s;*/
     }
 
     #menuWidget li { 
@@ -55,7 +63,7 @@
 
     #menuWidget .mediumSize { 
         opacity: 0.7;
-        font-size: 30pt;
+        font-size: 25pt;
         width: 150px;
         height: 150px;
         line-height: 150px;
@@ -68,6 +76,27 @@
         height: 250px;
         line-height: 250px;
     }
+    
+    #menuWidget.showMenus #showButton {
+        opacity: 0;
+    }
+    
+    #menuWidget #showButton {
+        opacity: 1;
+        
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto 0;
+        width: 100px;
+        height: 100px;
+        
+        transition: opacity 0.3s;
+    }
 </style>
+<button id="showButton">
+    프로그램 목록
+</button>
 <ul>
 </ul>
