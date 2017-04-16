@@ -48,7 +48,34 @@ define([
         init : function () {
             
             $('#menuWidget')
-                .draggable({ axis: 'y' })
+                .draggable({ 
+                    axis: 'y',
+                })
+                .on('dragging', function () {
+                    
+                    var rootLayout = $('#menuWidget');
+                    
+                    var windowHeight = $(window).height();
+                    var rootHeight = rootLayout.height();
+                    var rootY = parseInt(rootLayout[0].style.top, 10) || 0;
+                    
+                    //console.log(windowHeight / 2);
+                    //console.log(rootHeight / 2 );
+                    
+                    
+                    var eq = (windowHeight - rootY - (100 * 5) - (250 / 2)) / 100;
+                    
+                    
+                    eq = Math.max(eq, 0);
+                    eq = Math.min(eq, $('#menuWidget li').length - 1);
+                    eq = Math.round(eq);
+  
+                    var newSelect = $('#menuWidget li').removeClass('largeSize mediumSize').eq(eq);
+                     
+                    newSelect.addClass('largeSize');
+                    newSelect.next().addClass('mediumSize');
+                    newSelect.prev().addClass('mediumSize');
+                })
                 .on('dragend', function () {
                     isDrag = true;
                 })
