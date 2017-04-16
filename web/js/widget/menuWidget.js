@@ -27,7 +27,7 @@ define([
             });
     }
     
-    (function () {
+    function hideAfterWhile() {
         if (showTimeoutId !== -1) {
             window.clearTimeout(showTimeoutId);
             
@@ -35,10 +35,17 @@ define([
         }
         
         showTimeoutId = window.setTimeout(hide, 1000 * 5);  
-    })
+    }
     
     function show() {
+        var windowHeight = $(window).height();
+        var menuWrapper = $('#menuWidget ul');
+        
+        menuWrapper.css('top', windowHeight / 2 - menuWrapper.height() / 2);
+        
         $('#menuWidget').addClass('showMenus');
+        
+        hideAfterWhile();
     }
     
     function hide() {        
@@ -63,14 +70,10 @@ define([
                 .draggable({ 
                     axis: 'y',
                 })
-                .on('dragend', function () {
-                    
-                    // 410
-                    //var menuWrapper = $('#menuWidget ul');
-                    //menuWrapper.height() +
-                    
+                .on('dragstart drag', hideAfterWhile)
+                .on('dragend', function () { 
                     isDrag = true;
-                })
+                });
             
             require([
                 'activity/homeActivity',

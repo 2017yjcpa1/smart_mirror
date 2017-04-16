@@ -58,7 +58,7 @@
                     $(self).trigger('dragstart');
                 }
                 
-                $(self).trigger('dragging', [ dx, dy ]);
+                $(self).trigger('drag', [ dx, dy ]);
                 
                 prevEvent = event;
                 isDrag = true;
