@@ -14,6 +14,18 @@
         init : function (lat, lon) {
             this.lat = lat;
             this.lon = lon;
+        },
+        
+        result : function (data) {
+            console.log(data);
+        },
+        
+        exec : function () {
+            var args = {};
+            args.lan = this.lan;
+            args.lon = this.lon;
+            
+            $.getJSON('php/weather.php?' + $.param(args), this.result);
         }
     }
     
