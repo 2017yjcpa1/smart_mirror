@@ -30,7 +30,7 @@ define([
         this.splice(n, 1);
     }
     
-    function startActivity(activityId, data, doesNotShowEffect) {
+    function startActivity(activityId, data, doNotShowEffect) {
         if (activities.length > 0 && activities.peek().id === activityId) {
             return false;
         }
@@ -52,7 +52,7 @@ define([
                 
                 $('.activity').removeClass('showEffect hideEffect activityOnTop')
                 
-                if ( ! doesNotShowEffect) {
+                if ( ! doNotShowEffect) {
                     rootLayout.addClass('showEffect');
                 }
                 
