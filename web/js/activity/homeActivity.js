@@ -18,10 +18,20 @@ define([ 'system' ],function (system) {
         
         resume : function () {
             console.log('home resume');
+            
+            var clockWidget = system.getWidget('clockWidget');
+            if (clockWidget) {
+                clockWidget.focus();
+            }
         },
         
         pause : function () {
             console.log('home pause');
+            
+            var clockWidget = system.getWidget('clockWidget');
+            if (clockWidget) {
+                clockWidget.blur();
+            }
         },
         
         destroy : function () {

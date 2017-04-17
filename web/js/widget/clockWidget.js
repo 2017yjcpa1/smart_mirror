@@ -26,6 +26,8 @@ define([
     
     function updateClock() {
         $('#clockWidget span').text(toString());
+        
+        window.setTimeout(updateClock, 500);
     }
      
     return {
@@ -35,8 +37,20 @@ define([
         
         init : function () {
             updateClock();
+        },
+        
+        blur : function () {
+            var windowWidth = $(window).width();
             
-            window.setInterval(updateClock, 500);
+            $('#clockWidget')
+                .addClass('blur')
+                .css({ 'left' : windowWidth / 2 - 400 / 2  });
+        },
+        
+        focus : function () {
+            $('#clockWidget')
+                .removeClass('blur')
+                .css({ left: '0' });
         }
     }
 })

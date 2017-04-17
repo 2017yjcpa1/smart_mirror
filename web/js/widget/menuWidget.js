@@ -87,15 +87,6 @@ define([
                     createMenu(arguments[n]);
                 }
             })
-        },
-        
-        /** 
-         * 외부에서 위젯을 업데이트 했을경우 발생하는 이벤트
-         * 
-         * @return {undefined}
-         */
-        update: function () {
-            console.log('menu update');
-        },
+        }
     }
 })

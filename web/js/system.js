@@ -60,7 +60,7 @@ define([
 
                 if (typeof(activity.resume) === 'function') {
                    activity.resume(data);
-                }
+                } 
                 
                 if (activities.length > 0) {
                     var parentActivity = activities.peek();
@@ -132,7 +132,7 @@ define([
     
     function attachWidget(widgetId) {
         if (require.defined('widget/' + widgetId)) {
-            return;
+            return false;
         }
         
         require(['widget/' + widgetId], function (widget) {
@@ -161,18 +161,16 @@ define([
             
             rootLayout.load('res/layout/' + widget.layoutHTML, layoutLoaded);      
         });
+        
+        return true;
     }
     
-    function updateWidget(widgetId, data) { 
+    function getWidget(widgetId) { 
         if ( ! require.defined('widget/' + widgetId)) {
-            throw new Error(widgetId + ' 을 찾을수 없습니다.');
+            return false;
         }
         
-        require(['widget/' + widgetId], function (widget) {
-            if (typeof(widget.update) === 'function') {
-                widget.update.apply(widget, data); 
-            }
-        });
+        return require('widget/' + widgetId);
     }
     
     return {
@@ -188,12 +186,9 @@ define([
         finishActivity : finishActivity,
         
         attachWidget : attachWidget,
-        
-        /**
-         * 외부에서 위젯을 업데이트 하기위한 함수
-         */
-        updateWidget : updateWidget,
-        
+
+        getWidget : getWidget,
+
         init : function () {
             kinectCursor.start();
             speechRecog.start();
