@@ -3,29 +3,48 @@ define([
     'system',
 ], function ($, system) {
     
-    function toString() {
+    function currentDate() {
         var date = new Date();
-        var hours = date.getHours()
-        var minutes = date.getMinutes()
-        var seconds = date.getSeconds()
+        
+        var years = date.getFullYear();
+        var month = date.getMonth() + 1;
+        var dayOfMonth = date.getDate();
+        var dayOfWeek = ['일', '월','화','수','목','금','토'][date.getDay()];
+        
+        return [ 
+            years + '년',
+            month + '월',
+            dayOfMonth + '일',
+            dayOfWeek + '요일' ];
+    }
+    
+    function currentTime() {
+        var date = new Date();
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var seconds = date.getSeconds();
 
-        if (hours == 0 ) {
-            hours = '12';
-        }
+        if (hours == 0 ) hours = '12';
+        if (hours <= 9) hours = '0' + hours;
+        if (minutes <= 9) minutes = '0' + minutes;
+        if (seconds <= 9) seconds = '0' + seconds;
 
-        if (minutes <= 9) {
-            minutes = '0' + minutes;
-        }
-
-        if (seconds <= 9) {
-            seconds = '0' + seconds;
-        }
-
-        return [ hours, minutes, seconds ].join(':');
+        return [ 
+            hours, 
+            minutes, 
+            seconds ];
     }
     
     function updateClock() {
-        $('#clockWidget span').text(toString());
+        var rootLayout = $('#clockWidget');
+        
+        var date = currentDate();
+        var time = currentTime();
+        
+        $('#hourAndMinute', rootLayout).text(time[0] + ':' + time[1]);
+        $('#second', rootLayout).text(time[2]);
+        
+        $('#monthAndDay', rootLayout).text(date.join(' '));
         
         window.setTimeout(updateClock, 500);
     }
@@ -44,7 +63,7 @@ define([
             
             $('#clockWidget')
                 .addClass('blur')
-                .css({ 'left' : windowWidth / 2 - 400 / 2  });
+                .css({ 'left' : windowWidth / 2 - 130 / 2  });
         },
         
         focus : function () {
