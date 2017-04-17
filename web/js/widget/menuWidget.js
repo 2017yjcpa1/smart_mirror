@@ -17,9 +17,7 @@ define([
         '</li>')
             .appendTo('#menuWidget ul')
             .click(function () {
-                if ( ! isDrag) {
-                    system.startActivity(activity.id);
-            
+                if ( ! isDrag && system.startActivity(activity.id)) {
                     hide();
                 }
                 

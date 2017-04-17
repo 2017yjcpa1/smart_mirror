@@ -32,7 +32,7 @@ define([
     
     function startActivity(activityId, data) {
         if (activities.length > 0 && activities.peek().id === activityId) {
-            return;
+            return false;
         }
         
         var isCreated = require.defined('activity/' + activityId);
@@ -85,6 +85,8 @@ define([
             activities.remove(activityId);
             layoutLoaded();
         });
+        
+        return true;
     }
     
     function finishActivity(activityId) {
