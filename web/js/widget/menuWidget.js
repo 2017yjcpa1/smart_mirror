@@ -32,7 +32,7 @@ define([
             showTimeoutId = -1;
         }
         
-        showTimeoutId = window.setTimeout(hide, 1000 * 3);  
+        showTimeoutId = window.setTimeout(hide, 1000 * 2);  
     }
     
     function show() {
@@ -67,7 +67,7 @@ define([
                 .on('mouseover', show)
             
             $('#menuWidget ul')
-                .on('dragstart drag', hideAfterWhile)
+                .on('dragstart drag mousemove', hideAfterWhile)
                 .on('dragend', function () { isDrag = true; })
                 .draggable({ 
                     axis: 'y',
