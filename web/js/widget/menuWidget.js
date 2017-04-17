@@ -32,14 +32,14 @@ define([
             showTimeoutId = -1;
         }
         
-        showTimeoutId = window.setTimeout(hide, 1000 * 5);  
+        showTimeoutId = window.setTimeout(hide, 1000 * 3);  
     }
     
     function show() {
         var windowHeight = $(window).height();
         var menuWrapper = $('#menuWidget ul');
         
-        menuWrapper.css('top', windowHeight / 2 - 100 / 2);
+        menuWrapper.css('top', windowHeight / 2 - menuWrapper.height() / 2);
         
         $('#menuWidget').addClass('showMenus');
         
@@ -62,7 +62,9 @@ define([
          */
         init : function () {
             
-            $('#menuWidget #showButton').click(show)
+            $('#menuWidget #showButton')
+                .click(show)
+                .on('mouseover', show)
             
             $('#menuWidget ul')
                 .on('dragstart drag', hideAfterWhile)
