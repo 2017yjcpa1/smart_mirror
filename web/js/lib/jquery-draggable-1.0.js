@@ -51,7 +51,7 @@
                 var dx = event.pageX - prevEvent.pageX;
                 var dy = event.pageY - prevEvent.pageY;
                 
-                if(Math.abs(vec2d(dx, dy).length()) <= 1) {
+                if (Math.abs(vec2d(dx, dy).length()) <= 1) {
                     return;
                 }
 
