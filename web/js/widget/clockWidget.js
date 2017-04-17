@@ -41,10 +41,10 @@ define([
         var date = currentDate();
         var time = currentTime();
         
-        $('#hourAndMinute', rootLayout).text(time[0] + ':' + time[1]);
-        $('#second', rootLayout).text(time[2]);
+        $('.currentTime .hoursMinutes', rootLayout).text(time[0] + ':' + time[1]);
+        $('.currentTime .seconds', rootLayout).text(time[2]);
         
-        $('#monthAndDay', rootLayout).text(date.join(' '));
+        $('.currentDate', rootLayout).text(date.join(' '));
         
         window.setTimeout(updateClock, 500);
     }
@@ -62,13 +62,13 @@ define([
             var windowWidth = $(window).width();
             
             $('#clockWidget')
-                .addClass('blur')
+                .addClass('shownSmall')
                 .css({ 'left' : windowWidth / 2 - 130 / 2  });
         },
         
         focus : function () {
             $('#clockWidget')
-                .removeClass('blur')
+                .removeClass('shownSmall')
                 .css({ left: '0' });
         }
     }
