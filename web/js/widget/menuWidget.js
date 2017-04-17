@@ -39,7 +39,7 @@ define([
         var windowHeight = $(window).height();
         var menuWrapper = $('#menuWidget ul');
         
-        menuWrapper.css('top', windowHeight / 2 - menuWrapper.height() / 2);
+        menuWrapper.css('top', windowHeight / 2 - 100 / 2);
         
         $('#menuWidget').addClass('showMenus');
         
@@ -67,9 +67,9 @@ define([
             $('#menuWidget ul')
                 .on('dragstart drag', hideAfterWhile)
                 .on('dragend', function () { isDrag = true; })
-                /*.draggable({ 
+                .draggable({ 
                     axis: 'y',
-                })*/
+                })
             
             require([
                 'activity/homeActivity',
@@ -77,6 +77,9 @@ define([
                 'activity/newsActivity',
                 'activity/weatherActivity',
                 'activity/youtubeActivity',
+                'activity/mapsActivity',
+                'activity/musicActivity',
+                'activity/galleryActivity',
             ], function () {
                 for(var n = 0; n < arguments.length; ++n) {
                     createMenu(arguments[n]);
