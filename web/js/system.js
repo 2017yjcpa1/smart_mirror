@@ -30,7 +30,7 @@ define([
         this.splice(n, 1);
     }
     
-    function startActivity(activityId, data) {
+    function startActivity(activityId, data, doesNotShowEffect) {
         if (activities.length > 0 && activities.peek().id === activityId) {
             return false;
         }
@@ -52,7 +52,11 @@ define([
                 
                 $('.activity').removeClass('showEffect hideEffect activityOnTop')
                 
-                rootLayout.addClass('showEffect activityOnTop');
+                if ( ! doesNotShowEffect) {
+                    rootLayout.addClass('showEffect');
+                }
+                
+                rootLayout.addClass('activityOnTop');
 
                 if (typeof(activity.resume) === 'function') {
                    activity.resume(data);
@@ -194,7 +198,7 @@ define([
             kinectCursor.start();
             speechRecog.start();
             
-            startActivity('homeActivity');
+            startActivity('homeActivity', null, true);
         }
     };
 });
