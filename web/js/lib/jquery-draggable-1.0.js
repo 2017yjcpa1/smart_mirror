@@ -1,10 +1,10 @@
 (function (factory) {
     if (typeof define === 'function' && define.amd) {
-        define(['jquery'], factory);
+        define(['jquery', 'math/vec2d'], factory);
     } else {
-        factory(jQuery);
+        factory(jQuery, vec2d);
     }
-}(function ($) {
+}(function ($, vec2d) {
 
     $.fn.draggable = function (options) {
         
@@ -50,6 +50,10 @@
                 // ((현재이벤트 - 이전이벤트) = 움직인거리)
                 var dx = event.pageX - prevEvent.pageX;
                 var dy = event.pageY - prevEvent.pageY;
+                
+                if(Math.abs(vec2d(dx, dy).length()) <= 1) {
+                    return;
+                }
 
                 if (settings.axis.indexOf('x') !== -1) self.style.left = (x + dx) + 'px'; 
                 if (settings.axis.indexOf('y') !== -1) self.style.top = (y + dy) + 'px';
