@@ -15,8 +15,8 @@ define([
                                 'opacity' : 0,
 
                                 'position' : 'fixed',
-                                'top' : 0,
-                                'left' : 0,
+                                'top' : -9999,
+                                'left' : -9999,
                                 'width' : 60,
                                 'height' : 60,
                                 'z-index' : 9999,
