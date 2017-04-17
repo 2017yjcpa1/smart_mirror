@@ -10,6 +10,7 @@ define([ 'system' ],function (system) {
         init : function () {
             console.log('home init');
             
+            system.attachWidget('clockWidget');
             system.attachWidget('menuWidget');
             system.attachWidget('skeletonWidget');
             system.attachWidget('transcriptWidget');
