@@ -87,7 +87,7 @@ define(function () {
         }
     }
     
-    function vec2d(x, y, z) {
+    function vec2d(x, y) {
         function F() {};
         F.prototype = __vec2d__;
         
