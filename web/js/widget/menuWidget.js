@@ -67,13 +67,11 @@ define([
             $('#menuWidget #showButton').click(show)
             
             $('#menuWidget ul')
+                .on('dragstart drag', hideAfterWhile)
+                .on('dragend', function () { isDrag = true; })
                 .draggable({ 
                     axis: 'y',
                 })
-                .on('dragstart drag', hideAfterWhile)
-                .on('dragend', function () { 
-                    isDrag = true;
-                });
             
             require([
                 'activity/homeActivity',

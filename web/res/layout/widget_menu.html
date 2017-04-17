@@ -6,7 +6,7 @@
     }
     
     #menuWidget.showMenus ul {
-        right: 0;
+        right: 10px;
     }
     
     #menuWidget ul {
@@ -88,11 +88,21 @@
         top: 0;
         bottom: 0;
         right: 0;
+        
         margin: auto 0;
-        width: 100px;
-        height: 100px;
+        
+        width: 70px;
+        height: 70px;
         
         transition: opacity 0.3s;
+        
+        font-size: 0;
+        border: 0px none;
+        background: url(res/drawable/ic_menu.png);
+        background-size: contain;
+        
+        -webkit-filter: invert(100%);
+        -webkit-appearance: none;
     }
 </style>
 <button id="showButton">

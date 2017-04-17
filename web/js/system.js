@@ -31,7 +31,6 @@ define([
     }
     
     function startActivity(activityId, data) {
-        console.log(activities)
         if (activities.length > 0 && activities.peek().id === activityId) {
             return;
         }
