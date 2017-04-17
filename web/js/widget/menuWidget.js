@@ -82,6 +82,7 @@ define([
                 'activity/mapsActivity',
                 'activity/musicActivity',
                 'activity/galleryActivity',
+                'activity/cameraActivity',
             ], function () {
                 for(var n = 0; n < arguments.length; ++n) {
                     createMenu(arguments[n]);
