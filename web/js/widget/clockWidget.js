@@ -9,7 +9,7 @@ define([
         var years = date.getFullYear();
         var month = date.getMonth() + 1;
         var dayOfMonth = date.getDate();
-        var dayOfWeek = ['일', '월','화','수','목','금','토'][date.getDay()];
+        var dayOfWeek = ['일','월','화','수','목','금','토'][date.getDay()];
         
         return [ 
             years + '년',
@@ -24,7 +24,7 @@ define([
         var minutes = date.getMinutes();
         var seconds = date.getSeconds();
 
-        if (hours == 0 ) hours = '12';
+        if (hours === 0) hours = '12';
         if (hours <= 9) hours = '0' + hours;
         if (minutes <= 9) minutes = '0' + minutes;
         if (seconds <= 9) seconds = '0' + seconds;
