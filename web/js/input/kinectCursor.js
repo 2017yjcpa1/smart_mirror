@@ -87,6 +87,12 @@ define([
     function update(data) {
         updateAngle(data);
         updatePos(data); 
+        
+        if ( ! data.handRight.isOpened) {
+            handCursor.css('background-image', 'url(res/drawable/img_hand_close.png)');
+        } else {
+            handCursor.css('background-image', 'url(res/drawable/img_hand.png)');
+        }
     }
     
     function start() {
