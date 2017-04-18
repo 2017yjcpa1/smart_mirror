@@ -69,30 +69,74 @@ define([
             capturePos = data.handRight;
         }
 
+        /*
         if (data.handLeft.y > data.elbowLeft.y) {
             return false;
         }
-        
+        */
+       
         var windowWidth = $(window).width();
         var windowHeight = $(window).height();
         
         var currentPos = data.handRight;
-
+        
         handCursor.css({
             'left' : (currentPos.x - capturePos.x) / 0.2 * windowWidth  + windowWidth / 2,
             'top' : -(currentPos.y - capturePos.y) / 0.2 * windowHeight + windowHeight / 2,
         });
+        
+        updateHand(data.handRight);
+    }
+    
+    var isReleased = true;
+    var isPressed = false;
+    
+    function updateHand(handRight) {
+        //dispatchMouseEvent('mousemove');
+        //dispatchMouseEvent('mouseover');
+            
+        if (handRight.isTracked) {
+            if (isReleased && ! handRight.isOpened) {
+                dispatchMouseEvent('mousedown');
+                isPressed = true;
+                isReleased = false;
+            } 
+            else if (isPressed && handRight.isOpened) {
+                dispatchMouseEvent('mouseup'); 
+                isPressed = false;
+                isReleased = true;
+            }
+        }
+        
+        var img = 'url(res/drawable/img_hand.png)';
+        if (isPressed) {
+            img = 'url(res/drawable/img_hand_close.png)';
+        }
+        
+        handCursor.css('background-image', img);
+    }
+    
+    function dispatchMouseEvent(type) { 
+        console.log(type)
+        var cursorX = parseInt(handCursor[0].style.left, 10) || 0;
+        var cursorY = parseInt(handCursor[0].style.top, 10) || 0;
+        
+        var event = document.createEvent('Event');
+        event.initEvent(type, true, true);
+        event.pageX = cursorX;
+        event.pageY = cursorY;
+        
+        var eventTarget = document.elementFromPoint(cursorX, cursorY);
+        if (eventTarget) {
+            eventTarget.dispatchEvent(event);
+        }
     }
     
     function update(data) {
         updateAngle(data);
         updatePos(data); 
         
-        if ( ! data.handRight.isOpened) {
-            handCursor.css('background-image', 'url(res/drawable/img_hand_close.png)');
-        } else {
-            handCursor.css('background-image', 'url(res/drawable/img_hand.png)');
-        }
+        updateHand(data.handRight);
     }
     
     function start() {
