@@ -142,13 +142,13 @@ define([
             type = [ type ];
         }
         
-        var x = parseInt(handCursor[0].style.left, 10) || 0;
-        var y = parseInt(handCursor[0].style.top, 10) || 0;
+        var posX = parseInt(handCursor[0].style.left, 10) || 0;
+        var posY = parseInt(handCursor[0].style.top, 10) || 0;
         
-        var eventTarget = document.elementFromPoint(x, y);
+        var eventTarget = document.elementFromPoint(posX, posY);
         if (eventTarget !== null) {
             for (var n = 0; n < type.length; ++n) {
-                eventTarget.dispatchEvent(createEvent(type[n], x, y));
+                eventTarget.dispatchEvent(createEvent(type[n], posX, posY));
             }
         }
     }
