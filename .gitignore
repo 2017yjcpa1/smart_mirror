@@ -3,4 +3,4 @@ java/build/
 java/build.xml
 java/manifest.mf
 web/nbproject/
-/nbproject/private/
+nbproject/
