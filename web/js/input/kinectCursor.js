@@ -3,14 +3,20 @@ define([
     
     'input/kinectBridge',
     
+    'math/vec2d',
     'math/vec3d',
     'math/mat2d',
-], function ($, kinectBridge, vec3d, mat2d) {
+], function ($, kinectBridge, vec2d, vec3d, mat2d) {
     
     var isReleased = true;
     var isPressed = false;
+    
     var isActive = false;
     var capturePos = false;
+    
+    var isMoved = false;
+    var oldX = 0;
+    var oldY = 0;
     
     var handCursor = $(document.createElement('div'))
                             .css({
@@ -71,7 +77,85 @@ define([
      * mouseover
      * mouseout
      */
-    function updateHand(data) {
+    function updatePos(data) {
+        var windowWidth = $(window).width();
+        var windowHeight = $(window).height();
+        
+        var currentPos = data.handRight;
+        
+        var newX = (currentPos.x - capturePos.x) / 0.2 * windowWidth  + windowWidth / 2;
+        var newY = -(currentPos.y - capturePos.y) / 0.2 * windowHeight + windowHeight / 2;
+        
+        isMoved = vec2d(oldX, oldY).distance(newX, newY) >= 2.5;
+        
+        handCursor.css({
+            'left' : newX,
+            'top' : newY,
+        });
+        
+        oldX = newX;
+        oldY = newY;
+    }
+    
+    function updateState(data) {
+        var handRight = data.handRight;
+        
+        if (isMoved) {
+            dispatchEvent('mousemove');
+        }
+        
+        // 오른손이 키넥트에서 인식했을경우, 인식값이 신뢰되는경우
+        if (handRight.isTracked && handRight.isTrusted) {
+            
+            if (isReleased && ! handRight.isOpened) {
+                dispatchEvent('mousedown');
+                
+                isPressed = true;
+                isReleased = false;
+            }
+            else if (isPressed && handRight.isOpened) {
+                dispatchEvent(['mouseup', 'click']);
+                
+                isPressed = false;
+                isReleased = true;
+            }
+        }
+        
+        var handImg = 'img_hand.png';
+        if (isPressed) {
+            handImg = 'img_hand_close.png';
+        }
+        
+        handCursor.css('background-image', 'url(res/drawable/' + handImg + ')');
+    }
+    
+    function createEvent(type, posX, posY) {
+        var event = document.createEvent('Event');
+        event.initEvent(type, true, true);
+        event.pageX = posX;
+        event.pageY = posY;
+        return event;
+    }
+    
+    function dispatchEvent(type) {
+        if (typeof(type) === 'string') {
+            type = [ type ];
+        }
+        
+        var x = parseInt(handCursor[0].style.left, 10) || 0;
+        var y = parseInt(handCursor[0].style.top, 10) || 0;
+        
+        var eventTarget = document.elementFromPoint(x, y);
+        if (eventTarget !== null) {
+            for (var n = 0; n < type.length; ++n) {
+                eventTarget.dispatchEvent(createEvent(type[n], x, y));
+            }
+        }
+    }
+    
+    function update(data) {
+        updateAngle(data);
+        
         if (data.handRight.y < data.hipRight.y) {
             deactivate();
             return false;
@@ -85,80 +169,9 @@ define([
         if (capturePos === null) {
             capturePos = data.handRight;
         }
-
-        /*
-        if (data.handLeft.y > data.elbowLeft.y) {
-            return false;
-        }
-        */
-       
-        var windowWidth = $(window).width();
-        var windowHeight = $(window).height();
         
-        var handRight = data.handRight;
-        var currentPos = handRight;
-        
-        dispatchEvent('mousemove');
-        
-        // 오른손이 키넥트에서 인식했을경우, 인식값이 신뢰되는경우
-        if (handRight.isTracked && handRight.isTrusted) {
-            
-            if (isReleased && ! handRight.isOpened) {
-                dispatchEvent('mousedown');
-                
-                isPressed = true;
-                isReleased = false;
-            }
-            else if (isPressed && handRight.isOpened) {
-                dispatchEvent('mouseup');
-                dispatchEvent('click');
-                
-                isPressed = false;
-                isReleased = true;
-            }
-        }
-        
-        var handImg = 'img_hand.png';
-        if (isPressed) {
-            handImg = 'img_hand_close.png';
-        }
-        
-        handCursor.css({
-            'background-image' : 'url(res/drawable/' + handImg + ')',
-            'left' : (currentPos.x - capturePos.x) / 0.2 * windowWidth  + windowWidth / 2,
-            'top' : -(currentPos.y - capturePos.y) / 0.2 * windowHeight + windowHeight / 2,
-        });
-    }
-    
-    function createEvent(type, posX, posY) {
-        var event = document.createEvent('Event');
-        event.initEvent(type, true, true);
-        event.screenX = posX;
-        event.screenY = posY;
-        event.clientX = posX;
-        event.clientY = posY;
-        event.pageX = posX;
-        event.pageY = posY;
-        event.ctrlKey = false;
-        event.altKey = false;
-        event.shiftKey = false;
-        event.metaKey = false;
-        return event;
-    }
-    
-    function dispatchEvent(type) {
-        var x = parseInt(handCursor[0].style.left, 10) || 0;
-        var y = parseInt(handCursor[0].style.top, 10) || 0;
-        
-        var eventTarget = document.elementFromPoint(x, y);
-        if (eventTarget !== null) {
-            eventTarget.dispatchEvent(createEvent(type, x, y));
-        }
-    }
-    
-    function update(data) {
-        updateAngle(data);
-        updateHand(data);
+        updatePos(data);
+        updateState(data);
     }
     
     function start() {
