@@ -56,6 +56,21 @@ define([
         handCursor.css('transform', mat2d.rotation(rad).toCSSTransform());
     }
     
+    /**
+     * dblclick > 키넥트로 더블클릭은 구현하면 불편함
+     * click (V)
+     * 
+     * mousedown (V)
+     * mouseup (V)
+     * 
+     * mousemove (V)?
+     * 
+     * mouseenter
+     * mouseleave
+     * 
+     * mouseover
+     * mouseout
+     */
     function updateHand(data) {
         if (data.handRight.y < data.hipRight.y) {
             deactivate();
@@ -96,6 +111,7 @@ define([
             }
             else if (isPressed && handRight.isOpened) {
                 dispatchEvent('mouseup');
+                dispatchEvent('click');
                 
                 isPressed = false;
                 isReleased = true;
