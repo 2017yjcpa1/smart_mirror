@@ -188,7 +188,23 @@ define([
         handCursor.css(style);
     }
 
-    // 손의 상태를 추적해서 마우스와 동일한 이벤트를 발생시킴
+    /**
+     * 손의 상태를 추적해서 마우스와 동일한 이벤트를 발생시킴
+     * 
+     * onclick          구현완료
+     * oncontextmenu	구현되지 않음
+     * ondblclick	구현되지 않음
+     * onmousedown	구현완료
+     * onmouseenter	구현되지 않음
+     * onmouseleave	구현되지 않음
+     * onmousemove	구현완료
+     * onmouseover	구현완료
+     * onmouseout	구현완료
+     * onmouseup        구현완료
+     * 
+     * @see https://www.w3schools.com/jsref/dom_obj_event.asp
+     * @param {Skeleton} data
+     */
     function updateState(data) {
         var x = parseInt(handCursor[0].style.left, 10) || 0;
         var y = parseInt(handCursor[0].style.top, 10) || 0;
