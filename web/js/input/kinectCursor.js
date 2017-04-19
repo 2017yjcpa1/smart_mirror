@@ -50,7 +50,18 @@ define([
                                 'top': '-50%',
                                 'left': '-50%',
                             });
-                
+    
+    function elementFromPoint(x, y) {
+        var elements = document.elementsFromPoint(x, y);
+        
+        var element = elements[0];
+        if (element === progressCanvas[0]) {
+            element = elements[1];
+        }
+        
+        return element;
+    }
+    
     function activate() {
         isActive = true;
         
@@ -86,29 +97,13 @@ define([
         return event;
     }
     
-    function dispatchEvent(type) {
-        var pageX = parseInt(handCursor[0].style.left, 10) || 0;
-        var pageY = parseInt(handCursor[0].style.top, 10) || 0;
-        
-        var newTargets = document.elementsFromPoint(pageX, pageY);
-        
-        var newTarget = newTargets[0];
-        if (newTarget === progressCanvas[0]) {
-            newTarget = newTargets[1];
-        }
-        
-        if ( ! newTarget) {
-            newTarget = oldTarget;
-        }
-        
-        if ( ! newTarget) {
+    function dispatchEvent(target, type, pageX, pageY) {
+        if ( ! target) {
             return;
         }
         
-        var event = createEvent(newTarget, type, pageX, pageY);
-        newTarget.dispatchEvent(event);
-        
-        oldTarget = newTarget;
+        var event = createEvent(target, type, pageX, pageY);
+        target.dispatchEvent(event);
     }
     
     function drawProgress(progress) {
@@ -174,6 +169,7 @@ define([
         oldY = newY;
     }
     
+    // 손의 각도, 상태를 이미지로 표현함
     function updateImage(data) {
         var vec = vec3d(data.handRight).sub(data.wristRight);
         var rad = Math.atan2(-vec.y, vec.x);
@@ -193,16 +189,26 @@ define([
         handCursor.css(style);
     }
 
+    // 손의 상태를 추적해서 마우스와 동일한 이벤트를 발생시킴
     function updateState(data) {
+        var x = parseInt(handCursor[0].style.left, 10) || 0;
+        var y = parseInt(handCursor[0].style.top, 10) || 0;
+        
+        var newTarget = elementFromPoint(x, y);
+        
+        if ( ! newTarget) {
+            newTarget = oldTarget;
+        }
+        
         if (isOpened && ! data.handRight.isOpened) { // 손바닥을 편상태에서 주먹을 쥐게 된경우
-            dispatchEvent('mousedown'); // 왼쪽마우스를 누른효과 발생
+            dispatchEvent(newTarget, 'mousedown', x, y); // 왼쪽마우스를 누른효과 발생
 
             isClosed = true;
             isOpened = false; 
         }
         
         if (isClosed && data.handRight.isOpened) { // 주먹상태에서 손을 폈을경우
-            dispatchEvent('mouseup'); // 왼쪽마우스이 클릭이된 상태에서 뗀 효과 발생
+            dispatchEvent(newTarget, 'mouseup', x, y); // 왼쪽마우스이 클릭이된 상태에서 뗀 효과 발생
 
             isClosed = false;
             isOpened = true;
@@ -212,11 +218,12 @@ define([
             pausedTime = -1;
             drawProgress(0);
             
-            dispatchEvent('mousemove');
+            dispatchEvent(newTarget, 'mousemove', x, y);
 
-            // TODO mouseout
-            // TODO newTarget 과 oldTarget 이 서로 다를때 mouseover dispatch
-            dispatchEvent('mouseover');            
+            if (newTarget !== oldTarget) {
+                dispatchEvent(oldTarget, 'mouseout', x, y);
+                dispatchEvent(newTarget, 'mouseover', x, y);
+            }
         } // 손바닥 위치가 고정된 상황에서 주먹상태로 되면
         else if (isClosed) {
             
@@ -227,20 +234,21 @@ define([
             
             // 머문시간이 0.7초 이상 유지되면
             var elapsedTime = new Date().getTime() - pausedTime;
-            if ( ! (elapsedTime > 700)) { 
-                return;
-            }
+            if (elapsedTime > 700) {
 
-            // 0.6 초동안 progress 상태를 보여주고
-            var progressPercent = (elapsedTime - 700) / 600 * 100; 
-            
-            drawProgress(progressPercent);
-            
-            // 100% 가 되면 클릭이벤트 호출
-            if (progressPercent >= 100) {
-                dispatchEvent('click');
+                // 0.6 초동안 progress 상태를 보여주고
+                var progressPercent = (elapsedTime - 700) / 600 * 100; 
+
+                drawProgress(progressPercent);
+
+                // 100% 가 되면 클릭이벤트 호출
+                if (progressPercent >= 100) {
+                    dispatchEvent(newTarget, 'click', x, y);
+                }
             }
         }
+        
+        oldTarget = newTarget;
     }
     
     function update(data) {
