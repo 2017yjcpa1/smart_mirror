@@ -1,4 +1,4 @@
-define([ 'system' ],function (system) {
+define([ 'system', 'jquery' ],function (system, $) {
     
     return {
         
@@ -13,6 +13,18 @@ define([ 'system' ],function (system) {
         
         resume : function () {
             console.log('news resume');
+            
+            return;
+            $('#newsActivity').empty();
+            
+            $.ajax({
+                url : 'php/News_action.php',
+                success : function (data) {
+                    for (var n = 0; n < data.items.length; ++n) {
+                        $('<div></div>').html(data.items[n].title).appendTo('#newsActivity');
+                    }
+                }
+            })
         },
         
         pause : function () {
