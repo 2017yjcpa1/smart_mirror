@@ -15,12 +15,12 @@
         return this.each(function() { 
 
             var self = this;
-            var prevEvent = null;
+            var oldEvent = null;
             var isDrag = false;
             
             // 마우스 누르면 이벤트장착
             function mousePress(event) {
-                prevEvent = event;
+                oldEvent = event;
                 
                 $(document)
                     .bind('mousemove', mouseMove)
@@ -48,8 +48,8 @@
                 var y = parseInt(self.style.top, 10) || 0; 
 
                 // ((현재이벤트 - 이전이벤트) = 움직인거리)
-                var dx = event.pageX - prevEvent.pageX;
-                var dy = event.pageY - prevEvent.pageY;
+                var dx = event.pageX - oldEvent.pageX;
+                var dy = event.pageY - oldEvent.pageY;
                 
                 if (Math.abs(vec2d(dx, dy).length()) <= 1) {
                     return;
@@ -64,7 +64,7 @@
                 
                 $(self).trigger('drag', [ dx, dy ]);
                 
-                prevEvent = event;
+                oldEvent = event;
                 isDrag = true;
             }
             

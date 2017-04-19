@@ -8,6 +8,8 @@ define([
     'math/mat2d',
 ], function ($, kinectBridge, vec2d, vec3d, mat2d) {
     
+    var oldTarget = null;
+    
     var isReleased = true;
     var isPressed = false;
     
@@ -86,7 +88,11 @@ define([
         var newX = (currentPos.x - capturePos.x) / 0.2 * windowWidth  + windowWidth / 2;
         var newY = -(currentPos.y - capturePos.y) / 0.2 * windowHeight + windowHeight / 2;
         
-        isMoved = vec2d(oldX, oldY).distance(newX, newY) >= 2.5;
+        isMoved = vec2d(oldX, oldY).distance(newX, newY) >= 10; // 10px 이상 움직임이 있어야 isMoved = true;
+        
+        if ( ! isMoved) {
+            return;
+        }
         
         handCursor.css({
             'left' : newX,
@@ -102,10 +108,12 @@ define([
         
         if (isMoved) {
             dispatchEvent('mousemove');
+            
+            dispatchEvent('mouseover');
         }
         
-        // 오른손이 키넥트에서 인식했을경우, 인식값이 신뢰되는경우
-        if (handRight.isTracked && handRight.isTrusted) {
+        // 오른손이 키넥트에서 인식했을경우
+        if (handRight.isTracked) {
             
             if (isReleased && ! handRight.isOpened) {
                 dispatchEvent('mousedown');
@@ -114,7 +122,7 @@ define([
                 isReleased = false;
             }
             else if (isPressed && handRight.isOpened) {
-                dispatchEvent(['mouseup', 'click']);
+                dispatchEvent('mouseup');
                 
                 isPressed = false;
                 isReleased = true;
@@ -129,28 +137,45 @@ define([
         handCursor.css('background-image', 'url(res/drawable/' + handImg + ')');
     }
     
-    function createEvent(type, posX, posY) {
-        var event = document.createEvent('Event');
-        event.initEvent(type, true, true);
-        event.pageX = posX;
-        event.pageY = posY;
+    function createEvent(target, type, pageX, pageY) {
+        var event = target.ownerDocument.createEvent('MouseEvents');
+        event.initMouseEvent(
+            type, 
+            true,
+            true,
+            target.ownerDocument.defaultView,
+            1,
+            pageX,
+            pageY,
+            pageX,
+            pageY, 
+            false,
+            false,
+            false,
+            false,
+            0,
+            null);
+            
         return event;
     }
     
     function dispatchEvent(type) {
-        if (typeof(type) === 'string') {
-            type = [ type ];
+        var pageX = parseInt(handCursor[0].style.left, 10) || 0;
+        var pageY = parseInt(handCursor[0].style.top, 10) || 0;
+        
+        var newTarget = document.elementFromPoint(pageX, pageY);
+        if ( ! newTarget) {
+            newTarget = oldTarget;
         }
         
-        var posX = parseInt(handCursor[0].style.left, 10) || 0;
-        var posY = parseInt(handCursor[0].style.top, 10) || 0;
-        
-        var eventTarget = document.elementFromPoint(posX, posY);
-        if (eventTarget !== null) {
-            for (var n = 0; n < type.length; ++n) {
-                eventTarget.dispatchEvent(createEvent(type[n], posX, posY));
-            }
+        if ( ! newTarget) {
+            return;
         }
+        
+        var event = createEvent(newTarget, type, pageX, pageY);
+        newTarget.dispatchEvent(event);
+        
+        oldTarget = newTarget;
     }
     
     function update(data) {

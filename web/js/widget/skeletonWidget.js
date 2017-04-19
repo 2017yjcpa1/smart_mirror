@@ -43,10 +43,10 @@ define([
         
         var centerX = parseInt(canvas.width()) / 2;
         var centerY = parseInt(canvas.height()) / 2;
-    
+        
         context.beginPath();
-        	
-        var seg = vec3d(segs[0]);            
+                
+        var seg = vec3d(segs[0]);
         seg.x = seg.x * centerX + centerX;
         seg.y = -seg.y * centerY + centerY;
         context.moveTo(seg.x, seg.y);
