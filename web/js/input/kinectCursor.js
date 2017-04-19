@@ -4,9 +4,8 @@ define([
     'input/kinectBridge',
     
     'math/vec2d',
-    'math/vec3d',
     'math/mat2d',
-], function ($, kinectBridge, vec2d, vec3d, mat2d) {
+], function ($, kinectBridge, vec2d, mat2d) {
     
     var oldTarget = null;
     
@@ -171,7 +170,7 @@ define([
     
     // 손의 각도, 상태를 이미지로 표현함
     function updateImage(data) {
-        var vec = vec3d(data.handRight).sub(data.wristRight);
+        var vec = vec2d(data.handRight).sub(data.wristRight);
         var rad = Math.atan2(-vec.y, vec.x);
         var deg = Math.toDegrees(rad);
         
