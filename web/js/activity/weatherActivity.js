@@ -72,16 +72,19 @@ define([ 'system', 'lib/forecast.io' ],function (system, ForecastIO) {
                         var items5 = '';
 			for (var i = 0; i < conditions.length; i++) {
                             if(i==0){
-                                items5 ='<li>'+((conditions[i].getMaxTemperature()-32)/1.8).toFixed(1)+'<hr style="width:'+(((conditions[i].getMaxTemperature()-32)/1.8)
-                                        -((conditions[i].getMinTemperature()-32)/1.8)).toFixed(1)
-                                        +'%"/>'+((conditions[i].getMinTemperature()-32)/1.8).toFixed(1)+'</li>';
+                                items5 ='<li>'+((conditions[i].getMinTemperature()-32)/1.8).toFixed(1)+'          '
+                                        +((conditions[i].getMaxTemperature()-32)/1.8).toFixed(1)+'</li>'
+                                        +'<li>최저온도        최대온도</li>';
                             }
 				items4 += '<div class="thirdsubdiv">'+'<img src="./res/drawable/weather_images/'
                                         +conditions[i].getIcon()+'.png" height="55" width="55">' 
                                         +getweek(conditions[i].getTime('YYYY-MM-DD')) + '온도 : ' 
                                         + ((conditions[i].getMaxTemperature()-32)/1.8).toFixed(1) 
                                         + '℃  강수확률 : ' + (conditions[i].getPrecipitationProbability()*100).toFixed(0) 
-                                        + '%' +conditions[i].getIcon() +'</div>';      
+                                        + '%' +conditions[i].getIcon() +'<hr style="width:'
+                                        +(((conditions[i].getMaxTemperature()-32)/1.8)
+                                        -((conditions[i].getMinTemperature()-32)/1.8)).toFixed(1)
+                                        +'%"/>'+'</div>';      
 			}
 			document.getElementById('itemList3').innerHTML = items4;
                         document.getElementById('currentTempbottom').innerHTML = items5;
