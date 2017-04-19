@@ -1,5 +1,11 @@
 
-define([ 'system' ],function (system) {
+define([ 'system', 
+
+    'input/kinectCursor',
+
+],function (system, kinectCursor) {
+    
+    
     
     return {
         
@@ -29,10 +35,11 @@ define([ 'system' ],function (system) {
         var url = 'https://www.googleapis.com/youtube/v3/search?part=id&q=' + searchTerm + '&type=video&key=AIzaSyASFltS6aSwHYy6q9ft-KIH8wAB0-rEHfs'
         var createIframe = function (videoId) {
             var iframe = "";
-            iframe += "<iframe class='video-results' width='480' height='270' src='https://www.youtube.com/embed/"
+            iframe += "<iframe class='video-results' width='200' height='200' src='https://www.youtube.com/embed/"
             iframe += videoId + "'"
-            iframe += "frameborder='0' allowfullscreen></iframe>"
+            iframe += "frameborder='0' allowfullscreen='true'></iframe>"
             return iframe;
+        
         }
         }
         $.getJSON(url, function (response) {
@@ -52,5 +59,14 @@ define([ 'system' ],function (system) {
         destroy : function () {
             console.log('youtube destroy');
         },
+    }
+    
+    return {
+     init : function () {
+            kinectCursor.start();
+            speechRecog.start();
+            
+           
+        }
     }
 })
