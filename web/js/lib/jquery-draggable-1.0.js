@@ -21,7 +21,7 @@
             // 마우스 누르면 이벤트장착
             function mousePress(event) {
                 prevEvent = event;
-
+                
                 $(document)
                     .bind('mousemove', mouseMove)
                     .bind('mouseup', mouseRelease)

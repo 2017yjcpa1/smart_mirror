@@ -17,7 +17,7 @@ define(function () {
         speechRecog = new SpeechRecognition();
         speechRecog.lang = 'ko-KR';
         speechRecog.continuous = true;
-        speechRecog.interimResults = true; // 음성인식 중간과정을 onresult 에 발생
+        speechRecog.interimResults = true;
 
         speechRecog.onend = start;
         speechRecog.onresult = function (event) {

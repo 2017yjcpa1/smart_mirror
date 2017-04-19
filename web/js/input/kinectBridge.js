@@ -5,8 +5,8 @@ define(function () {
 
     kinectServer.onmessage = function (event) {
         dispatchEvent('skeleton', event.data);
-    } 
-        
+    }
+    
     function dispatchEvent(type, data) {
         type = type.toLowerCase();
 
