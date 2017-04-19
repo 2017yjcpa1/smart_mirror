@@ -38,7 +38,43 @@ define([
 
                                 'transition' : 'all 0.1s',
                             });
-    
+                            
+    var handProgress = $(document.createElement('canvas'))
+                            .appendTo(handCursor)
+                            .attr('width', 120)
+                            .attr('height', 120)
+                            .css({
+                                'position': 'absolute',
+                                'top': '-50%',
+                                'left': '-50%',
+                            });
+                
+    function setProgress(percent) {
+        var context = handProgress[0].getContext('2d');
+
+        var arcSize = handProgress.width() / 2;
+        var lineWidth = 10;
+        
+        context.clearRect(0, 0, handProgress.width(), handProgress.height());
+        
+        context.save();
+        context.translate(arcSize, arcSize);
+        
+        context.beginPath();
+        context.arc(0,
+                0,
+                arcSize - lineWidth,
+                -(Math.PI / 2),
+                ((Math.PI * 2) * (percent / 100)) - Math.PI / 2, 
+                false);
+
+        context.strokeStyle = '#FFFFFF';
+        context.lineWidth = lineWidth;
+
+        context.stroke();
+        context.restore();
+    }
+                            
     function activate() {
         isActive = true;
         
@@ -52,6 +88,9 @@ define([
         handCursor.css('opacity', 0);
     }
     
+    var stopTime = -1;
+    var ready = false;
+    
     function updateAngle(data) {
         var vec = vec3d(data.handRight).sub(data.wristRight);
         var rad = Math.atan2(-vec.y, vec.x);
@@ -64,36 +103,26 @@ define([
         handCursor.css('transform', mat2d.rotation(rad).toCSSTransform());
     }
     
-    /**
-     * dblclick > 키넥트로 더블클릭은 구현하면 불편함
-     * click (V)
-     * 
-     * mousedown (V)
-     * mouseup (V)
-     * 
-     * mousemove (V)?
-     * 
-     * mouseenter
-     * mouseleave
-     * 
-     * mouseover
-     * mouseout
-     */
-    function updatePos(data) {
+    function updatePos(data) {        
         var windowWidth = $(window).width();
         var windowHeight = $(window).height();
         
         var currentPos = data.handRight;
         
-        var newX = (currentPos.x - capturePos.x) / 0.2 * windowWidth  + windowWidth / 2;
-        var newY = -(currentPos.y - capturePos.y) / 0.2 * windowHeight + windowHeight / 2;
+        var newX = (currentPos.x - capturePos.x) / 0.3 * windowWidth + windowWidth / 2;
+        var newY = -(currentPos.y - capturePos.y) / 0.3 * windowHeight + windowHeight / 2;
         
-        isMoved = vec2d(oldX, oldY).distance(newX, newY) >= 10; // 10px 이상 움직임이 있어야 isMoved = true;
+        var s = 15;
+        if (isPressed) {
+            s = ready ? 100 : 50;
+        }
+        
+        isMoved = vec2d(oldX, oldY).distance(newX, newY) >= s; 
         
         if ( ! isMoved) {
             return;
         }
-        
+                
         handCursor.css({
             'left' : newX,
             'top' : newY,
@@ -103,15 +132,18 @@ define([
         oldY = newY;
     }
     
+    function extendedArm(data) {
+        var dist1 = vec3d(data.handRight).distance(data.elbowRight);
+        var dist2 = vec3d(data.elbowRight).distance(data.shoulderRight);
+        
+        var dist3 = vec3d(data.handRight).distance(data.shoulderRight);
+        
+        return dist3 / (dist2 + dist1) * 100;
+    }
+    
     function updateState(data) {
         var handRight = data.handRight;
-        
-        if (isMoved) {
-            dispatchEvent('mousemove');
-            
-            dispatchEvent('mouseover');
-        }
-        
+
         // 오른손이 키넥트에서 인식했을경우
         if (handRight.isTracked) {
             
@@ -119,7 +151,7 @@ define([
                 dispatchEvent('mousedown');
                 
                 isPressed = true;
-                isReleased = false;
+                isReleased = false; 
             }
             else if (isPressed && handRight.isOpened) {
                 dispatchEvent('mouseup');
@@ -129,9 +161,42 @@ define([
             }
         }
         
+        if (isMoved) {
+            stopTime = -1;
+            setProgress(0)
+            
+            dispatchEvent('mousemove');
+
+            // TODO newTarget 과 oldTarget 이 서로 다를때 mouseover dispatch
+            dispatchEvent('mouseover');
+        }
+        else if (isPressed && stopTime == -1) {
+            stopTime = new Date().getTime();
+        }
+        else {
+            ready = false;
+        }
+        
         var handImg = 'img_hand.png';
         if (isPressed) {
             handImg = 'img_hand_close.png';
+            
+            
+            if ( ! isMoved) {
+                var currentTime = new Date().getTime();
+
+                if (currentTime - stopTime > 600) {
+                    ready = true;
+                    
+                    var p = (currentTime - stopTime - 600) / 500 * 100;
+                    
+                    setProgress(p);
+                    
+                    if (p >= 100) {
+                        dispatchEvent('click');
+                    }
+                }
+            }
         }
         
         handCursor.css('background-image', 'url(res/drawable/' + handImg + ')');
@@ -140,21 +205,21 @@ define([
     function createEvent(target, type, pageX, pageY) {
         var event = target.ownerDocument.createEvent('MouseEvents');
         event.initMouseEvent(
-            type, 
-            true,
-            true,
-            target.ownerDocument.defaultView,
-            1,
-            pageX,
-            pageY,
-            pageX,
-            pageY, 
-            false,
-            false,
-            false,
-            false,
-            0,
-            null);
+            type,                               // type
+            true,                               // canBubble
+            true,                               // cancelable
+            target.ownerDocument.defaultView,   // view
+            1,                                  // detail
+            pageX,                              // screenX
+            pageY,                              // screenY
+            pageX,                              // clientX
+            pageY,                              // clientY
+            false,                              // ctrlKey
+            false,                              // altKey
+            false,                              // shiftKey
+            false,                              // metaKey
+            0,                                  // button
+            null);                              // relatedTarget
             
         return event;
     }
@@ -163,7 +228,13 @@ define([
         var pageX = parseInt(handCursor[0].style.left, 10) || 0;
         var pageY = parseInt(handCursor[0].style.top, 10) || 0;
         
-        var newTarget = document.elementFromPoint(pageX, pageY);
+        var newTargets = document.elementsFromPoint(pageX, pageY);
+        
+        var newTarget = newTargets[0];
+        if (newTarget === handProgress[0]) {
+            newTarget = newTargets[1];
+        }
+        
         if ( ! newTarget) {
             newTarget = oldTarget;
         }
