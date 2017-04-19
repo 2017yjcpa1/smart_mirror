@@ -64,26 +64,6 @@ define([
         handCursor.css('opacity', 0);
     }
     
-    function updateImage(data) {
-        var vec = vec3d(data.handRight).sub(data.wristRight);
-        var rad = Math.atan2(-vec.y, vec.x);
-        var deg = Math.toDegrees(rad);
-        
-        var style = {};
-        style['background-image'] = 'url(res/drawable/img_hand.png)';
-        
-        if (isClosed) {
-            style['background-image'] = 'url(res/drawable/img_hand_close.png)';
-        }
-        
-        if (20 <= deg && deg <= 140) {
-            style['transform'] = mat2d.rotation(rad).toCSSTransform();
-        }
-        
-        handCursor.css(style);
-    }
-    
-    
     function createEvent(target, type, pageX, pageY) {
         var event = target.ownerDocument.createEvent('MouseEvents');
         event.initMouseEvent(
@@ -129,29 +109,6 @@ define([
         newTarget.dispatchEvent(event);
         
         oldTarget = newTarget;
-    }
-    
-    function update(data) {
-        updateImage(data);
-        
-        if (data.handRight.y < data.hipRight.y) {
-            deactivate();
-            return false;
-        }
-
-        if ( ! isActive) {
-            window.setTimeout(activate, 1000 * 0.7);
-            return false;
-        }
-        
-        updatePos(data);
-        updateState(data);
-    }
-    
-    function start() {
-        handCursor.appendTo('body');
-                            
-        kinectBridge.addEventListener('skeleton', update);
     }
     
     function drawProgress(progress) {
@@ -216,6 +173,25 @@ define([
         oldX = newX;
         oldY = newY;
     }
+    
+    function updateImage(data) {
+        var vec = vec3d(data.handRight).sub(data.wristRight);
+        var rad = Math.atan2(-vec.y, vec.x);
+        var deg = Math.toDegrees(rad);
+        
+        var style = {};
+        style['background-image'] = 'url(res/drawable/img_hand.png)';
+        
+        if (isClosed) {
+            style['background-image'] = 'url(res/drawable/img_hand_close.png)';
+        }
+        
+        if (20 <= deg && deg <= 140) {
+            style['transform'] = mat2d.rotation(rad).toCSSTransform();
+        }
+        
+        handCursor.css(style);
+    }
 
     function updateState(data) {
         if (isOpened && ! data.handRight.isOpened) { // 손바닥을 편상태에서 주먹을 쥐게 된경우
@@ -241,25 +217,53 @@ define([
             // TODO mouseout
             // TODO newTarget 과 oldTarget 이 서로 다를때 mouseover dispatch
             dispatchEvent('mouseover');            
-        } // 손바닥 위치가 고정된 상황
+        } // 손바닥 위치가 고정된 상황에서 주먹상태로 되면
         else if (isClosed) {
             
+            // 시간을 기록하고
             if (pausedTime === -1) {
                 pausedTime = new Date().getTime();
             }
             
+            // 머문시간이 0.7초 이상 유지되면
             var elapsedTime = new Date().getTime() - pausedTime;
-            if (elapsedTime <= 700) {
+            if ( ! (elapsedTime > 700)) { 
                 return;
             }
 
-            var progress = (elapsedTime - 700) / 600 * 100;
-            if (progress >= 100) {
+            // 0.6 초동안 progress 상태를 보여주고
+            var progressPercent = (elapsedTime - 700) / 600 * 100; 
+            
+            drawProgress(progressPercent);
+            
+            // 100% 가 되면 클릭이벤트 호출
+            if (progressPercent >= 100) {
                 dispatchEvent('click');
             }
-
-            drawProgress(progress);
         }
+    }
+    
+    function update(data) {
+        updateImage(data);
+        
+        if (data.handRight.y < data.hipRight.y) {
+            deactivate();
+            return false;
+        }
+
+        if ( ! isActive) {
+            window.setTimeout(activate, 1000 * 0.7);
+            return false;
+        }
+        
+        updatePos(data);
+        updateState(data);
+    }
+    
+    function start() {
+        handCursor.appendTo('body');
+                            
+        kinectBridge.addEventListener('skeleton', update);
     }
     
     return {
