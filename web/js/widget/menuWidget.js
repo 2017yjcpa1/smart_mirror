@@ -32,7 +32,7 @@ define([
             showTimeoutId = -1;
         }
         
-        showTimeoutId = window.setTimeout(hide, 1000 * 2);  
+        showTimeoutId = window.setTimeout(hide, 1000 * 5);  
     }
     
     function show() {
