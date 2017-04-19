@@ -10,8 +10,8 @@ define([
     
     var oldTarget = null;
     
-    var isReleased = true;
-    var isPressed = false;
+    var isOpened = true;
+    var isClosed = false;
     
     var isActive = false;
     var capturePos = false;
@@ -19,6 +19,8 @@ define([
     var isMoved = false;
     var oldX = 0;
     var oldY = 0;
+    
+    var pausedTime = -1;
     
     var handCursor = $(document.createElement('div'))
                             .css({
@@ -39,7 +41,7 @@ define([
                                 'transition' : 'all 0.1s',
                             });
                             
-    var handProgress = $(document.createElement('canvas'))
+    var progressCanvas = $(document.createElement('canvas'))
                             .appendTo(handCursor)
                             .attr('width', 120)
                             .attr('height', 120)
@@ -49,32 +51,6 @@ define([
                                 'left': '-50%',
                             });
                 
-    function setProgress(percent) {
-        var context = handProgress[0].getContext('2d');
-
-        var arcSize = handProgress.width() / 2;
-        var lineWidth = 10;
-        
-        context.clearRect(0, 0, handProgress.width(), handProgress.height());
-        
-        context.save();
-        context.translate(arcSize, arcSize);
-        
-        context.beginPath();
-        context.arc(0,
-                0,
-                arcSize - lineWidth,
-                -(Math.PI / 2),
-                ((Math.PI * 2) * (percent / 100)) - Math.PI / 2, 
-                false);
-
-        context.strokeStyle = '#FFFFFF';
-        context.lineWidth = lineWidth;
-
-        context.stroke();
-        context.restore();
-    }
-                            
     function activate() {
         isActive = true;
         
@@ -88,119 +64,25 @@ define([
         handCursor.css('opacity', 0);
     }
     
-    var stopTime = -1;
-    var ready = false;
-    
-    function updateAngle(data) {
+    function updateImage(data) {
         var vec = vec3d(data.handRight).sub(data.wristRight);
         var rad = Math.atan2(-vec.y, vec.x);
         var deg = Math.toDegrees(rad);
-
-        if ( ! (20 <= deg && deg <= 140)) {
-            return;
+        
+        var style = {};
+        style['background-image'] = 'url(res/drawable/img_hand.png)';
+        
+        if (isClosed) {
+            style['background-image'] = 'url(res/drawable/img_hand_close.png)';
         }
         
-        handCursor.css('transform', mat2d.rotation(rad).toCSSTransform());
+        if (20 <= deg && deg <= 140) {
+            style['transform'] = mat2d.rotation(rad).toCSSTransform();
+        }
+        
+        handCursor.css(style);
     }
     
-    function updatePos(data) {        
-        var windowWidth = $(window).width();
-        var windowHeight = $(window).height();
-        
-        var currentPos = data.handRight;
-        
-        var newX = (currentPos.x - capturePos.x) / 0.3 * windowWidth + windowWidth / 2;
-        var newY = -(currentPos.y - capturePos.y) / 0.3 * windowHeight + windowHeight / 2;
-        
-        var s = 15;
-        if (isPressed) {
-            s = ready ? 100 : 50;
-        }
-        
-        isMoved = vec2d(oldX, oldY).distance(newX, newY) >= s; 
-        
-        if ( ! isMoved) {
-            return;
-        }
-                
-        handCursor.css({
-            'left' : newX,
-            'top' : newY,
-        });
-        
-        oldX = newX;
-        oldY = newY;
-    }
-    
-    function extendedArm(data) {
-        var dist1 = vec3d(data.handRight).distance(data.elbowRight);
-        var dist2 = vec3d(data.elbowRight).distance(data.shoulderRight);
-        
-        var dist3 = vec3d(data.handRight).distance(data.shoulderRight);
-        
-        return dist3 / (dist2 + dist1) * 100;
-    }
-    
-    function updateState(data) {
-        var handRight = data.handRight;
-
-        // 오른손이 키넥트에서 인식했을경우
-        if (handRight.isTracked) {
-            
-            if (isReleased && ! handRight.isOpened) {
-                dispatchEvent('mousedown');
-                
-                isPressed = true;
-                isReleased = false; 
-            }
-            else if (isPressed && handRight.isOpened) {
-                dispatchEvent('mouseup');
-                
-                isPressed = false;
-                isReleased = true;
-            }
-        }
-        
-        if (isMoved) {
-            stopTime = -1;
-            setProgress(0)
-            
-            dispatchEvent('mousemove');
-
-            // TODO newTarget 과 oldTarget 이 서로 다를때 mouseover dispatch
-            dispatchEvent('mouseover');
-        }
-        else if (isPressed && stopTime == -1) {
-            stopTime = new Date().getTime();
-        }
-        else {
-            ready = false;
-        }
-        
-        var handImg = 'img_hand.png';
-        if (isPressed) {
-            handImg = 'img_hand_close.png';
-            
-            
-            if ( ! isMoved) {
-                var currentTime = new Date().getTime();
-
-                if (currentTime - stopTime > 600) {
-                    ready = true;
-                    
-                    var p = (currentTime - stopTime - 600) / 500 * 100;
-                    
-                    setProgress(p);
-                    
-                    if (p >= 100) {
-                        dispatchEvent('click');
-                    }
-                }
-            }
-        }
-        
-        handCursor.css('background-image', 'url(res/drawable/' + handImg + ')');
-    }
     
     function createEvent(target, type, pageX, pageY) {
         var event = target.ownerDocument.createEvent('MouseEvents');
@@ -231,7 +113,7 @@ define([
         var newTargets = document.elementsFromPoint(pageX, pageY);
         
         var newTarget = newTargets[0];
-        if (newTarget === handProgress[0]) {
+        if (newTarget === progressCanvas[0]) {
             newTarget = newTargets[1];
         }
         
@@ -250,7 +132,7 @@ define([
     }
     
     function update(data) {
-        updateAngle(data);
+        updateImage(data);
         
         if (data.handRight.y < data.hipRight.y) {
             deactivate();
@@ -261,10 +143,6 @@ define([
             window.setTimeout(activate, 1000 * 0.7);
             return false;
         }
-
-        if (capturePos === null) {
-            capturePos = data.handRight;
-        }
         
         updatePos(data);
         updateState(data);
@@ -274,6 +152,114 @@ define([
         handCursor.appendTo('body');
                             
         kinectBridge.addEventListener('skeleton', update);
+    }
+    
+    function drawProgress(progress) {
+        var context = progressCanvas[0].getContext('2d');
+        
+        var canvasWidth = parseInt(progressCanvas.attr('width'), 10);
+        var canvasHeight = parseInt(progressCanvas.attr('height'), 10);
+
+        var arcSize = canvasWidth / 2;
+        var lineWidth = 10;
+        
+        context.clearRect(0, 0, canvasWidth, canvasHeight);
+        
+        if (progress <= 0) {
+            return;
+        }
+        
+        context.save();
+        
+        context.translate(arcSize, arcSize);
+        
+        context.beginPath();
+        context.arc(0,
+                    0,
+                    arcSize - lineWidth,
+                    -(Math.PI / 2),
+                    ((Math.PI * 2) * (progress / 100)) - Math.PI / 2, 
+                    false);
+
+        context.strokeStyle = '#FFFFFF';
+        context.lineWidth = lineWidth;
+
+        context.stroke();
+        
+        context.restore();
+    }
+    
+    function updatePos(data) {
+        if (capturePos === null) {
+            capturePos = data.handRight;
+        }
+        
+        var windowWidth = $(window).width();
+        var windowHeight = $(window).height();
+        
+        var currentPos = data.handRight;
+        
+        var newX = (currentPos.x - capturePos.x) / 0.2 * windowWidth + windowWidth / 2;
+        var newY = -(currentPos.y - capturePos.y) / 0.2 * windowHeight + windowHeight / 2;
+        
+        isMoved = vec2d(oldX, oldY).distance(newX, newY) >= 15; 
+        
+        if ( ! isMoved) {
+            return;
+        }
+        
+        handCursor.css({
+            'left' : newX,
+            'top' : newY,
+        });
+        
+        oldX = newX;
+        oldY = newY;
+    }
+
+    function updateState(data) {
+        if (isOpened && ! data.handRight.isOpened) { // 손바닥을 편상태에서 주먹을 쥐게 된경우
+            dispatchEvent('mousedown'); // 왼쪽마우스를 누른효과 발생
+
+            isClosed = true;
+            isOpened = false; 
+        }
+        
+        if (isClosed && data.handRight.isOpened) { // 주먹상태에서 손을 폈을경우
+            dispatchEvent('mouseup'); // 왼쪽마우스이 클릭이된 상태에서 뗀 효과 발생
+
+            isClosed = false;
+            isOpened = true;
+        }
+        
+        if (isMoved) { // 손바닥을 움직인경우
+            pausedTime = -1;
+            drawProgress(0);
+            
+            dispatchEvent('mousemove');
+
+            // TODO mouseout
+            // TODO newTarget 과 oldTarget 이 서로 다를때 mouseover dispatch
+            dispatchEvent('mouseover');            
+        } // 손바닥 위치가 고정된 상황
+        else if (isClosed) {
+            
+            if (pausedTime === -1) {
+                pausedTime = new Date().getTime();
+            }
+            
+            var elapsedTime = new Date().getTime() - pausedTime;
+            if (elapsedTime <= 700) {
+                return;
+            }
+
+            var progress = (elapsedTime - 700) / 600 * 100;
+            if (progress >= 100) {
+                dispatchEvent('click');
+            }
+
+            drawProgress(progress);
+        }
     }
     
     return {
