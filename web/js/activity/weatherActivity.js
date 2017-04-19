@@ -1,8 +1,8 @@
-define([ 'system', 'lib/forecast.io' ],function (system, ForecastIO) {
+define([ 'system', 'lib/forecast.io', 'jquery' ,'jquery-draggable' ],function (system, ForecastIO,$ ) {
      
         var date;
         function getweek(date){
-            var week = new Array('일','월','화','수','목','금','토');
+            var week = new Array('일요일','월요일','화요일','수요일','목요일','금요일','토요일');
             var day = new Date(date).getDay();
             var todayLabel = week[day];
             return todayLabel;
@@ -38,10 +38,10 @@ define([ 'system', 'lib/forecast.io' ],function (system, ForecastIO) {
                        
 			for (var i = 0; i < conditions.length; i++) {
                                 
-				items += '<li>'+'<img src="./res/drawable/weather_images/'
+				items += '<li><img src="./res/drawable/weather_images/'
                                         +conditions[i].getIcon()+'.png" height="60" width="60">' 
                                         +((conditions[i].getTemperature()-32)/1.8).toFixed(1) 
-                                        + '℃  ' + '</li>'+"</br><li>"+(conditions[i].getOzone()*0.001).toFixed(3)+'</li>';
+                                        + '℃  ' + '</li>'+"</br><li>오존지수: "+(conditions[i].getOzone()*0.0001).toFixed(3)+'</li>';
 			}
 			document.getElementById('currentTemp').innerHTML = items;
 		});
@@ -50,15 +50,15 @@ define([ 'system', 'lib/forecast.io' ],function (system, ForecastIO) {
 			var items2 = '';
                         var items3 = ''; 
 			for (var i = 0; i < conditions.length; i++) {
-				items2 += '<div class="secondsubdiv">' + conditions[i].getTime('HH:mm') + '시 온도 : ' 
+				items2 += '<div class="secondsubdiv">' + conditions[i].getTime('HH:mm') + '시</br>온도 : ' 
                                         + ((conditions[i].getTemperature()-32)/1.8).toFixed(1) 
-                                        + '℃  강수확률 : ' + (conditions[i].getPrecipitationProbability()*100).toFixed(0) 
+                                        + '℃  </br>강수확률 : ' + (conditions[i].getPrecipitationProbability()*100).toFixed(0) 
                                         + '%' + '</div>';
-                                if(conditions[i].getTime('HH')=='20'){
-                                    items3 = '<li>' + conditions[i].getTime('HH:mm') + '시 온도 : ' 
-                                        + ((conditions[i].getTemperature()-32)/1.8).toFixed(1) 
-                                        + '℃  강수확률 : ' + (conditions[i].getPrecipitationProbability()*100).toFixed(0) 
-                                        + '%' + '</li>';
+                                if(conditions[i].getTime('HH')=='21'){
+                                    items3 ='<li><img src="./res/drawable/weather_images/'
+                                        +conditions[i].getIcon()+'.png" height="60" width="60">' 
+                                        +((conditions[i].getTemperature()-32)/1.8).toFixed(1) 
+                                        + '℃  ' + '</li>'+"</br><li>오존지수: "+(conditions[i].getOzone()*0.0001).toFixed(3)+'</li>';
                                         
                                 }
 			}
@@ -69,26 +69,57 @@ define([ 'system', 'lib/forecast.io' ],function (system, ForecastIO) {
 
                 forecast.getForecastWeek(locations, function(conditions) {
 			var items4 = '';
-                        var items5 = '';
+                        var items5 = '';//현재날씨 아랫부분
+                        var items6 = '';//오늘저녁날씨 아랫부분
 			for (var i = 0; i < conditions.length; i++) {
                             if(i==0){
-                                items5 ='<li>'+((conditions[i].getMinTemperature()-32)/1.8).toFixed(1)+'          '
-                                        +((conditions[i].getMaxTemperature()-32)/1.8).toFixed(1)+'</li>'
-                                        +'<li>최저온도        최대온도</li>';
+                                items5 ='<li>'+((conditions[i].getMinTemperature()-32)/1.8).toFixed(1)+'℃&nbsp;\n\
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n\
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
+                                        +((conditions[i].getMaxTemperature()-32)/1.8).toFixed(1)+'℃</li>'
+                                        +'<li>최저온도&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n\
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n\
+                                        &nbsp;&nbsp;&nbsp;&nbsp;최대온도</li>';
+                            
+                                items6 ='<li>'+((conditions[i].getMinTemperature()-32)/1.8).toFixed(1)+'℃&nbsp;\n\
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n\
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
+                                        +((conditions[i].getMaxTemperature()-32)/1.8).toFixed(1)+'℃</li>'
+                                        +'<li>최저온도&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n\
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n\
+                                        &nbsp;&nbsp;&nbsp;&nbsp;최대온도</li>';
+                            
+                                    items4 += '<div class="thirdsubdiv"><span><img src="./res/drawable/weather_images/'
+                                            +conditions[i].getIcon()+'.png" height="55" width="55">' 
+                                            +'오늘&nbsp;&nbsp;&nbsp;:  ' 
+                                            + ((conditions[i].getMinTemperature()-32)/1.8).toFixed(1) 
+                                            + '℃  ' 
+                                            + '<span class="bar"style="width:'
+                                            +(((conditions[i].getMaxTemperature()-32)/1.8)
+                                            -((conditions[i].getMinTemperature()-32)/1.8)).toFixed(1)
+                                            +'%;"></span>'+((conditions[i].getMaxTemperature()-32)/1.8).toFixed(1)
+                                            +'강수확률 : '+(conditions[i].getPrecipitationProbability()*100).toFixed(0)
+                                            +'%</span></div>';      
                             }
-				items4 += '<div class="thirdsubdiv">'+'<img src="./res/drawable/weather_images/'
-                                        +conditions[i].getIcon()+'.png" height="55" width="55">' 
-                                        +getweek(conditions[i].getTime('YYYY-MM-DD')) + '온도 : ' 
-                                        + ((conditions[i].getMaxTemperature()-32)/1.8).toFixed(1) 
-                                        + '℃  강수확률 : ' + (conditions[i].getPrecipitationProbability()*100).toFixed(0) 
-                                        + '%' +conditions[i].getIcon() +'<hr style="width:'
-                                        +(((conditions[i].getMaxTemperature()-32)/1.8)
-                                        -((conditions[i].getMinTemperature()-32)/1.8)).toFixed(1)
-                                        +'%"/>'+'</div>';      
+                            else{
+                                    items4 += '<div class="thirdsubdiv"><span><img src="./res/drawable/weather_images/'
+                                            +conditions[i].getIcon()+'.png" height="55" width="55">' 
+                                            +getweek(conditions[i].getTime('YYYY-MM-DD')) + ':  ' 
+                                            + ((conditions[i].getMinTemperature()-32)/1.8).toFixed(1) 
+                                            + '℃  ' 
+                                            + '<span class="bar"style="width:'
+                                            +(((conditions[i].getMaxTemperature()-32)/1.8)
+                                            -((conditions[i].getMinTemperature()-32)/1.8)).toFixed(1)
+                                            +'%;"></span>'+((conditions[i].getMaxTemperature()-32)/1.8).toFixed(1)
+                                            +'강수확률 : '+(conditions[i].getPrecipitationProbability()*100).toFixed(0)
+                                            +'%</span></div>';      
+                                }
 			}
 			document.getElementById('itemList3').innerHTML = items4;
                         document.getElementById('currentTempbottom').innerHTML = items5;
+                        document.getElementById('currentTemp2bottom').innerHTML = items6;
 		});
+                        $('#itemList').draggable({axis:'x'});
         },
         
         pause : function () {
