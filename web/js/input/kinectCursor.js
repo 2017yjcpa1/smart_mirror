@@ -186,7 +186,7 @@ define([
             style['background-image'] = 'url(res/drawable/img_hand_close.png)';
         }
         
-        if (20 <= deg && deg <= 140) {
+        if (60 <= deg && deg <= 120) {
             style['transform'] = mat2d.rotation(rad).toCSSTransform();
         }
         
