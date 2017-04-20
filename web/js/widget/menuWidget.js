@@ -75,6 +75,7 @@ define([
             
             require([
                 'activity/homeActivity',
+                'activity/tutorialActivity',
                 'activity/calendarActivity',
                 'activity/newsActivity',
                 'activity/weatherActivity',
