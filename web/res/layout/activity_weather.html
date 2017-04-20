@@ -11,7 +11,7 @@
             #weatherActivity ul,
             #weatherActivity li,
             #weatherActivity img{-webkit-filter:invert(100%);vertical-align: middle;}
-            #weatherActivity{overflow: auto;}
+/*            #weatherActivity{overflow: auto;}*/
             #firstdiv {border: 1px solid gold; float: left; width: 30%; height: 500px; padding:1%;}
             #seconddiv {border: 1px solid gold; float: left; width: 100%; height:600px; overflow:auto;}
             .secondsubdiv {border: 1px solid gold; float: left; width: 150px; height: 500px; font-size:20pt;
@@ -22,29 +22,30 @@
                  -moz-border-radius: 10px;border-radius: 10px;background-color: white;}
 
 </style>
-<h2>날씨</h2>
-<div id="firstdiv">
-        <h2>현재날씨</h2>
-        <ul id="currentTemp"></ul>
-        <ul id="currentTempbottom"></ul>
-</div>
-<div id="firstdiv">
-        <h2>저녁날씨</h2>
-        <ul id="currentTemp2"></ul>
-        <ul id="currentTemp2bottom"></ul>
-</div>
-<div id="firstdiv">
-        <h2>내일날씨</h2>
-        <ul id="currentTemp3"></ul>
-        <ul id="currentTemp3bottom"></ul>
-</div>
+<div style="width: 100%; height: 100%">
+    <h2>날씨</h2>
+    <div id="firstdiv">
+            <h2>현재날씨</h2>
+            <ul id="currentTemp"></ul>
+            <ul id="currentTempbottom"></ul>
+    </div>
+    <div id="firstdiv">
+            <h2>저녁날씨</h2>
+            <ul id="currentTemp2"></ul>
+            <ul id="currentTemp2bottom"></ul>
+    </div>
+    <div id="firstdiv">
+            <h2>내일날씨</h2>
+            <ul id="currentTemp3"></ul>
+            <ul id="currentTemp3bottom"></ul>
+    </div>
 
-<div id="seconddiv">
-	<h2>오늘날씨</h2>
-	<div id="itemList"></div> 
+    <div id="seconddiv">
+            <h2>오늘날씨</h2>
+            <div id="itemList"></div> 
+    </div>
+    <div id="thirddiv">
+            <h2>이번주날씨</h2>
+            <div id="itemList3"></div>
+    </div>
 </div>
-<div id="thirddiv">
-	<h2>이번주날씨</h2>
-	<div id="itemList3"></div>
-</div>
-	

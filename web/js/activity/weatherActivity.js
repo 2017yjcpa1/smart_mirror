@@ -17,6 +17,7 @@ define([ 'system', 'lib/forecast.io', 'jquery' ,'jquery-draggable' ],function (s
         
         init : function () {
              $('#itemList').draggable({axis:'x'});
+             $('#weatherActivity > div').draggable({axis:'y'});
         },
         
         resume : function () {
