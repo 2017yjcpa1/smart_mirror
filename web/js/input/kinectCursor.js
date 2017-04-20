@@ -15,7 +15,7 @@ define([
     var isActive = false;
     var capturePos = false;
     
-    var isMoved = false;
+    var isProgressCancelled = false;
     var oldX = 0;
     var oldY = 0;
     
@@ -49,16 +49,17 @@ define([
                                 'top': '-50%',
                                 'left': '-50%',
                             });
-    
+                            
     function elementFromPoint(x, y) {
-        var elements = document.elementsFromPoint(x, y);
+        var targetElements = document.elementsFromPoint(x, y);
         
-        var element = elements[0];
-        if (element === progressCanvas[0]) {
-            element = elements[1];
-        }
+        var targetElement = targetElements[0];
         
-        return element;
+        // TODO 음... 뭔가 맘에안듬...
+        if (targetElement === progressCanvas[0]) targetElement = targetElements[1];
+        if (targetElement === handCursor[0]) targetElement = targetElements[2];
+        
+        return targetElement;
     }
     
     function activate() {
@@ -123,6 +124,7 @@ define([
         context.save();
         
         context.translate(arcSize, arcSize);
+        context.rotate(-90 * Math.PI / 180);
         
         context.beginPath();
         context.arc(0,
@@ -153,11 +155,7 @@ define([
         var newX = (currentPos.x - capturePos.x) / 0.2 * windowWidth + windowWidth / 2;
         var newY = -(currentPos.y - capturePos.y) / 0.2 * windowHeight + windowHeight / 2;
         
-        isMoved = vec2d(oldX, oldY).distance(newX, newY) >= 15; 
-        
-        if ( ! isMoved) {
-            return;
-        }
+        isProgressCancelled = vec2d(oldX, oldY).distance(newX, newY) >= 30; 
         
         handCursor.css({
             'left' : newX,
@@ -209,6 +207,9 @@ define([
         var x = parseInt(handCursor[0].style.left, 10) || 0;
         var y = parseInt(handCursor[0].style.top, 10) || 0;
         
+        x += handCursor.width() / 2;
+        y += handCursor.height() / 2;
+        
         var newTarget = elementFromPoint(x, y);
         
         if ( ! newTarget) {
@@ -227,18 +228,20 @@ define([
 
             isClosed = false;
             isOpened = true;
+            isProgressCancelled = true;
         }
         
-        if (isMoved) { // 손바닥을 움직인경우
+        dispatchEvent(newTarget, 'mousemove', x, y);
+
+        if (newTarget !== oldTarget) {
+            dispatchEvent(oldTarget, 'mouseout', x, y);
+            dispatchEvent(newTarget, 'mouseover', x, y);
+        }
+        
+         // 손바닥을 일정범위 움직인경우, 손바닥을 편경우
+        if (isProgressCancelled) {
             pausedTime = -1;
             drawProgress(0);
-            
-            dispatchEvent(newTarget, 'mousemove', x, y);
-
-            if (newTarget !== oldTarget) {
-                dispatchEvent(oldTarget, 'mouseout', x, y);
-                dispatchEvent(newTarget, 'mouseover', x, y);
-            }
         } // 손바닥 위치가 고정된 상황에서 주먹상태로 되면
         else if (isClosed) {
             
