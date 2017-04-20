@@ -16,7 +16,7 @@ define([ 'system', 'lib/forecast.io', 'jquery' ,'jquery-draggable' ],function (s
         layoutHTML : 'activity_weather.html',
         
         init : function () {
-            
+             $('#itemList').draggable({axis:'x'});
         },
         
         resume : function () {
@@ -125,7 +125,7 @@ define([ 'system', 'lib/forecast.io', 'jquery' ,'jquery-draggable' ],function (s
                         document.getElementById('currentTemp3').innerHTML = items7;
                         document.getElementById('currentTemp3bottom').innerHTML = items8;
 		});
-                        $('#itemList').draggable({axis:'x'});
+                       
         },
         
         pause : function () {
