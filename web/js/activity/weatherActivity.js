@@ -77,10 +77,12 @@ define([ 'system', 'lib/forecast.io', 'jquery' ,'jquery-draggable' ],function (s
 			for (var i = 0; i < conditions.length; i++) {
                             if(i==0){
                                 items5 ='<li>'+((conditions[i].getMinTemperature()-32)/1.8).toFixed(1)+'℃/'
-                                        +((conditions[i].getMaxTemperature()-32)/1.8).toFixed(1)+'℃</li>';
+                                        +((conditions[i].getMaxTemperature()-32)/1.8).toFixed(1)+'℃</li><li>'
+                                        +(conditions[i].getPrecipitationProbability()*100).toFixed(0)+'%</li>';
                             
                                 items6 ='<li>'+((conditions[i].getMinTemperature()-32)/1.8).toFixed(1)+'℃/'
-                                        +((conditions[i].getMaxTemperature()-32)/1.8).toFixed(1)+'℃</li>';
+                                        +((conditions[i].getMaxTemperature()-32)/1.8).toFixed(1)+'℃</li><li>'
+                                        +(conditions[i].getPrecipitationProbability()*100).toFixed(0)+'%</li>';
                             
                                     items4 += '<div class="thirdsubdiv"><span><img src="./res/drawable/weather_images/'
                                             +conditions[i].getIcon()+'.png" height="55" width="55">' 
@@ -101,7 +103,8 @@ define([ 'system', 'lib/forecast.io', 'jquery' ,'jquery-draggable' ],function (s
                                         +((conditions[i].getMaxTemperature()-32)/1.8).toFixed(1) 
                                         + '℃  ' + '</li>'+"</br><li>오존지수: "+(conditions[i].getOzone()*0.0001).toFixed(3)+'</li>';
                                     items8 ='<li>'+((conditions[i].getMinTemperature()-32)/1.8).toFixed(1)+'℃/'
-                                        +((conditions[i].getMaxTemperature()-32)/1.8).toFixed(1)+'℃</li>';
+                                        +((conditions[i].getMaxTemperature()-32)/1.8).toFixed(1)+'℃</li><li>'
+                                        +(conditions[i].getPrecipitationProbability()*100).toFixed(0)+'%</li>';
                                 }
                                     items4 += '<div class="thirdsubdiv"><span><img src="./res/drawable/weather_images/'
                                             +conditions[i].getIcon()+'.png" height="55" width="55">' 
