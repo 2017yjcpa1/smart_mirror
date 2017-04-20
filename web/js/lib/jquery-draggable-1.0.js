@@ -1,7 +1,7 @@
 (function (factory) {
-    if (typeof define === 'function' && define.amd) {
+    if (typeof define === 'function' && define.amd) { // RequireJS 스타일
         define(['jquery', 'math/vec2d'], factory);
-    } else {
+    } else { // RequireJS 가 없을경우 브라우저 window 에 전역선언
         factory(jQuery, vec2d);
     }
 }(function ($, vec2d) {

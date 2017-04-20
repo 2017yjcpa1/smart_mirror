@@ -1,4 +1,10 @@
-define(function () {
+(function (root, factory) {
+    if (typeof define === 'function' && define.amd) { // RequireJS 스타일
+        define(factory);
+    } else { // RequireJS 가 없을경우 브라우저 window 에 전역선언
+        root.vec2d = factory();
+    }
+}(this, function () {
     
     function __overload__(x, y) {
         if (typeof(x) === 'number') {
@@ -97,6 +103,4 @@ define(function () {
     }
     
     return vec2d;
-});
-
-
+}));

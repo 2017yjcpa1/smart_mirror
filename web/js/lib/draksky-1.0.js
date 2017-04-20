@@ -1,10 +1,11 @@
-(function (factory) {
+(function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         define(['jquery'], factory);
-    } else {
-        factory(jQuery);
+    } 
+    else {
+        root.darksky = factory(jQuery);
     }
-}(function ($) {
+}(this, function ($) {
     
     var __darksky__ = {
         
