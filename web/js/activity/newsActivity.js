@@ -19,11 +19,13 @@ define([ 'system', 'jquery' ],function (system, $) {
             $.ajax({
                 url : 'php/News_action.php',
                 success : function (data) {
-                     $('#newsActivity h1').html(data.items[0].title);
+                     $('#newsActivity h1 a').html(data.items[0].title);
+                     $('#newsActivity h1 a').attr("href", data.items[0].link);
                      $('#newsActivity #hotimg').css('background-image', 'url(' + data.items[0].image + ')');
                     
                     for (var n = 1; n < 8; ++n) {
                         $('<li></li>').html(data.items[n].title).appendTo('#newsActivity ul');
+                        $('<a></a>').attr("href", data.items[n].link).appendTo('#newsActivity ul');
                     }
                 }
             })
