@@ -14,14 +14,16 @@ define([ 'system', 'jquery' ],function (system, $) {
         resume : function () {
             console.log('news resume');
             
-            return;
-            $('#newsActivity').empty();
+            $('#newsActivity ul').empty();
             
             $.ajax({
                 url : 'php/News_action.php',
                 success : function (data) {
-                    for (var n = 0; n < data.items.length; ++n) {
-                        $('<div></div>').html(data.items[n].title).appendTo('#newsActivity');
+                     $('#newsActivity h1').html(data.items[0].title);
+                     $('#newsActivity #hotimg').css('background-image', 'url(' + data.items[0].image + ')');
+                    
+                    for (var n = 1; n < 8; ++n) {
+                        $('<li></li>').html(data.items[n].title).appendTo('#newsActivity ul');
                     }
                 }
             })
