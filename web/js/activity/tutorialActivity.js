@@ -7,13 +7,36 @@ define([
     
     var __clickLearn__ = {
         
+        successCounter : 0,
+        
         init : function () {
+            var self = this;
+        
+            this.successCounter = 0;
+            
             var layoutLoaded = function () {
-                
+                $('#tutorialActivity .learnStage div')
+                    .click(function () { self.success(this) })
             }
             
             var learnWrapper = $('#tutorialActivity .learnWrapper');
             learnWrapper.load('res/layout/activity_tutorial/click_learn.html', layoutLoaded);
+        },
+        
+        success: function (targetObject) {
+            targetObject = $(targetObject);
+            
+            if (targetObject.css('visibility') === 'hidden') {
+                return;
+            }
+            
+            targetObject.css('visibility', 'hidden');
+
+            if (++this.successCounter < 3) {
+                return;
+            }
+
+            __clickLearn__.complete();
         },
         
         complete : function () {
@@ -94,13 +117,12 @@ define([
         },
         
         reset : function () {            
-            var boxObjects = $('#tutorialActivity .learnStage div');
+            var targetObjects = $('#tutorialActivity .learnStage div');
+            var targetRandom = parseInt(Math.random() * targetObjects.length, 10);
             
-            var randomIndex = parseInt(Math.random() * boxObjects.length, 10);
-            
-            boxObjects
+            targetObjects
                 .removeClass('targetObject')
-                .eq(randomIndex)
+                .eq(targetRandom)
                 .addClass('targetObject');
         },
         
