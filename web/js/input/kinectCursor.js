@@ -3,8 +3,8 @@ define([
     
     'input/kinectBridge',
     
-    'math/vec2d',
-    'math/mat2d',
+    'vec2d',
+    'mat2d',
 ], function ($, kinectBridge, vec2d, mat2d) {
     
     var oldTarget = null;

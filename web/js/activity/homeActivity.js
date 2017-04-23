@@ -1,4 +1,8 @@
-define([ 'system' ],function (system) {
+define([ 
+    'system',
+    
+    'input/speechRecog'
+],function (system, speechRecog) {
     
     return {
         
@@ -14,6 +18,11 @@ define([ 'system' ],function (system) {
             system.attachWidget('menuWidget');
             system.attachWidget('skeletonWidget');
             system.attachWidget('transcriptWidget');
+            
+            speechRecog.addEventListener('유튜브 실행', function () { system.startActivity('youtubeActivity'); })
+            speechRecog.addEventListener('날씨 실행', function () { system.startActivity('weatherActivity'); })
+            speechRecog.addEventListener('뉴스 실행', function () { system.startActivity('newsActivity'); })
+            speechRecog.addEventListener('달력 실행', function () { system.startActivity('calendarActivity'); })
         },
         
         resume : function () {

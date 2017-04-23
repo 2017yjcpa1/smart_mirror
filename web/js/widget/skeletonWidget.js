@@ -1,7 +1,7 @@
 define([
     'jquery',
     'input/kinectBridge',
-    'math/vec3d'
+    'vec3d'
 ], function ($, kinectBridge, vec3d) {
     
     var canvas = false;
