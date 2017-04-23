@@ -42,7 +42,7 @@
 
 ## <a name="develop_enviorment">개발환경</a>
 - Windows 10
-- Require JS
+- RequireJS, jQuery
 - HTML, CSS, JS
 - Kinect v2
 - C#
