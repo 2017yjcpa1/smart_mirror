@@ -1,0 +1,310 @@
+<html>
+    <head>
+        <title>mycleandr</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel="stylesheet" href="/GoogleCalendarApi-master\resources\views\events/style.css"/>
+        <script src="/GoogleCalendarApi-master\resources\views\events/script.js"></script>
+        <script
+  src="https://code.jquery.com/jquery-3.2.1.slim.js"
+  integrity="sha256-tA8y0XqiwnpwmOIl3SGAcFl2RvxHjA8qp0+1uCGmRmg="
+  crossorigin="anonymous"></script>
+        <style>
+        .half{
+          display: none;
+        }
+        *{
+          font-family: none;
+        }
+        input{
+          padding:1px 6px;
+          width: none;
+        }
+
+        li,ul{
+          list-style: none;
+          margin: 0;
+          padding: 0;
+          border: 0;
+          font-size: 100%;
+          font: inherit;
+          vertical-align: baseline;
+        }
+        button{
+          padding:0px;
+
+        }
+        </style>
+    </head>
+    <body>
+      <header>
+        <div id='button'>
+          <input type='button' id='signup' value="사용자 등록">
+          <button type="button" id="left">왼쪽</button>
+          <button type="button" id="right" >오른쪽</button>
+          <button type="button" id="today">오늘</button>
+        </div>
+        <h1 id="year-month"></h1>
+      </header>
+        <div id='calendar-container'>
+
+                                <table style="width:100%">
+                                  <tr>
+                                    <td>&nbsp;</td>
+                                    <td>
+                                      <span class="weeklyday"></span><br>
+                                      일
+                                    </td>
+                                    <td><span class="weeklyday"></span><br>
+                                      월
+                                    </td>
+                                    <td><span class="weeklyday"></span><br>
+                                      화
+                                    </td>
+                                    <td><span class="weeklyday"></span><br>
+                                      수
+                                    </td>
+                                    <td><span class="weeklyday"></span><br>
+                                      목
+                                    </td>
+                                    <td><span class="weeklyday"></span><br>
+                                      금
+                                    </td>
+                                    <td><span class="weeklyday"></span><br>
+                                      토
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td>
+                                      <ul id="time">
+                                         <li class='events-group'>오전12시</li>
+                                         <li class=half>00:30</li>
+                                         <li class='events-group'>오전1시</li>
+                                         <li class=half>1:30</li>
+                                         <li class='events-group'>오전2시</li>
+                                         <li class=half>2:30</li>
+                                         <li class='events-group'>오전3시</li>
+                                         <li class=half>3:30</li>
+                                         <li class='events-group'>오전4시</li>
+                                         <li class=half>4:30</li>
+                                         <li class='events-group'>오전5시</li>
+                                         <li class=half>5:30</li>
+                                         <li class='events-group'>오전6시</li>
+                                         <li class=half>6:30</li>
+                                         <li class='events-group'>오전7시</li>
+                                         <li class=half>7:30</li>
+                                         <li class='events-group'>오전8시</li>
+                                         <li class=half>8:30</li>
+                                         <li class='events-group'>오전9시</li>
+                                         <li class=half>9:30</li>
+                                         <li class='events-group'>오전10시</li>
+                                         <li class=half>10:30</li>
+                                         <li class='events-group'>오전11시</li>
+                                         <li class=half>11:30</li>
+                                         <li class='events-group'>오후12시</li>
+                                         <li class=half>12:30</li>
+                                         <li class='events-group'>오후1시</li>
+                                         <li class=half>13:30</li>
+                                         <li class='events-group'>오후2시</li>
+                                         <li class=half>14:30</li>
+                                         <li class='events-group'>오후3시</li>
+                                         <li class=half>15:30</li>
+                                         <li class='events-group'>오후4시</li>
+                                         <li class=half>16:30</li>
+                                         <li class='events-group'>오후5시</li>
+                                         <li class=half>17:30</li>
+                                         <li class='events-group'>오후6시</li>
+                                         <li class=half>18:30</li>
+                                         <li class='events-group'>오후7시</li>
+                                         <li class=half>19:30</li>
+                                         <li class='events-group'>오후8시</li>
+                                         <li class=half>20:30</li>
+                                         <li class='events-group'>오후9시</li>
+                                         <li class=half>21:30</li>
+                                         <li class='events-group'>오후10시</li>
+                                         <li class=half>22:30</li>
+                                         <li class='events-group'>오후11시</li>
+                                         <li class=half>23:30</li>
+                                      </ul>
+                                    </td>
+                                    <td>
+                                      <br>
+                                      <li><?php if('dkrdj8989'===$_POST['name']) echo '점심약속';?></li>
+                                    </td>
+                                    <td>
+
+                                    </td>
+                                    <td>
+
+                                    </td>
+                                    <td>
+                                      <br>
+                                    <li> <?php if('wnsgh6969'===$_POST['name']) echo '미팅'; ?> </li>
+                                    </td>
+                                    <td>
+                                      <br><br><br><br><br>
+                                      <li><?php if('dkrdj8989'===$_POST['name']) echo '과제';?></li>
+                                    </td>
+                                    <td>
+                                      <br><br><br><br><br><br><br><br><br><br><br><br><br>
+                                      <?php if('wnsgh6969'===$_POST['name']) echo '저녁약속'; ?>
+                                    </td>
+                                  </tr>
+                                </table>
+            <div id="timeline">
+                <!-- <ul id="time">
+                   <li class='events-group'>오전12시</li>
+                   <li class=half>00:30</li>
+                   <li class='events-group'>오전1시</li>
+                   <li class=half>1:30</li>
+                   <li class='events-group'>오전2시</li>
+                   <li class=half>2:30</li>
+                   <li class='events-group'>오전3시</li>
+                   <li class=half>3:30</li>
+                   <li class='events-group'>오전4시</li>
+                   <li class=half>4:30</li>
+                   <li class='events-group'>오전5시</li>
+                   <li class=half>5:30</li>
+                   <li class='events-group'>오전6시</li>
+                   <li class=half>6:30</li>
+                   <li class='events-group'>오전7시</li><?php //if('dkrdj8989'===$_POST['name']) echo '기상';?>
+                   <li class=half>7:30</li>
+                   <li class='events-group'>오전8시</li>
+                   <li class=half>8:30</li>
+                   <li class='events-group'>오전9시</li>
+                   <li class=half>9:30</li>
+                   <li class='events-group'>오전10시</li>
+                   <li class=half>10:30</li>
+                   <li class='events-group'>오전11시</li>
+                   <li class=half>11:30</li>
+                   <li class='events-group'>오후12시</li>
+                   <li class=half>12:30</li>
+                   <li class='events-group'>오후1시</li>
+                   <li class=half>13:30</li>
+                   <li class='events-group'>오후2시</li>
+                   <li class=half>14:30</li>
+                   <li class='events-group'>오후3시</li>
+                   <li class=half>15:30</li> <?php //if('wnsgh6969'===$_POST['name']) echo '캡스톤디자인 미팅'; ?>
+                   <li class='events-group'>오후4시</li>
+                   <li class=half>16:30</li>
+                   <li class='events-group'>오후5시</li>
+                   <li class=half>17:30</li>
+                   <li class='events-group'>오후6시</li><?php //if('dkrdj8989'===$_POST['name']) echo '과제';?>
+                   <li class=half>18:30</li>
+                   <li class='events-group'>오후7시</li>
+                   <li class=half>19:30</li>
+                   <li class='events-group'>오후8시</li> <?php //if('wnsgh6969'===$_POST['name']) echo '저녁약속'; ?>
+                   <li class=half>20:30</li>
+                   <li class='events-group'>오후9시</li>
+                   <li class=half>21:30</li>
+                   <li class='events-group'>오후10시</li>
+                   <li class=half>22:30</li>
+                   <li class='events-group'>오후11시</li>
+                   <li class=half>23:30</li>
+                </ul> -->
+            </div>
+
+            <!-- <div id="events">
+              <div id="days">
+                  <ul>
+                    <li class='events-group'>
+                        <div class=top-info>
+                            <span class="weeklyday"></span>
+                            <span>일</span>
+                          </div>
+                        <ul>
+
+                        </ul>
+
+                    </li>
+
+                    <li class='events-group'>
+                        <div class=top-info>
+                            <span class="weeklyday"></span>
+                            <span>월</span>
+                          </div>
+                        <ul>
+
+                        </ul>
+
+                    </li>
+
+                    <li class='events-group'>
+                        <div class=top-info>
+                            <span class="weeklyday"> </span>
+                            <span >화</span></div>
+                        <ul>
+
+                        </ul>
+
+                    </li>
+
+                    <li class='events-group'>
+                        <div class=top-info>
+                            <span class="weeklyday"></span>
+                            <span>수</span></div>
+                        <ul>
+
+                        </ul>
+
+                    </li>
+
+                    <li class='events-group'>
+                        <div class=top-info>
+                            <span class="weeklyday"></span>
+                            <span>목</span></div>
+                        <ul>
+
+                        </ul>
+
+                    </li>
+
+                    <li class='events-group'>
+                        <div class=top-info>
+                            <span class="weeklyday"></span>
+                            <span>금</span></div>
+                        <ul>
+
+                        </ul>
+
+                    </li>
+
+                    <li class='events-group'>
+                        <div class=top-info>
+                            <span class="weeklyday"></span>
+                            <span>토</span></div>
+                        <ul>
+
+                        </ul>
+
+                    </li>
+
+                </ul>
+              </div>
+          </div> -->
+
+        </div>
+
+  <script>
+//
+//   $(document).ready(function() {
+//
+//     // page is now ready, initialize the calendar...
+//
+//     $('#fullcal').fullCalendar({
+//         // put your options and callbacks here
+//         events:'api/cal'
+//     })
+//
+// });
+
+    var reg=document.getElementById('signup');
+
+    reg.addEventListener('click',function(event){
+      window.open('https://accounts.google.com/o/oauth2/auth?response_type=code&access_type=online&client_id=512663622071-mptgi1c7a2p0stu4bo7b4nus0fmur0fs.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%2FGoogleCalendarApi-master%2Fpublic%2Fapi%2Foauth&state&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar&approval_prompt=auto','_blank');
+    })
+
+  </script>
+</body>
+</html>
