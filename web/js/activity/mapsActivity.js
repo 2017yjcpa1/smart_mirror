@@ -1,4 +1,4 @@
-define([ 'system' ],function (system) {
+define([ 'system','jquery' ],function (system,$) {
     
     return {
         
@@ -12,8 +12,8 @@ define([ 'system' ],function (system) {
         },
         
         resume : function () {
-            console.log('maps resume');
-        },
+            console.log('maps resume');            
+            },
         
         pause : function () {
             console.log('maps pause');
