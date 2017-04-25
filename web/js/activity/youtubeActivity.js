@@ -1,10 +1,9 @@
 
 define([ 'system', 
 
-    'jquery' ,
-    'jquery-draggable'
+    'input/kinectCursor',
 
-],function (system, $) {
+],function (system, kinectCursor) {
     
     
     
@@ -20,7 +19,7 @@ define([ 'system',
         },
         
         resume : function () {
-            $('#results').draggable({axis:'y'});
+            console.log('youtube resume');
             
             $(function () {
   
@@ -36,7 +35,7 @@ define([ 'system',
         var url = 'https://www.googleapis.com/youtube/v3/search?part=id&q=' + searchTerm + '&type=video&key=AIzaSyASFltS6aSwHYy6q9ft-KIH8wAB0-rEHfs'
         var createIframe = function (videoId) {
             var iframe = "";
-            iframe += "<iframe class='video-results' width='400' height='400' src='https://www.youtube.com/embed/"
+            iframe += "<iframe class='video-results' width='200' height='200' src='https://www.youtube.com/embed/"
             iframe += videoId + "'"
             iframe += "frameborder='0' allowfullscreen='true'></iframe>"
             return iframe;
@@ -62,4 +61,12 @@ define([ 'system',
         },
     }
     
+    return {
+     init : function () {
+            kinectCursor.start();
+            speechRecog.start();
+            
+           
+        }
+    }
 })
