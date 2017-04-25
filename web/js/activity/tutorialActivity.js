@@ -1,11 +1,11 @@
-define([ 
+define([
+    'activity/tutorialActivity/moveLearn',
+    
     'system', 
     
     'jquery',
-    'jquery-draggable',
-    
-    'activity/tutorialActivity/moveLearn'
-],function (system, $, moveLearn) {
+    'jquery-draggable'
+],function (moveLearn, system, $) {
     
     return {
         
