@@ -19,10 +19,10 @@ define([
             system.attachWidget('skeletonWidget');
             system.attachWidget('transcriptWidget');
             
-            speechRecog.addEventListener('유튜브 실행', function (isFinal) { if (isFinal) system.startActivity('youtubeActivity'); })
-            speechRecog.addEventListener('날씨 실행', function (isFinal) { if (isFinal) system.startActivity('weatherActivity'); })
-            speechRecog.addEventListener('뉴스 실행', function (isFinal) { if (isFinal) system.startActivity('newsActivity'); })
-            speechRecog.addEventListener('달력 실행', function (isFinal) { if (isFinal) system.startActivity('calendarActivity'); })
+            speechRecog.addEventListener('(유튜브|유투브)\\s*실행', function (isFinal) { if (isFinal) system.startActivity('youtubeActivity'); })
+            speechRecog.addEventListener('날씨\\s*실행', function (isFinal) { if (isFinal) system.startActivity('weatherActivity'); })
+            speechRecog.addEventListener('뉴스\\s*실행', function (isFinal) { if (isFinal) system.startActivity('newsActivity'); })
+            speechRecog.addEventListener('(달력|일정)\\s*실행', function (isFinal) { if (isFinal) system.startActivity('calendarActivity'); })
         },
         
         resume : function () {
