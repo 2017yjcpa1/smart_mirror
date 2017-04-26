@@ -2,13 +2,12 @@
 #youtubeActivity {
     padding: 0;
     margin: 0;
-    height:400%;
+    height:450%;
 }
 #youtubeActivity body{
     font-family: 'Segoe' ,sans-serif;
     line-height: 1.6em;
     color: #666;
-    background: #e1e1e1 url(../img2/creampaper.png);
     font-size: 14px;
 }
 #youtubeActivity a{
@@ -16,9 +15,8 @@
     text-decoration: none;
 }
 #youtubeActivity #container{
-    width: 740px;
-   
-    margin: auto;
+    width: 1000px;
+    margin: 0px;
 }
 #youtubeActivity .clearfix{
     clear: both;
@@ -75,7 +73,7 @@
 }
 #youtubeActivity #searchBtn{
     position: absolute;
-    right: 10px;
+    right: 20px;
     top: 5px;
     height: 32px;
     width: 32px;
@@ -87,31 +85,30 @@
     background: transparent url(./res/drawable/youtube_images/search.png) top left no-repeat;
 }
 
-#youtubeActivity #results li{
+#youtubeActivity #results{
     padding: 10px 0;
-    list-style: none;
-    overflow: auto;
+    display: inline;
+    overflow: hidden;
+    white-space: nowrap;
+    margin-left: auto;
+    margin-right: auto;
 }
 #youtubeActivity .list-left{
     float: left;
-    width: 400px;
-    height: 400px;
+    padding: 10px;
+    width: 300px;
+    height: 300px;
 }
-#youtubeActivity .list-left img{
-    width: 400px;
-    padding: 30px;
-    border: solid #ccc 1px;    
-}
-#youtubeActivity .list-right{
-    float: right;
-    width: 78%;
-}
+
 #youtubeActivity .cTitle{
     color: #dd2826; 
 }
 #youtubeActivity .button-container{
+    margin-left: auto;
+    margin-right: auto;
     margin-top: 25px;
-   
+    width:300px;
+    height:200px;
 }
 #youtubeActivity .paging-button{
     background: #f4f4f4;

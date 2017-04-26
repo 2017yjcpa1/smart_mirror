@@ -133,8 +133,7 @@ define(['system',
                 var videoDate = item.snippet.publishedAt;
 
 //Build output String 
-                var output =
-                        '<iframe class="list-left"src="https://www.youtube.com/embed/'+ videoId +'"frameborder="0" allowfullscreen="true"></iframe>';
+                var output ='<iframe class="list-left"src="https://www.youtube.com/embed/'+ videoId +'"frameborder="0" allowfullscreen="true"></iframe>';
                 return output;
             }
 
