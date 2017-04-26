@@ -26,7 +26,8 @@ define([ 'system','jquery' ],function (system,$) {
 
             var marker1 = new own.Marker(markerOption);//마커객체생성
             marker1.map(map);
-            },
+            
+        },
         
         pause : function () {
             console.log('maps pause');

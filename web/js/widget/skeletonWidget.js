@@ -32,6 +32,7 @@ define([
         drawSegments([ data.neck, data.shoulderLeft, data.elbowLeft, data.wristLeft, data.handLeft ]);
         
         // 척추에서 발
+        return;
         drawSegments([ data.spineBase, data.hipRight, data.kneeRight, data.ankleRight, data.footRight ]);
         drawSegments([ data.spineBase, data.hipLeft, data.kneeLeft, data.ankleLeft, data.footLeft ]);
     }
