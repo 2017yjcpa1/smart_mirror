@@ -1,4 +1,3 @@
-
 define(['system',
     'jquery',
     'jquery-draggable'
@@ -135,13 +134,7 @@ define(['system',
 
 //Build output String 
                 var output =
-                        '<li><div class="list-left">' +
-                        '<img src="' + thumb + '">' +
-                        '</div>' +
-                        '<div class="list-right">' +
-                        '<h3><a href="http://www.youtube.com/embed/' + videoId + '">' + title + '</a></h3>' +
-                        '<small>' + videoDate + '</small>' +
-                        '</div></li>';
+                        '<iframe class="list-left"src="https://www.youtube.com/embed/'+ videoId +'"frameborder="0" allowfullscreen="true"></iframe>';
                 return output;
             }
 
@@ -158,8 +151,6 @@ define(['system',
                     
                     prevBtn.appendTo(btnOutput);
                     nextBtn.appendTo(btnOutput);
-                    
-                            
                 }
                 return btnOutput;
             }
@@ -171,8 +162,7 @@ define(['system',
         layoutHTML: 'activity_youtube.html',
         init: function () {
             console.log('youtube init');
-            
-            
+            $('#youtubeActivity').draggable({axis:'y'});
             $('#search-form').submit(search);
         },
         resume: function () {
