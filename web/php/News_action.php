@@ -2,7 +2,7 @@
 header("Content-Type: application/json; charset=UTF8");
 $client_id = "RXI9sDWyAQ_J0ft2a3NA";  // id
 $client_secret = "6Inq7tCXxF";        // ps
-$encText = urlencode("실시간"); // 검색 키워드
+$encText = urlencode($_GET['data']);
 $url = "https://openapi.naver.com/v1/search/news.json?query=" . $encText; // json 결과
 //  $url = "https://openapi.naver.com/v1/search/blog.xml?query=".$encText; // xml 결과
 $is_post = false;

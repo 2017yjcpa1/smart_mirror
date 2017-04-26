@@ -16,8 +16,11 @@ define(['system', 'jquery'], function (system, $) {
 
             $('#newsActivity ul').empty();
 
+
             $.ajax({
                 url: 'php/News_action.php',
+                data: {data: "아이유    "},
+                type: "GET",
                 success: function (data) {
                     $('#newsActivity h1 a').html(data.items[0].title);
                     $('#newsActivity h1 a').attr("href", data.items[0].link);
@@ -36,11 +39,9 @@ define(['system', 'jquery'], function (system, $) {
                         $("#hot").slideUp();
                     } else {
                         $("#hot").slideDown();
-//                        animate({width:'toggle'},350);
                     }
                 });
             });
-
 
 
         },
