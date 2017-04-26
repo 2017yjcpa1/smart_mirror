@@ -1,4 +1,9 @@
 <!--<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.0.min.js" ></script>-->
+<!--<script src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
+<script>
+</script>-->
+
+
 <style type ="text/css">
     #main {
         width: 100%;
@@ -12,15 +17,18 @@
         width: 90%;
         height: 65%;
         background-color: black;
+        display: none;
     }
 
     #hotimg {
         width: 540px;
         height: 360px;
-        /*        background-size: cover;*/
+/*                background-size: cover;*/
         right: -33%;
         position: relative;
         z-index: 1;
+        background-repeat: no-repeat;
+        top: 6%;
     }
 
     #hottitle {
@@ -28,6 +36,7 @@
         height: 100%;
         float: left;
         position: relative;
+
     }
 
     h1 {
@@ -208,7 +217,7 @@
         <span></span>
 
         <dt id="menu">
-            <a href="#"><dl>실시간</dl></a>
+            <a href="#"><dl id="RealTime">실시간</dl></a>
             <a href="#"><dl>정치</dl></a>
             <a href="#"><dl>경제</dl></a>
             <a href="#"><dl>TV/연예</dl></a>

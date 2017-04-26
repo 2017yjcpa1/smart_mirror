@@ -29,6 +29,20 @@ define(['system', 'jquery'], function (system, $) {
                     }
                 }
             })
+
+            $(document).ready(function () {
+                $("#RealTime").click(function () {
+                    if ($("#hot").is(":visible")) {
+                        $("#hot").slideUp();
+                    } else {
+                        $("#hot").slideDown();
+//                        animate({width:'toggle'},350);
+                    }
+                });
+            });
+
+
+
         },
 
         pause: function () {
