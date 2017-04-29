@@ -19,7 +19,7 @@ define(['system', 'jquery'], function (system, $) {
 
             $.ajax({
                 url: 'php/News_action.php',
-                data: {data: "아이유    "},
+                data: {data: "실시간"},
                 type: "GET",
                 success: function (data) {
                     $('#newsActivity h1 a').html(data.items[0].title);
