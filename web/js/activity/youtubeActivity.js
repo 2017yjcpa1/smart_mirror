@@ -4,8 +4,6 @@ define(['system',
 
 ], function (system, $) {
 
-
-
             function search(e) {
                 e.preventDefault();
 //clear results
