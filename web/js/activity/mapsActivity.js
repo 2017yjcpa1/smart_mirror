@@ -7,10 +7,31 @@ define(['system', 'jquery'], function (system, $) {
         var mapOptions = {
             zoom: 17,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
-            center: youngjin
+            center: youngjin,
+            fullscreenControl: false
         };
         map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-        directionsDisplay.setMap(map);
+
+        map.addListener('click', function (event) {
+            var marker = new google.maps.Marker({
+                position: new google.maps.LatLng(event.latLng.lat(), event.latLng.lng()),
+                map: map,
+                title: 'click',
+                draggable: true,
+                animation: google.maps.Animation.DROP
+            });
+            var infowindow = new google.maps.InfoWindow({
+                content: '위도 : ' + event.latLng.lat()+'</br>경도 : ' + event.latLng.lng()
+                +'</br><input id="markerbtn" type="button" value="삭제"/>'
+            });
+            marker.addListener('click', function () {
+                infowindow.open(map, marker);
+            });
+            marker.addListener('dragend', function () {
+                marker.setMap(null);
+            });
+        });
+        directionsDisplay.setMap(map);//경로찾기 기능 활성화
     }
 
     function calcRoute() {
@@ -31,8 +52,6 @@ define(['system', 'jquery'], function (system, $) {
             }
         });
     }
-
-
 
     return {
         id: 'mapsActivity',
