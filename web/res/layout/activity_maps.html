@@ -7,28 +7,32 @@
 
     #map-canvas
     {
-        height: 650px;
-        width: 650px;
+        height: 550px;
+        width: 800px;
+        margin-left: 100px;
     }
 
     #panel {
         top: 5px;
         left: 700px;
         height:50px;
-        width: 650px;
+        width: 645px;
         background-color: #fff;
-        padding: 5px;
-        border: 1px solid #999;
+        margin-top:80px;
+        margin-left:100px;
+        color:black;
+        font-size:1em;
+        padding-top:15px;
+        padding-left:155px;
     }
     #mapsearch{}
+    #text{}
 </style>
 <div id="panel" >
     <b>Start: </b>
     <input type="text" id="start" />
     <b>End: </b>
     <input type="text" id="end" />
-    <div>
-        <input id="mapsearch" type="button" value="길찾기"/>
-    </div>
+    <input id="mapsearch" type="submit" value="길찾기"/>
 </div>
 <div id="map-canvas"></div>
