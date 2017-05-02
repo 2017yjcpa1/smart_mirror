@@ -101,7 +101,15 @@ define(['system', 'jquery', 'jquery-draggable'], function (system, $) {
 
             })
 
+
             var sunday = today - r; // 일요일 날짜!!!!
+
+             if(sunday==0){ // 이전달 
+                  sunday=new Date(year, month,0).getDate();
+                  total = new Date(year, month, 0).getDate(); // 그달의 총 일수
+                  month--;
+                }
+                
             var s = sunday;
             var isbeyond = false;
             var g = 0;
@@ -167,6 +175,12 @@ define(['system', 'jquery', 'jquery-draggable'], function (system, $) {
 
                 sunday = today - r; // 일요일 날짜!!!!
 
+                if(sunday==0){
+                  sunday=new Date(year, month,0).getDate();
+                  total = new Date(year, month, 0).getDate(); // 그달의 총 일수
+                  month--;
+                }
+      
                 if (sunday > total) { // 다음달로 넘어갈때
                     month++;
 

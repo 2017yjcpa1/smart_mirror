@@ -5,7 +5,7 @@
     <title></title>
   </head>
   <body>
-    <form action="http://localhost/GoogleCalendarApi-master/public/api/oauth" method="get">
+    <form action="http://localhost/smart_mirror/GoogleCalendarApi-master/public/api/oauth" method="get">
       <input type="text" name="name" placeholder="누구세여">
       <input type="hidden" name="done" value="a">
       <input type="submit" value="띵동">
