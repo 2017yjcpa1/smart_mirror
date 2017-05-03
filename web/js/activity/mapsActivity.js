@@ -1,14 +1,13 @@
 define(['system', 'jquery'], function (system, $) {
     var directionsDisplay = new google.maps.DirectionsRenderer();
     var map;
-
     function initialize() {
         var youngjin = new google.maps.LatLng(35.896205, 128.622019);
         var mapOptions = {
             zoom: 17,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             center: youngjin,
-            fullscreenControl: false
+            fullscreenControl: true,
         };
         map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
         var geocoder = new google.maps.Geocoder();
@@ -25,7 +24,6 @@ define(['system', 'jquery'], function (system, $) {
             });
             var infowindow = new google.maps.InfoWindow({
                 content: '위도 : ' + event.latLng.lat() + '</br>경도 : ' + event.latLng.lng()
-                        + '</br><input id="markerbtn" type="button" value="삭제"/>'
             });
             marker.addListener('click', function () {
                 infowindow.open(map, marker);
@@ -37,7 +35,7 @@ define(['system', 'jquery'], function (system, $) {
         directionsDisplay.setMap(map);//경로찾기 기능 활성화
     }
 
-    function geocodeAddress(geocoder, resultsMap) {
+    function geocodeAddress(geocoder, resultsMap) {//장소찾기 함수
         var address = document.getElementById('address').value;
         geocoder.geocode({'address': address}, function (results, status) {
             if (status === 'OK') {
@@ -51,7 +49,7 @@ define(['system', 'jquery'], function (system, $) {
             }
         });
     }
-    function calcRoute() {
+    function calcRoute() {//경로찾기함수
         console.log(arguments.callee);
         var start = document.getElementById('start').value;
         var end = document.getElementById('end').value;
@@ -69,6 +67,11 @@ define(['system', 'jquery'], function (system, $) {
         });
     }
 
+    function weatherRequest() {//날씨로 이동하는 함수
+        require(['system'], function (system) {
+            system.startActivity('weatherActivity', null, true);
+        });
+    }
     return {
         id: 'mapsActivity',
         title: '지도',
@@ -81,6 +84,7 @@ define(['system', 'jquery'], function (system, $) {
             console.log('maps resume');
             initialize();
             $('#mapsearch').click(calcRoute);
+            $('#weatherbtn').click(weatherRequest);
         },
         pause: function () {
             console.log('maps pause');
