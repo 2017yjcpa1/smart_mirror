@@ -11,7 +11,10 @@ define(['system', 'jquery'], function (system, $) {
             fullscreenControl: false
         };
         map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-
+        var geocoder = new google.maps.Geocoder();
+        document.getElementById('submit').addEventListener('click', function () {
+            geocodeAddress(geocoder, map);
+        });
         map.addListener('click', function (event) {
             var marker = new google.maps.Marker({
                 position: new google.maps.LatLng(event.latLng.lat(), event.latLng.lng()),
@@ -21,8 +24,8 @@ define(['system', 'jquery'], function (system, $) {
                 animation: google.maps.Animation.DROP
             });
             var infowindow = new google.maps.InfoWindow({
-                content: '위도 : ' + event.latLng.lat()+'</br>경도 : ' + event.latLng.lng()
-                +'</br><input id="markerbtn" type="button" value="삭제"/>'
+                content: '위도 : ' + event.latLng.lat() + '</br>경도 : ' + event.latLng.lng()
+                        + '</br><input id="markerbtn" type="button" value="삭제"/>'
             });
             marker.addListener('click', function () {
                 infowindow.open(map, marker);
@@ -34,11 +37,24 @@ define(['system', 'jquery'], function (system, $) {
         directionsDisplay.setMap(map);//경로찾기 기능 활성화
     }
 
+    function geocodeAddress(geocoder, resultsMap) {
+        var address = document.getElementById('address').value;
+        geocoder.geocode({'address': address}, function (results, status) {
+            if (status === 'OK') {
+                resultsMap.setCenter(results[0].geometry.location);
+                var marker = new google.maps.Marker({
+                    map: resultsMap,
+                    position: results[0].geometry.location
+                });
+            } else {
+                alert('Geocode was not successful for the following reason: ' + status);
+            }
+        });
+    }
     function calcRoute() {
         console.log(arguments.callee);
         var start = document.getElementById('start').value;
         var end = document.getElementById('end').value;
-
         var request = {
             origin: start,
             destination: end,
@@ -65,7 +81,6 @@ define(['system', 'jquery'], function (system, $) {
             console.log('maps resume');
             initialize();
             $('#mapsearch').click(calcRoute);
-
         },
         pause: function () {
             console.log('maps pause');

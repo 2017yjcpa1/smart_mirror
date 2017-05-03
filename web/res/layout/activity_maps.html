@@ -9,7 +9,7 @@
     #map-canvas
     {
         height: 550px;
-        width: 800px;
+        width: 950px;
         margin-left: 100px;
     }
 
@@ -17,23 +17,23 @@
         top: 5px;
         left: 700px;
         height:50px;
-        width: 645px;
+        width: 875px;
         background-color: #fff;
         margin-top:80px;
         margin-left:100px;
         color:black;
         font-size:1em;
         padding-top:15px;
-        padding-left:155px;
+        padding-left:75px;
     }
-    #mapsearch{}
-    #text{}
-    #markerbtn{}
 </style>
 <div id="panel" >
-    <b>Start: </b>
+    <b>장소검색: </b>
+    <input id="address" type="text" value="">
+    <input id="submit" type="button" value="장소검색">
+    <b>출발: </b>
     <input type="text" id="start" />
-    <b>End: </b>
+    <b>도착: </b>
     <input type="text" id="end" />
     <input id="mapsearch" type="submit" value="길찾기"/>
 </div>
