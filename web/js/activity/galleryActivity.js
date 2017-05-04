@@ -1,4 +1,4 @@
-define([ 'system' ],function (system) {
+define([ 'system','jquery','jquery-draggable' ],function (system) {
     
     return {
         
@@ -13,10 +13,23 @@ define([ 'system' ],function (system) {
         
         resume : function () {
             console.log('gallery resume');
+              $(document).ready(function () {
+                var path='/smart_mirror/gallery/';
+                var i=0;
+                $.ajax({
+                    url:'/smart_mirror/web/php/pic_load_process.php',
+                    success: function(data){
+                        var file=JSON.parse(data);
+                        for(i; i<file.length; i++)
+                        $('#gallery').append("<img class='pics' src='"+path+file[i]+"'>")
+                    }
+                })           
+            })
         },
         
         pause : function () {
             console.log('gallery pause');
+            $('#gallery').empty();
         },
         
         destroy : function () {
