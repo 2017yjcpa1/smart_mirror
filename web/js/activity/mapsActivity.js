@@ -1,6 +1,9 @@
-define(['system', 'jquery'], function (system, $) {
+define(['system', 'jquery', 'lib/forecast.io'], function (system, $, ForecastIO) {
     var directionsDisplay = new google.maps.DirectionsRenderer();
     var map;
+    var forecast = new ForecastIO({
+        PROXY_SCRIPT: 'php/weather_proxy.php'
+    });
     function initialize() {
         var youngjin = new google.maps.LatLng(35.896205, 128.622019);
         var mapOptions = {
@@ -22,11 +25,32 @@ define(['system', 'jquery'], function (system, $) {
                 draggable: true,
                 animation: google.maps.Animation.DROP
             });
+            var locations = [
+                {
+                    latitude: event.latLng.lat(),
+                    longitude: event.latLng.lng()
+                }
+
+            ];
             var infowindow = new google.maps.InfoWindow({
                 content: '위도 : ' + event.latLng.lat() + '</br>경도 : ' + event.latLng.lng()
             });
+
             marker.addListener('click', function () {
                 infowindow.open(map, marker);
+            });
+            forecast.getCurrentConditions(locations, function (conditions) {
+                var items = '';
+
+                for (var i = 0; i < conditions.length; i++) {
+                    items += '<b><img src="./res/drawable/weather_images/'
+                            + conditions[i].getIcon() + '.png" height="35" width="35">'
+                            + ((conditions[i].getTemperature() - 32) / 1.8).toFixed(1)
+                            + '℃&nbsp;&nbsp;<img src="./res/drawable/weather_images/precipitationProbability.png" height="25" width="25">' 
+                            + (conditions[i].getPrecipitationProbability() * 100).toFixed(0)
+                            + '%</b>';
+                }
+                document.getElementById('currentTemp').innerHTML = items;
             });
             marker.addListener('dragend', function () {
                 marker.setMap(null);
@@ -84,7 +108,7 @@ define(['system', 'jquery'], function (system, $) {
             console.log('maps resume');
             initialize();
             $('#mapsearch').click(calcRoute);
-            $('#weatherbtn').click(weatherRequest);
+            //$('#weatherbtn').click(weatherRequest);
         },
         pause: function () {
             console.log('maps pause');
