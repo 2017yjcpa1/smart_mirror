@@ -1,6 +1,7 @@
 define(['system', 'jquery', 'lib/forecast.io'], function (system, $, ForecastIO) {
     var directionsDisplay = new google.maps.DirectionsRenderer();
     var map;
+    var markercount = 0;//지도 마커갯수
     var forecast = new ForecastIO({
         PROXY_SCRIPT: 'php/weather_proxy.php'
     });
@@ -23,7 +24,7 @@ define(['system', 'jquery', 'lib/forecast.io'], function (system, $, ForecastIO)
                 map: map,
                 title: 'click',
                 draggable: true,
-                animation: google.maps.Animation.DROP
+                animation: google.maps.Animation.DROP,
             });
             var locations = [
                 {
@@ -38,7 +39,21 @@ define(['system', 'jquery', 'lib/forecast.io'], function (system, $, ForecastIO)
 
             marker.addListener('click', function () {
                 infowindow.open(map, marker);
+                forecast.getCurrentConditions(locations, function (conditions) {
+                    var items = '';
+
+                    for (var i = 0; i < conditions.length; i++) {
+                        items += '<b><img src="./res/drawable/weather_images/'
+                                + conditions[i].getIcon() + '.png" height="35" width="35">'
+                                + ((conditions[i].getTemperature() - 32) / 1.8).toFixed(1)
+                                + '℃&nbsp;&nbsp;<img src="./res/drawable/weather_images/precipitationProbability.png" height="25" width="25">'
+                                + (conditions[i].getPrecipitationProbability() * 100).toFixed(0)
+                                + '%</b>';
+                    }
+                    document.getElementById('weatherinfo').innerHTML = items;
+                });
             });
+            markercount++;
             forecast.getCurrentConditions(locations, function (conditions) {
                 var items = '';
 
@@ -46,14 +61,18 @@ define(['system', 'jquery', 'lib/forecast.io'], function (system, $, ForecastIO)
                     items += '<b><img src="./res/drawable/weather_images/'
                             + conditions[i].getIcon() + '.png" height="35" width="35">'
                             + ((conditions[i].getTemperature() - 32) / 1.8).toFixed(1)
-                            + '℃&nbsp;&nbsp;<img src="./res/drawable/weather_images/precipitationProbability.png" height="25" width="25">' 
+                            + '℃&nbsp;&nbsp;<img src="./res/drawable/weather_images/precipitationProbability.png" height="25" width="25">'
                             + (conditions[i].getPrecipitationProbability() * 100).toFixed(0)
                             + '%</b>';
                 }
-                document.getElementById('currentTemp').innerHTML = items;
+                document.getElementById('weatherinfo').innerHTML = items;
             });
             marker.addListener('dragend', function () {
                 marker.setMap(null);
+                markercount--;
+                if (markercount <= 0) {
+                    $('#weatherinfo').empty();
+                }
             });
         });
         directionsDisplay.setMap(map);//경로찾기 기능 활성화

@@ -37,7 +37,7 @@ define(['system', 'lib/forecast.io', 'jquery', 'jquery-draggable'], function (sy
                 for (var i = 0; i < conditions.length; i++) {
 
                     items += '<li><img src="./res/drawable/weather_images/'
-                            + conditions[i].getIcon() + '.png" height="50" width="50">'
+                            + conditions[i].getIcon() + '.png" height="100" width="100">'
                             + ((conditions[i].getTemperature() - 32) / 1.8).toFixed(1)
                             + '℃  ' + '</li>' + "</br><li>오존지수: " + (conditions[i].getOzone() * 0.0001).toFixed(3) + '</li>';
                 }
@@ -51,7 +51,8 @@ define(['system', 'lib/forecast.io', 'jquery', 'jquery-draggable'], function (sy
                     items2 += '<div class="secondsubdiv">' + conditions[i].getTime('HH:mm') + '</br><img src="./res/drawable/weather_images/'
                             + conditions[i].getIcon() + '.png" height="60" width="60"></br>'
                             + ((conditions[i].getTemperature() - 32) / 1.8).toFixed(1)
-                            + '℃</br>' + (conditions[i].getPrecipitationProbability() * 100).toFixed(0)
+                            + '℃</br><img src="./res/drawable/weather_images/precipitationProbability.png" height="25" width="25">' 
+                            + (conditions[i].getPrecipitationProbability() * 100).toFixed(0)
                             + '%' + '</div>';
                     if (conditions[i].getTime('HH') == '21') {
                         items3 = '<li><img src="./res/drawable/weather_images/'
@@ -75,11 +76,13 @@ define(['system', 'lib/forecast.io', 'jquery', 'jquery-draggable'], function (sy
                 for (var i = 0; i < conditions.length; i++) {
                     if (i == 0) {
                         items5 = '<li>' + ((conditions[i].getMinTemperature() - 32) / 1.8).toFixed(1) + '℃/'
-                                + ((conditions[i].getMaxTemperature() - 32) / 1.8).toFixed(1) + '℃</li><li>'
+                                + ((conditions[i].getMaxTemperature() - 32) / 1.8).toFixed(1)
+                                + '℃</li><li><img src="./res/drawable/weather_images/precipitationProbability.png" height="40" width="40">'
                                 + (conditions[i].getPrecipitationProbability() * 100).toFixed(0) + '%</li>';
 
                         items6 = '<li>' + ((conditions[i].getMinTemperature() - 32) / 1.8).toFixed(1) + '℃/'
-                                + ((conditions[i].getMaxTemperature() - 32) / 1.8).toFixed(1) + '℃</li><li>'
+                                + ((conditions[i].getMaxTemperature() - 32) / 1.8).toFixed(1) 
+                                + '℃</li><li><img src="./res/drawable/weather_images/precipitationProbability.png" height="40" width="40">'
                                 + (conditions[i].getPrecipitationProbability() * 100).toFixed(0) + '%</li>';
 
                         items4 += '<div class="thirdsubdiv"><span><img src="./res/drawable/weather_images/'
@@ -91,7 +94,8 @@ define(['system', 'lib/forecast.io', 'jquery', 'jquery-draggable'], function (sy
                                 + (((conditions[i].getMaxTemperature() - 32) / 1.8)
                                         - ((conditions[i].getMinTemperature() - 32) / 1.8)).toFixed(1)
                                 + '%;"></span>' + ((conditions[i].getMaxTemperature() - 32) / 1.8).toFixed(1)
-                                + '℃강수확률 : ' + (conditions[i].getPrecipitationProbability() * 100).toFixed(0)
+                                + '℃<img src="./res/drawable/weather_images/precipitationProbability.png" height="40" width="40">' 
+                                + (conditions[i].getPrecipitationProbability() * 100).toFixed(0)
                                 + '%</span></div>';
                     }
                     else {
@@ -101,7 +105,8 @@ define(['system', 'lib/forecast.io', 'jquery', 'jquery-draggable'], function (sy
                                     + ((conditions[i].getMaxTemperature() - 32) / 1.8).toFixed(1)
                                     + '℃  ' + '</li>' + "</br><li>오존지수: " + (conditions[i].getOzone() * 0.0001).toFixed(3) + '</li>';
                             items8 = '<li>' + ((conditions[i].getMinTemperature() - 32) / 1.8).toFixed(1) + '℃/'
-                                    + ((conditions[i].getMaxTemperature() - 32) / 1.8).toFixed(1) + '℃</li><li>'
+                                    + ((conditions[i].getMaxTemperature() - 32) / 1.8).toFixed(1) 
+                                    + '℃</li><li><img src="./res/drawable/weather_images/precipitationProbability.png" height="40" width="40">'
                                     + (conditions[i].getPrecipitationProbability() * 100).toFixed(0) + '%</li>';
                         }
                         items4 += '<div class="thirdsubdiv"><span><img src="./res/drawable/weather_images/'
@@ -113,7 +118,8 @@ define(['system', 'lib/forecast.io', 'jquery', 'jquery-draggable'], function (sy
                                 + (((conditions[i].getMaxTemperature() - 32) / 1.8)
                                         - ((conditions[i].getMinTemperature() - 32) / 1.8)).toFixed(1)
                                 + '%;"></span>' + ((conditions[i].getMaxTemperature() - 32) / 1.8).toFixed(1)
-                                + '℃강수확률 : ' + (conditions[i].getPrecipitationProbability() * 100).toFixed(0)
+                                + '℃<img src="./res/drawable/weather_images/precipitationProbability.png" height="40" width="40">' 
+                                + (conditions[i].getPrecipitationProbability() * 100).toFixed(0)
                                 + '%</span></div>';
                     }
                 }
