@@ -1,7 +1,7 @@
 define(['system', 'jquery', 'lib/forecast.io'], function (system, $, ForecastIO) {
     var directionsDisplay = new google.maps.DirectionsRenderer();
     var map;
-    var markercount = 0;//지도 마커갯수
+    var marker;
     var forecast = new ForecastIO({
         PROXY_SCRIPT: 'php/weather_proxy.php'
     });
@@ -12,49 +12,27 @@ define(['system', 'jquery', 'lib/forecast.io'], function (system, $, ForecastIO)
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             center: youngjin,
             fullscreenControl: true,
+            mapTypeControl: false,
+            streetViewControl: false
         };
         map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
         var geocoder = new google.maps.Geocoder();
         document.getElementById('submit').addEventListener('click', function () {
             geocodeAddress(geocoder, map);
         });
-        map.addListener('click', function (event) {
-            if (markercount === 0) {
-                var marker = new google.maps.Marker({
-                    position: new google.maps.LatLng(event.latLng.lat(), event.latLng.lng()),
-                    map: map,
-                    title: 'click',
-                    draggable: true,
-                    animation: google.maps.Animation.DROP,
-                });
+        directionsDisplay.setMap(map);//경로찾기 기능 활성화
+    }
+    function geocodeAddress(geocoder, resultsMap) {//장소찾기 함수
+        var address = document.getElementById('address').value;
+        geocoder.geocode({'address': address}, function (results, status) {
+            if (status === 'OK') {
+                resultsMap.setCenter(results[0].geometry.location);
                 var locations = [
                     {
-                        latitude: event.latLng.lat(),
-                        longitude: event.latLng.lng()
+                        latitude: results[0].geometry.location.lat(),
+                        longitude: results[0].geometry.location.lat()
                     }
-
                 ];
-                var infowindow = new google.maps.InfoWindow({
-                    content: '위도 : ' + event.latLng.lat() + '</br>경도 : ' + event.latLng.lng()
-                });
-
-                marker.addListener('click', function () {
-                    infowindow.open(map, marker);
-                    forecast.getCurrentConditions(locations, function (conditions) {
-                        var items = '';
-
-                        for (var i = 0; i < conditions.length; i++) {
-                            items += '<b><img src="./res/drawable/weather_images/'
-                                    + conditions[i].getIcon() + '.png" height="35" width="35">'
-                                    + ((conditions[i].getTemperature() - 32) / 1.8).toFixed(1)
-                                    + '℃&nbsp;&nbsp;<img src="./res/drawable/weather_images/precipitationProbability.png" height="25" width="25">'
-                                    + (conditions[i].getPrecipitationProbability() * 100).toFixed(0)
-                                    + '%</b>';
-                        }
-                        document.getElementById('weatherinfo').innerHTML = items;
-                    });
-                });
-                markercount++;
                 forecast.getCurrentConditions(locations, function (conditions) {
                     var items = '';
 
@@ -68,26 +46,19 @@ define(['system', 'jquery', 'lib/forecast.io'], function (system, $, ForecastIO)
                     }
                     document.getElementById('weatherinfo').innerHTML = items;
                 });
-                marker.addListener('dragend', function () {
+                if(marker !=null) {
                     marker.setMap(null);
-                    markercount--;
-                    if (markercount <= 0) {
-                        $('#weatherinfo').empty();
-                    }
-                });
-            }
-        });
-        directionsDisplay.setMap(map);//경로찾기 기능 활성화
-    }
-
-    function geocodeAddress(geocoder, resultsMap) {//장소찾기 함수
-        var address = document.getElementById('address').value;
-        geocoder.geocode({'address': address}, function (results, status) {
-            if (status === 'OK') {
-                resultsMap.setCenter(results[0].geometry.location);
-                var marker = new google.maps.Marker({
+                }
+                marker = new google.maps.Marker({
                     map: resultsMap,
                     position: results[0].geometry.location
+                });
+                var infowindow = new google.maps.InfoWindow({
+                    content: document.getElementById('address').value
+                });
+                infowindow.open(map, marker);
+                marker.addListener('click', function () {
+                    infowindow.open(map, marker);
                 });
             } else {
                 alert('Geocode was not successful for the following reason: ' + status);
@@ -111,12 +82,6 @@ define(['system', 'jquery', 'lib/forecast.io'], function (system, $, ForecastIO)
             }
         });
     }
-
-    /*function weatherRequest() {//날씨로 이동하는 함수
-     require(['system'], function (system) {
-     system.startActivity('weatherActivity', null, true);
-     });
-     }*/
     return {
         id: 'mapsActivity',
         title: '지도',
@@ -124,16 +89,14 @@ define(['system', 'jquery', 'lib/forecast.io'], function (system, $, ForecastIO)
         layoutHTML: 'activity_maps.html',
         init: function () {
             console.log('maps init');
+            initialize();
         },
         resume: function () {
             console.log('maps resume');
-            initialize();
             $('#mapsearch').click(calcRoute);
-            //$('#weatherbtn').click(weatherRequest);
         },
         pause: function () {
             console.log('maps pause');
-            markercount=0;
         },
         destroy: function () {
             console.log('maps destroy');
