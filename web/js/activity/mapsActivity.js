@@ -19,26 +19,42 @@ define(['system', 'jquery', 'lib/forecast.io'], function (system, $, ForecastIO)
             geocodeAddress(geocoder, map);
         });
         map.addListener('click', function (event) {
-            var marker = new google.maps.Marker({
-                position: new google.maps.LatLng(event.latLng.lat(), event.latLng.lng()),
-                map: map,
-                title: 'click',
-                draggable: true,
-                animation: google.maps.Animation.DROP,
-            });
-            var locations = [
-                {
-                    latitude: event.latLng.lat(),
-                    longitude: event.latLng.lng()
-                }
+            if (markercount === 0) {
+                var marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(event.latLng.lat(), event.latLng.lng()),
+                    map: map,
+                    title: 'click',
+                    draggable: true,
+                    animation: google.maps.Animation.DROP,
+                });
+                var locations = [
+                    {
+                        latitude: event.latLng.lat(),
+                        longitude: event.latLng.lng()
+                    }
 
-            ];
-            var infowindow = new google.maps.InfoWindow({
-                content: '위도 : ' + event.latLng.lat() + '</br>경도 : ' + event.latLng.lng()
-            });
+                ];
+                var infowindow = new google.maps.InfoWindow({
+                    content: '위도 : ' + event.latLng.lat() + '</br>경도 : ' + event.latLng.lng()
+                });
 
-            marker.addListener('click', function () {
-                infowindow.open(map, marker);
+                marker.addListener('click', function () {
+                    infowindow.open(map, marker);
+                    forecast.getCurrentConditions(locations, function (conditions) {
+                        var items = '';
+
+                        for (var i = 0; i < conditions.length; i++) {
+                            items += '<b><img src="./res/drawable/weather_images/'
+                                    + conditions[i].getIcon() + '.png" height="35" width="35">'
+                                    + ((conditions[i].getTemperature() - 32) / 1.8).toFixed(1)
+                                    + '℃&nbsp;&nbsp;<img src="./res/drawable/weather_images/precipitationProbability.png" height="25" width="25">'
+                                    + (conditions[i].getPrecipitationProbability() * 100).toFixed(0)
+                                    + '%</b>';
+                        }
+                        document.getElementById('weatherinfo').innerHTML = items;
+                    });
+                });
+                markercount++;
                 forecast.getCurrentConditions(locations, function (conditions) {
                     var items = '';
 
@@ -52,28 +68,14 @@ define(['system', 'jquery', 'lib/forecast.io'], function (system, $, ForecastIO)
                     }
                     document.getElementById('weatherinfo').innerHTML = items;
                 });
-            });
-            markercount++;
-            forecast.getCurrentConditions(locations, function (conditions) {
-                var items = '';
-
-                for (var i = 0; i < conditions.length; i++) {
-                    items += '<b><img src="./res/drawable/weather_images/'
-                            + conditions[i].getIcon() + '.png" height="35" width="35">'
-                            + ((conditions[i].getTemperature() - 32) / 1.8).toFixed(1)
-                            + '℃&nbsp;&nbsp;<img src="./res/drawable/weather_images/precipitationProbability.png" height="25" width="25">'
-                            + (conditions[i].getPrecipitationProbability() * 100).toFixed(0)
-                            + '%</b>';
-                }
-                document.getElementById('weatherinfo').innerHTML = items;
-            });
-            marker.addListener('dragend', function () {
-                marker.setMap(null);
-                markercount--;
-                if (markercount <= 0) {
-                    $('#weatherinfo').empty();
-                }
-            });
+                marker.addListener('dragend', function () {
+                    marker.setMap(null);
+                    markercount--;
+                    if (markercount <= 0) {
+                        $('#weatherinfo').empty();
+                    }
+                });
+            }
         });
         directionsDisplay.setMap(map);//경로찾기 기능 활성화
     }
@@ -110,11 +112,11 @@ define(['system', 'jquery', 'lib/forecast.io'], function (system, $, ForecastIO)
         });
     }
 
-    function weatherRequest() {//날씨로 이동하는 함수
-        require(['system'], function (system) {
-            system.startActivity('weatherActivity', null, true);
-        });
-    }
+    /*function weatherRequest() {//날씨로 이동하는 함수
+     require(['system'], function (system) {
+     system.startActivity('weatherActivity', null, true);
+     });
+     }*/
     return {
         id: 'mapsActivity',
         title: '지도',
@@ -131,6 +133,7 @@ define(['system', 'jquery', 'lib/forecast.io'], function (system, $, ForecastIO)
         },
         pause: function () {
             console.log('maps pause');
+            markercount=0;
         },
         destroy: function () {
             console.log('maps destroy');
