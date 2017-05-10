@@ -29,18 +29,43 @@
                 background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
                 text-decoration: none;
             }
+            #cameraActivity #layer{
+
+                z-index: 2;
+                position: relative;
+                width: 100%;
+                height: 100%;
+            }
+            #cameraActivity #video{
+                z-index: 1;               
+                width: 100%;
+                height: 100%;
+                position: relative;
+                margin-bottom: -75%;
+            }
         </style>
     </head> 
     <body>
+        <audio id="shutter">
+            <source src="./res/drawable/news_images/shutter.mp3" type="audio/mp3">
+        </audio>
         <div style="text-align: center">
-            <video autoplay id='video'></video>
-            <img src="" id='pic'>
+            <div style="width: 640px;height: 480px; margin-left: 30%">
+                <video autoplay id='video'></video>
+                <img src="./res/drawable/news_images/transparent.png" id="layer">
+            </div>
+            <img src="" id='pic' style="display: none">
+
+
             <canvas style="display:none;" width="640" height="480" id='frame'></canvas>
             <div style="margin-top: 2%">
- 
-                <input type="button" class="camera_btn" id="take" value="click" />
- 
+                <div><input type="button" 
+                            id="timer_btn" value="timer" style="margin-right: 40%;"/></div>
+                <input type="button" class="camera_btn" id="take" value="click" /><br/><br/> 
+                <h1 id="threesec"></h1>
             </div>
+
+            
         </div>
     </body>
 </html>
