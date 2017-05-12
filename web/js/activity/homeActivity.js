@@ -20,6 +20,8 @@ define([
             system.attachWidget('transcriptWidget');
             system.attachWidget('weatherWidget');
             system.attachWidget('calendarWidget');
+ 
+
             
             speechRecog.addEventListener('(유튜브|유투브)\\s*실행', function (isFinal) { if (isFinal) system.startActivity('youtubeActivity'); })
             speechRecog.addEventListener('날씨\\s*실행', function (isFinal) { if (isFinal) system.startActivity('weatherActivity'); })
