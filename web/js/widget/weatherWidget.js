@@ -46,7 +46,7 @@ define([
                 items += '<div><img src="./res/drawable/weather_images/'
                         + conditions[i].getIcon() + '.png" height="150" width="150"></div><div>'
                         + ((conditions[i].getTemperature() - 32) / 1.8).toFixed(1)
-                        + '℃ </br> <img src="./res/drawable/weather_images/precipitationProbability.png" height="30" width="30">'
+                        + '℃ </br> 강수확률'
                         + (conditions[i].getPrecipitationProbability() * 100).toFixed(0) + '%</div>';
             }
             $('#w_currentTemp').html(items);
