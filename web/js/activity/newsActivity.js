@@ -30,6 +30,7 @@ define(['system', 'jquery'], function (system, $) {
                         var a = $('<li></li>').appendTo('#newsActivity ul');
                         $('<a></a>').attr("href", data.items[n].link).attr('target', '_blank').html(data.items[n].title).appendTo(a);
                     }
+
                 }
             })
 
