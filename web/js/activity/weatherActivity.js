@@ -19,6 +19,20 @@ define(['system', 'lib/forecast.io', 'jquery', 'jquery-draggable'], function (sy
         }
         return Iconarr_kor[i];
     }
+    function getOzone_grade(ozone) {
+        if (ozone <= 0.030) {
+            return '좋음';
+        }
+        else if (ozone <= 0.090 && ozone > 0.030) {
+            return '보통';
+        }
+        else if (ozone <= 0.150 && ozone > 0.090) {
+            return '나쁨';
+        }
+        else {
+            return '매우나쁨';
+        }
+    }
 
     return {
         id: 'weatherActivity',
@@ -51,9 +65,9 @@ define(['system', 'lib/forecast.io', 'jquery', 'jquery-draggable'], function (sy
                     items += '<li><img src="./res/drawable/weather_images/'
                             + conditions[i].getIcon() + '.png" height="100" width="100">'
                             + ((conditions[i].getTemperature() - 32) / 1.8).toFixed(1)
-                            + '℃  </br> '+getIcon_kor(conditions[i].getIcon())  
-                            + '</li>' + "</br><li>오존지수: " 
-                            + (conditions[i].getOzone() * 0.0001).toFixed(3) + '</li>';
+                            + '℃  </br> ' + getIcon_kor(conditions[i].getIcon())
+                            + '</li>' + "</br><li>오존지수 "
+                            + getOzone_grade((conditions[i].getOzone() * 0.0001).toFixed(3)) + '</li>';
                 }
                 document.getElementById('currentTemp').innerHTML = items;
             });
@@ -72,9 +86,9 @@ define(['system', 'lib/forecast.io', 'jquery', 'jquery-draggable'], function (sy
                         items3 = '<li><img src="./res/drawable/weather_images/'
                                 + conditions[i].getIcon() + '.png" height="100" width="100">'
                                 + ((conditions[i].getTemperature() - 32) / 1.8).toFixed(1)
-                                + '℃  </br> '+getIcon_kor(conditions[i].getIcon())  
-                                + '</li>' + "</br><li>오존지수: " 
-                                + (conditions[i].getOzone() * 0.0001).toFixed(3) + '</li>';
+                                + '℃  </br> ' + getIcon_kor(conditions[i].getIcon())
+                                + '</li>' + "</br><li>오존지수 "
+                                + getOzone_grade((conditions[i].getOzone() * 0.0001).toFixed(3)) + '</li>';
 
                     }
                 }
@@ -119,9 +133,9 @@ define(['system', 'lib/forecast.io', 'jquery', 'jquery-draggable'], function (sy
                             items7 = '<li><img src="./res/drawable/weather_images/'
                                     + conditions[i].getIcon() + '.png" height="100" width="100">'
                                     + ((conditions[i].getMaxTemperature() - 32) / 1.8).toFixed(1)
-                                    + '℃  </br> '+getIcon_kor(conditions[i].getIcon())  
-                                    + '</li>' + "</br><li>오존지수: " 
-                                    + (conditions[i].getOzone() * 0.0001).toFixed(3) + '</li>';
+                                    + '℃  </br> ' + getIcon_kor(conditions[i].getIcon())
+                                    + '</li>' + "</br><li>오존지수 "
+                                    + getOzone_grade((conditions[i].getOzone() * 0.0001).toFixed(3)) + '</li>';
                             items8 = '<li>' + ((conditions[i].getMinTemperature() - 32) / 1.8).toFixed(1) + '℃/'
                                     + ((conditions[i].getMaxTemperature() - 32) / 1.8).toFixed(1)
                                     + '℃</li><li><img src="./res/drawable/weather_images/precipitationProbability.png" height="40" width="40">'

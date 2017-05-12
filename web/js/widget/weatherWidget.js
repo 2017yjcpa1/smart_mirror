@@ -12,16 +12,30 @@ define([
     var w_forecast = new ForecastIO({
         PROXY_SCRIPT: 'php/weather_proxy.php'
     });
-    function getIcon_kor(Icon){
+    function getIcon_kor(Icon) {
         var i;
-        var Iconarr = new Array('clear', 'clear-day','rain' ,'clear-night', 'cloudy', 'partly-cloudy-day', 'partly-cloudy-night', 'snow', 'storm','lightning','wind');
-        var Iconarr_kor = new Array('맑음', '맑은날','비', '맑은저녁', '흐림', '때때로 흐림', '때때로 흐린저녁', '눈', '낙뢰','낙뢰','바람');
-        for(i=0;i<Iconarr.length;i++){
-            if(Icon===Iconarr[i]){
+        var Iconarr = new Array('clear', 'clear-day', 'rain', 'clear-night', 'cloudy', 'partly-cloudy-day', 'partly-cloudy-night', 'snow', 'storm', 'lightning', 'wind');
+        var Iconarr_kor = new Array('맑음', '맑은날', '비', '맑은저녁', '흐림', '때때로 흐림', '때때로 흐린저녁', '눈', '낙뢰', '낙뢰', '바람');
+        for (i = 0; i < Iconarr.length; i++) {
+            if (Icon === Iconarr[i]) {
                 break;
             }
         }
         return Iconarr_kor[i];
+    }
+    function getOzone_grade(ozone) {
+        if (ozone <= 0.030) {
+            return '좋음';
+        }
+        else if (ozone <= 0.090 && ozone > 0.030) {
+            return '보통';
+        }
+        else if (ozone <= 0.150 && ozone > 0.090) {
+            return '나쁨';
+        }
+        else {
+            return '매우나쁨';
+        }
     }
     function currentWeather() {
         w_forecast.getCurrentConditions(w_locations, function (conditions) {
@@ -32,10 +46,8 @@ define([
                 items += '<div><img src="./res/drawable/weather_images/'
                         + conditions[i].getIcon() + '.png" height="150" width="150"></div><div>'
                         + ((conditions[i].getTemperature() - 32) / 1.8).toFixed(1)
-                        + '℃ </br> '+getIcon_kor(conditions[i].getIcon()) 
-                        + "</br>오존지수 : " + (conditions[i].getOzone() * 0.0001).toFixed(3)
-                        + '</br><img src="./res/drawable/weather_images/precipitationProbability.png" height="35" width="35">'
-                        + (conditions[i].getPrecipitationProbability() * 100).toFixed(0)+'%</div>';
+                        + '℃ </br> <img src="./res/drawable/weather_images/precipitationProbability.png" height="30" width="30">'
+                        + (conditions[i].getPrecipitationProbability() * 100).toFixed(0) + '%</div>';
             }
             $('#w_currentTemp').html(items);
         });
