@@ -23,6 +23,7 @@ define(['system', 'jquery', 'jquery-draggable'], function (system) {
                     success: function (data) {
                         var file = JSON.parse(data);
                         for (i; i < file.length; i++) {
+                            console.log(file[i]);
                             $('#gallery').append("<a href='" + path + file[i] + "'><img class='sisi' src='" + path + file[i] + "'></a>")
                         }
                     }
