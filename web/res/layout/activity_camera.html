@@ -50,22 +50,32 @@
             <source src="./res/drawable/news_images/shutter.mp3" type="audio/mp3">
         </audio>
         <div style="text-align: center">
-            <div style="width: 640px;height: 480px; margin-left: 30%">
-                <video autoplay id='video'></video>
-                <img src="./res/drawable/news_images/transparent.png" id="layer">
-            </div>
-            <img src="" id='pic' style="display: none">
 
+                <div style="width: 640px;height: 480px; margin-left: 30%">                      
+                <video autoplay id='video'></video>
+                <img src="./res/drawable/news_images/transparent.png" id="layer">             
+                </div>           
+         
+            
+            <img src="" id='pic' style="display: none">
 
             <canvas style="display:none;" width="640" height="480" id='frame'></canvas>
             <div style="margin-top: 2%">
-                <div><input type="button" 
-                            id="timer_btn" value="timer" style="margin-right: 40%;"/></div>
+                    <div>
+                    <input type="button" 
+                           id="timer_btn" 
+                           value="timer" 
+                           style="margin-right: 40%;"/>
+                    </div>
                 <input type="button" class="camera_btn" id="take" value="click" /><br/><br/> 
+                <button id="record" disabled>녹화시작</button>
+                <button id="play" disabled style="display:none;">재생</button>
+                <button id="download" disabled>다운로드</button>
                 <h1 id="threesec"></h1>
             </div>
 
-            
+
         </div>
+           <video id="recorded" autoplay loop style="display: none; width: 0%; height: 0%"></video>
     </body>
 </html>
