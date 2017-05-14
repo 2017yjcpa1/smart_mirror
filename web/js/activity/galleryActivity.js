@@ -1,4 +1,5 @@
-define(['system', 'jquery', 'jquery-draggable'], function (system) {
+define(['system', 'jquery', 'jquery-draggable'
+], function (system) {
 
     return {
 
@@ -9,6 +10,7 @@ define(['system', 'jquery', 'jquery-draggable'], function (system) {
 
         init: function () {
             console.log('gallery init');
+            $('#gallery').draggable({axis: 'y'});
         },
 
         resume: function () {
@@ -24,13 +26,12 @@ define(['system', 'jquery', 'jquery-draggable'], function (system) {
                         var file = JSON.parse(data);
                         for (i; i < file.length; i++) {
                             console.log(file[i]);
-                            $('#gallery').append("<a href='" + path + file[i] + "'><img class='sisi' src='" + path + file[i] + "'></a>")
+                            $('#gallery').append("<a href='" + path + file[i] + "' target='_blank'> <img src='" + path + file[i] + "'> </a>")
                         }
                     }
                 })
             })
 
-            
             
         },
 

@@ -8,7 +8,7 @@ define(['system', 'jquery'], function (system, $) {
             type: "GET",
 
             success: function (data) {
-                for (var n = 1; n < data.items[n].title.length; ++n) {
+                for (var n = 1; n < 10; ++n) {
                     var a = $('<b></b>').appendTo('marquee');
                     $('<a></a>').attr("href", data.items[n].link).attr('target', '_blank').html(data.items[n].title).appendTo(a);
                 }
