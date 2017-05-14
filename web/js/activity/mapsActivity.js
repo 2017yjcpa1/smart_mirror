@@ -27,10 +27,11 @@ define(['system', 'jquery', 'lib/forecast.io'], function (system, $, ForecastIO)
         geocoder.geocode({'address': address}, function (results, status) {
             if (status === 'OK') {
                 resultsMap.setCenter(results[0].geometry.location);
+
                 var locations = [
                     {
                         latitude: results[0].geometry.location.lat(),
-                        longitude: results[0].geometry.location.lat()
+                        longitude: results[0].geometry.location.lng()
                     }
                 ];
                 forecast.getCurrentConditions(locations, function (conditions) {
