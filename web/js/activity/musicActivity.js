@@ -1,4 +1,4 @@
-define([ 'system' ],function (system) {
+define([ 'system','jquery' ],function (system) {
     
     return {
         
@@ -9,6 +9,13 @@ define([ 'system' ],function (system) {
         
         init : function () {
             console.log('music init');
+//            $.ajax({
+//                url:'/smart_mirror/web/php/pullSongs.php',
+//                success: function (data) {
+//                    $('#list_table').html('<tr><td>'+data+'</tr></td>');
+//                }
+//            })
+//            $('#list_table').html
         },
         
         resume : function () {

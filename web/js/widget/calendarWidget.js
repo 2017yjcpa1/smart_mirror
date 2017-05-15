@@ -34,7 +34,7 @@ define([
                     if (date.getFullYear() == real_event[i].year && 
                         date.getMonth() == real_event[i].month && 
                         date.getDate() == real_event[i].day) {
-                        title += '<tr><td>'+real_event[i].title + '</td><tr/>';
+                        title += '<tr><td>'+real_event[i].title+"  "+real_event[i].hour+'시' + '</td><tr/>';
                     }
                 }
                 $(".todaySchedule").html(title);
