@@ -4,15 +4,50 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <style>
-            #list{
-                width: 20%;
-                height: 30%;
+            #musicActivity #list{
+                width: 700px;
+                height: 550px;
                 overflow: auto;
 
             }
-            #head{
+            #musicActivity #head{
                 text-align: left;
                 margin-top: 5%;
+            }
+            #musicActivity .music_picture{
+                height: 50px;
+                width: 50px;
+                margin-left: 10px;
+                border-radius: 22px;
+            }
+            #musicActivity .title,.playtime,.album{
+                float:left;
+                margin-right: 5px;
+            }
+            #musicActivity .artist{
+                float:right;
+            }
+            #musicActivity .album_location{
+                width: 500px;
+                float: left;
+                margin-top: -35px;
+            }
+            .att{
+                display: inline-block;
+                margin-right: 5px;
+            }
+            #musicActivity #title{
+                width:380px;
+            }
+            #musicActivity #artist{
+                width: 180px;
+                text-align: right;
+            }
+            #musicActivity #playtime{
+                margin-left: 15px;
+            }
+            #musicActivity .music_td{
+                border:solid 1px;
             }
         </style>
     </head>
@@ -22,12 +57,7 @@
                 <h1>재생 목록</h1>
             </header>
             <div id='list'>
-                <table width="100%" style="border: solid 1px;" id='list_table'>
-                    <tr>
-                        <td>
-
-                        </td>
-                    </tr>
+                <table width="100%" id='list_table'>
 
                 </table>
             </div>

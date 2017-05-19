@@ -30,9 +30,9 @@ define(['system', 'jquery', 'jquery-draggable'], function (system) {
                     ctx.drawImage(video, 0, 0); // 이미지 출력 
                     // "image/webp" works in Chrome.
                     // Other browsers will fall back to image/png.
-                    var url = canvas.toDataURL('image/png');
+                    var url = canvas.toDataURL('image/png');                  
                     document.getElementById('pic').src = canvas.toDataURL(url); //그림을 문자열 형태로,타입설정
-
+                    console.log("사진 데이터 :"+canvas.toDataURL(url));
                 }
                 $.ajax({// 사진 저장
                     url: "/smart_mirror/web/php/pic_store_process.php",
