@@ -1,4 +1,4 @@
-define(['system', 'jquery', 'lib/forecast.io'], function (system, $, ForecastIO) {
+define(['system', 'jquery', 'lib/forecast.io', 'async!' + GOOGLE_MAPS_JS], function (system, $, ForecastIO) {
     var directionsDisplay = new google.maps.DirectionsRenderer();
     var map;
     var marker;

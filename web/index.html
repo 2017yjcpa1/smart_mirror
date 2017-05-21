@@ -63,9 +63,10 @@
                 from { opacity: 0; -webkit-transform: scale(1.2); }
             }
         </style>
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCVsFm99OvEG10HtxASj9jDzdRJUjnXho0"></script>
         <script type="text/javascript" src="js/lib/require-2.3.3.min.js"></script>
         <script type="text/javascript">
+            
+            var GOOGLE_MAPS_JS = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCVsFm99OvEG10HtxASj9jDzdRJUjnXho0';
             
             Array.prototype.peek = function () {
                 return this[ this.length - 1 ];
@@ -84,9 +85,12 @@
             requirejs.config({
                 'baseUrl': './js',
                 'paths': {
-                      'vec2d': 'math/vec2d'
+                      'async' : 'lib/require-async-0.1.2'
+                    
+                    , 'vec2d': 'math/vec2d'
                     , 'vec3d': 'math/vec3d'
                     , 'mat2d': 'math/mat2d'
+                    
                     , 'jquery': 'lib/jquery-3.2.0.min'
                     , 'jquery-draggable': 'lib/jquery-draggable-1.0'
                 },
