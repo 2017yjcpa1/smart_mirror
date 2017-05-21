@@ -1,0 +1,40 @@
+<style>
+    #transcriptWidget {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        font-size: 20pt;
+    }
+    
+    #transcriptWidget img {
+        -webkit-filter: invert(100%);
+    }
+    
+    #transcriptWidget > div:before {
+        content: '';
+        
+        position: absolute;
+        top: 0px;
+        left: 30px;
+        
+        border: 3px solid red;
+        border-radius: 50%;
+        
+        z-index: -1;
+        
+        -webkit-animation: twinkle 1.0s infinite;
+    }
+    
+    #transcriptWidget.recognized > div:before {
+        -webkit-animation: none;
+    }
+    
+    @-webkit-keyframes twinkle {
+        0% { opacity: 1.0 }
+        100% { opacity: 0.0 }
+    }
+</style>
+<div>
+    <img src="asset/drawable/ic_mic.png" width="40" valign="middle"/>
+    <span></span>
+</div>

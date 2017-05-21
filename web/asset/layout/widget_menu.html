@@ -1,0 +1,96 @@
+<style>
+    #menuWidget {
+        position: absolute;
+        right: 0;
+        height: 100%;
+    }
+    
+    #menuWidget.showMenus ul {
+        right: 10px;
+    }
+    
+    #menuWidget ul {
+        list-style: none;
+        
+        position: absolute;
+        top: 0;
+        right: -220px;
+        
+        width: 220px;
+        height: auto;
+        
+        transition: right 0.8s;
+        
+        padding: 0;
+        margin: 0;
+    }
+
+    #menuWidget li { 
+        display: block;
+ 
+        font-size: 20pt;
+
+        position: relative;
+
+        width: 100px;
+        height: 100px;
+        line-height: 100px;
+        
+        margin: 10px 0;
+
+        float: right;
+        clear: right;
+         
+        transition: all 0.3s;
+    }
+
+    #menuWidget img {
+        width: 100%;
+        vertical-align: middle;
+    }
+
+    #menuWidget span { 
+        position: absolute;
+        top: 0;
+        right: 100%; 
+        padding-right: 20px;
+        
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        text-align: right;
+    } 
+    
+    #menuWidget.showMenus #showButton {
+        opacity: 0;
+    }
+    
+    #menuWidget #showButton {
+        opacity: 1;
+        
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 10px;
+        
+        margin: auto 0;
+        
+        width: 70px;
+        height: 70px;
+        
+        transition: opacity 0.5s;
+        
+        font-size: 0;
+        border: 0px none;
+        background: url(asset/drawable/ic_menu.png);
+        background-size: contain;
+         
+        -webkit-appearance: none;
+        -webkit-filter: invert(100%);
+    }
+</style>
+<button id="showButton">
+    프로그램 목록
+</button>
+<ul>
+</ul>
