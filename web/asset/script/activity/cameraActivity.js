@@ -216,7 +216,7 @@ define(['system', 'jquery', 'jquery-draggable'], function (system) {
             function download() {
                 var blob = new Blob(recordedBlobs, {type: 'video/webm'}); // 
                 var url = window.URL.createObjectURL(blob);
-                console.log("파일형식 :"+url);
+                console.log("여기서 다운 :"+url);
 //                $.ajax({
 //                    url: '/camera/video_store_process.php',
 //                    type: 'POST',

@@ -128,6 +128,7 @@ class gCalendarController extends Controller
                 'title'=>$event->getSummary(),
                 'start'=>$event->getStart()->getDateTime(),
                 'end_date'=>$event->getend()->getDateTime(),
+                'location'=>$event->getLocation(),  
 
               ];
               array_push($data,$subArr);

@@ -36,5 +36,9 @@ for ($i; $i < $length; $i++) {
 }
 //echo base64_encode($file['comments']['picture']['0']['data']);
 
-echo json_encode($id3tag); // JSON 포맷 형식 
+echo json_encode($id3tag); // JSON 포맷 형식
+//echo print_r($file);
+//echo iconv_get_encoding($file['tags']['id3v2']['title'][0]);
+//echo mb_detect_encoding($file['tags']['id3v2']['title'][0]);
+
 ?>
