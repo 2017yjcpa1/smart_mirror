@@ -166,7 +166,7 @@ define(['system', 'jquery', 'jquery-draggable'], function (system, $) {
 
                         var eventday = day_array.indexOf(real_event[z].day); // 일정 day                                   
                         $("#at" + real_event[z].hour).children().eq(eventday+1).text(real_event[z].title);
-//                        $("#at" + real_event[z].hour).children().eq(eventday+1).html(<h3><a href=''></a></h3>real_event[z].location);
+                        add_location(z,eventday);
                         $("#at" + real_event[z].hour).children().eq(eventday+1).css('padding-top',real_event[z].min+"px");
                     }
 
@@ -181,7 +181,12 @@ define(['system', 'jquery', 'jquery-draggable'], function (system, $) {
 
             $("#year-month").text(months[month] + " " + year); // 월 년
 
-
+            function add_location(z,eventday){ //  <a href=''>약속장소</a>, 약속장소 클릭 시 map 이 띄어지고 약속 장소 보여줌.  
+                if(real_event[z].location){
+//                    $("#at" + real_event[z].hour).children().eq(eventday+1).append('<a href="">'+real_event[z].location+'</h5>');
+                    $("#at" + real_event[z].hour).children().eq(eventday+1).append('<h5>'+real_event[z].location+'</h5>');
+            }
+            }
             var sync = function () {
                 var tmp = month;
                 year = d.getFullYear(); // 2017
@@ -261,6 +266,7 @@ define(['system', 'jquery', 'jquery-draggable'], function (system, $) {
                         if (year == real_event[z].year && month == real_event[z].month && day == real_event[z].day) {
                             var eventday = day_array.indexOf(real_event[z].day); // 일정 day                                   
                             $("#at" + real_event[z].hour).children().eq(eventday+1).text(real_event[z].title);
+                            add_location(z,eventday);
                             $("#at" + real_event[z].hour).children().eq(eventday+1).css('padding-top',real_event[z].min+"px");
 
 
@@ -346,6 +352,7 @@ define(['system', 'jquery', 'jquery-draggable'], function (system, $) {
                         if (year == real_event[z].year && month == real_event[z].month && day == real_event[z].day) {
                             var eventday = day_array.indexOf(real_event[z].day); // 일정 day                                   
                             $("#at" + real_event[z].hour).children().eq(eventday+1).text(real_event[z].title);
+                            add_location(z,eventday)
                             $("#at" + real_event[z].hour).children().eq(eventday+1).css('padding-top',real_event[z].min+"px");
 
 
@@ -426,6 +433,7 @@ define(['system', 'jquery', 'jquery-draggable'], function (system, $) {
 
                             var eventday = day_array.indexOf(real_event[z].day); // 일정 day                                   
                             $("#at" + real_event[z].hour).children().eq(eventday+1).text(real_event[z].title);
+                            add_location(z,eventday);
                             $("#at" + real_event[z].hour).children().eq(eventday+1).css('padding-top',real_event[z].min+"px");
 
 
