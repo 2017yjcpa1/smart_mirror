@@ -128,6 +128,10 @@ function time_control() {
     timer.start();
 }
 
+function  time_end() {
+    timer.end();
+}
+
 function clock_button() {
     
     clock.start();
@@ -189,7 +193,7 @@ function getSum(arr) {
 /*------------------------------*/
 /*AUDIO*/
 /*------------------------------*/
-var timer_sound = new Audio('https://www.youtube.com/watch?v=f3vG2RQkDMY');
+var timer_sound = new Audio('http://tylergrund.com/mp3/Super_25ma_sm.mp3');
 
 function playSound(sound) {
   sound.play();
@@ -226,6 +230,7 @@ function stopSound(sound) {
             $('#spw_lap').click(spw_lap);
             $('#spw_reset').click(spw_reset);
             $('#timeset').click(time_control);
+            $(time_control).end(time_end);
         },
         
         resume : function () {
