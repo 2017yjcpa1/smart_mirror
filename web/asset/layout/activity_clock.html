@@ -15,7 +15,7 @@
 
 /*OPTIONS*/
 #clockActivity div.opt-wrapper {width: 100%; height: auto; margin-top: 10%; text-align: center; color: green;}
-#clockActivity label, #clockActivity button, #clockActivity input.timer-input {margin: 15px 0px 15px 15px; padding: 15px; display: inline-block; font-size: 15px; border: 0px solid; outline: none; color: white; transition: all 0.25s;}
+#clockActivity label, #clockActivity button, #clockActivity input.timer-input{margin: 15px 0px 15px 15px; padding: 15px; display: inline-block; font-size: 15px; border: 0px solid; outline: none; color: white; transition: all 0.25s;}
 #clockActivity label:hover, #clockActivity button:hover, #clockActivity input.timer-input:focus {color: green; cursor: pointer;}
 #clockActivity input[name='clock-opt'] {display: none;}
 #clockActivity input[name='clock-opt']:checked + label {color: red;}
@@ -24,7 +24,7 @@
 
 
 /*OPTION CONTROLS*/
-#clockActivity input.timer-input {width: 55px; text-align: center; color: green;}
+#clockActivity input.timer-input {width: 55px; text-align: center; color: black;}
 
 @-webkit-keyframes ring {
   from {
@@ -59,9 +59,10 @@
 <div class="main-wrapper">
 
   <div class="opt-wrapper">
-    <!--CLOCK-->
     
-
+    <input type="radio" id="alarm-btn" name="clock-opt"/>
+    <label for="alarm-btn">ALARM</label>
+    
     <!--STOPWATCH-->
     <input type="radio" id="stopwatch-btn" name="clock-opt"/>
     <label for="stopwatch-btn">STOPWATCH</label>
@@ -71,9 +72,20 @@
     <label for="timer-btn">TIMER</label>
     
     <!---WORLD Time-->
-    <input type="radio" id="world-btn" name="world-opt"/>
+    <input type="radio" id="world-btn" name="clock-opt"/>
     <label for="world-btn">WORLD Time</label>
     
+    <div class="hidden" id="alarm_btn_wrapper">
+        <button id="alarm_setting">SETTING</button>
+    </div>
+    
+    <div class="hidden" id="alarm_set_wrapper">
+        <input id="alarm_h" type="text" placeholder="HH" class="timer-input">
+        <input id="alarm_m" type="text" placeholder="MM" class="timer-input">
+        <input id="alarm_s" type="text" placeholder="SS" class="timer-input">
+        <button id="alarmstart">START</button>
+        <button id="alarmreset">RESET</button>
+    </div>
     
     <!--STOPWATCH CONTROLS-->
     <div class="hidden" id="spw_btn_wrapper">

@@ -102,6 +102,8 @@ function newOption() {
   clock.stop(); // 현재시간 스톱
   stopwatch.reset(); // 스톱워치 리셋
   timer.stop(); // 타이머 리셋
+  document.getElementById('alarm_btn_wrapper').classList.add('hidden');
+  document.getElementById('alarm_set_wrapper').classList.add('hidden');
   document.getElementById('spw_btn_wrapper').classList.add('hidden');
   document.getElementById('timer_btn_wrapper').classList.add('hidden');
   document.getElementById('lap-wrapper').classList.add('hidden');
@@ -135,6 +137,16 @@ function  time_end() {
 function clock_button() {
     
     clock.start();
+}
+
+function alarmset() {
+    
+    document.getElementById("alarm_btn_wrapper").classList.remove('hidden');
+}
+
+function alarmbutton() {
+    
+    document.getElementById("alarm_set_wrapper").classList.remove('hidden');
 }
 
 function spw_button() {
@@ -220,25 +232,28 @@ function stopSound(sound) {
             clock.start();
             
             $('.main-wrapper').draggable({axis: 'y'});
-         
-            $('#clock-btn').click(newOption);
+            
+            $('#alarm-btn').click(newOption);
             $('#stopwatch-btn').click(newOption);
-            $('#stopwatch-btn').click(spw_button);
             $('#timer-btn').click(newOption);
+            
+            $('#alarm-btn').click(alarmset);
+            $('#stopwatch-btn').click(spw_button);
             $('#timer-btn').click(timer_button);
-            $('#spw_start').click(spw_control);
-            $('#spw_lap').click(spw_lap);
-            $('#spw_reset').click(spw_reset);
-          
+           
+            
         },
         
         resume : function () {
             console.log('clock resume');
             //ninivert, June 2016
             
+             $('#alarm-btn').click(clock_button);
+             $('#alarm_btn_wrapper').click(alarmbutton);
+             $('#spw_start').click(spw_control);
+             $('#spw_lap').click(spw_lap);
+             $('#spw_reset').click(spw_reset);
              $('#timeset').click(time_control);
-           
-            
         },
         
         pause : function () {
