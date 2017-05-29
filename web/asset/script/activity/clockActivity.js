@@ -229,15 +229,15 @@ function stopSound(sound) {
             $('#spw_start').click(spw_control);
             $('#spw_lap').click(spw_lap);
             $('#spw_reset').click(spw_reset);
-            $('#timeset').click(time_control);
-            $(time_control).end(time_end);
+          
         },
         
         resume : function () {
             console.log('clock resume');
             //ninivert, June 2016
             
-            
+             $('#timeset').click(time_control);
+           
             
         },
         
