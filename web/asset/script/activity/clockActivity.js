@@ -8,6 +8,7 @@ var clock_inter, stopwatch_inter, stopwatch_state;
 /*------------------------------*/
 /*TIMERS*/
 /*------------------------------*/
+
 //clock
 var clock = {
   start: function() {
@@ -18,12 +19,51 @@ var clock = {
       var time_seconds = (time.getSeconds() < 10) ? '0' + time.getSeconds() : time.getSeconds();
       document.getElementById('clock').innerHTML = time_hours + ':' + time_minutes + ':' + time_seconds;
     }, 0);
-   
   },
+  
   stop: function() {
     clearInterval(clock_inter);
-  }
+  },
 };
+
+
+        
+var today;
+var hours, minutes, seconds;
+var h, m, s;
+var alarm_inter;
+
+  var alarm = {
+      start: 
+   function () {
+       alarm_inter = setInterval(function() {
+ today = new Date();
+ hours = today.getHours();
+ minutes = today.getMinutes();
+ seconds = today.getSeconds();
+ document.getElementById('clock').innerHTML = hours + ":" + minutes + ":" + seconds;
+ 
+ 
+ h = document.getElementById('alarm_h').value;
+ m = document.getElementById('alarm_m').value;
+ s = document.getElementById('alarm_s').value;
+ 
+ if(h==hours && m==minutes && s==seconds)
+     playSound(timer_sound);
+     console.log('됨');
+    },1000)
+   }
+    
+      ,
+      
+      stop: function() {
+          clearInterval(alarm_inter);
+          stopSound(timer_sound);
+          console.log('끝');
+      }
+};
+ 
+
 
 //stopwatch
 var start_time = 0;
@@ -99,6 +139,7 @@ var timer = {
 function newOption() {
   
   document.getElementById('clock').innerHTML = '00:00:00'; // 스톱워치와 타이머를 누르면 현재시간이 00:00:00 이 된다.
+  alarm.stop();
   clock.stop(); // 현재시간 스톱
   stopwatch.reset(); // 스톱워치 리셋
   timer.stop(); // 타이머 리셋
@@ -107,6 +148,15 @@ function newOption() {
   document.getElementById('spw_btn_wrapper').classList.add('hidden');
   document.getElementById('timer_btn_wrapper').classList.add('hidden');
   document.getElementById('lap-wrapper').classList.add('hidden');
+}
+
+function alarm_start() {
+    alarm.start();
+}
+
+function alarm_stop() {
+    
+    alarm.stop();
 }
 
 function spw_control() {
@@ -232,11 +282,10 @@ function stopSound(sound) {
             clock.start();
             
             $('.main-wrapper').draggable({axis: 'y'});
-            
+
             $('#alarm-btn').click(newOption);
             $('#stopwatch-btn').click(newOption);
             $('#timer-btn').click(newOption);
-            
             $('#alarm-btn').click(alarmset);
             $('#stopwatch-btn').click(spw_button);
             $('#timer-btn').click(timer_button);
@@ -250,6 +299,8 @@ function stopSound(sound) {
             
              $('#alarm-btn').click(clock_button);
              $('#alarm_btn_wrapper').click(alarmbutton);
+             $('#alarmstart').click(alarm_start);
+             $('#alarmreset').click(alarm_stop);
              $('#spw_start').click(spw_control);
              $('#spw_lap').click(spw_lap);
              $('#spw_reset').click(spw_reset);
@@ -265,4 +316,3 @@ function stopSound(sound) {
         },
     }
 })
-
