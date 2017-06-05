@@ -9,7 +9,7 @@ define(['system', 'jquery', 'jquery-draggable'], function (system, $) {
 
         init: function () {
             console.log('calendar init');
-
+            $('#calendarActivity').draggable({axis: 'y'});
         },
 
         resume: function () {
