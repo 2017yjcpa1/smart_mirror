@@ -32,6 +32,8 @@ var today;
 var hours, minutes, seconds;
 var h, m, s;
 var alarm_inter;
+var snooze_inter;
+var snooze;
 
   var alarm = {
       start: 
@@ -50,7 +52,7 @@ var alarm_inter;
  
  if(h==hours && m==minutes && s==seconds)
      playSound(timer_sound);
-     console.log('됨');
+    
     },1000)
    }
     
@@ -58,8 +60,20 @@ var alarm_inter;
       
       stop: function() {
           clearInterval(alarm_inter);
+          clearInterval(snooze_inter);
           stopSound(timer_sound);
           console.log('끝');
+      },
+      
+      snooze: function() {
+        
+        snooze_inter = setInterval(function() {
+            
+            snooze = document.getElementById('snoozeset').value;
+            
+            
+        }) 
+          
       }
 };
  
@@ -131,7 +145,7 @@ var timer = {
 
 };
 
-  
+
 
 /*------------------------------*/
 /*MANAGEMENT*/
@@ -145,6 +159,7 @@ function newOption() {
   timer.stop(); // 타이머 리셋
   document.getElementById('alarm_btn_wrapper').classList.add('hidden');
   document.getElementById('alarm_set_wrapper').classList.add('hidden');
+  document.getElementById('alarm_snooze_wrapper').classList.add('hidden');
   document.getElementById('spw_btn_wrapper').classList.add('hidden');
   document.getElementById('timer_btn_wrapper').classList.add('hidden');
   document.getElementById('lap-wrapper').classList.add('hidden');
@@ -197,6 +212,7 @@ function alarmset() {
 function alarmbutton() {
     
     document.getElementById("alarm_set_wrapper").classList.remove('hidden');
+    document.getElementById('alarm_snooze_wrapper').classList.remove('hidden');
 }
 
 function spw_button() {
