@@ -1,96 +1,71 @@
-<style>
-    
-@import url(https://fonts.googleapis.com/css?family=Raleway);
-@import url(https://fonts.googleapis.com/css?family=Fira+Mono);
-#musicActivity html, #musicActivity body {background-color: gray; font-family: Raleway, sans-serif;}
-#musicActivity .wrap {background-color: orange; bottom: 0; display: flex; height: 400px; left: 0; margin: auto; position: absolute; right: 0; top: 0; width: 800px;}
-#musicActivity audio {display: none;}
-#musicActivity .player {background-color: transparentize(black, .5); color: white; flex-grow: 0; height: 100%; position: relative; width: 50%;}
-#musicActivity .cover {background-image: linear-gradient(to bottom, transparentize(black, .25), transparentize(black, 1)); background-size: 100% 100%; height: 100%;}
-#musicActivity .controls {display: flex; height: 13.33%; left: 17.5%; position: absolute; top: 5%; width: 65%;}
-#musicActivity button { background-color: transparent;border: 2px solid white; border-radius: 50%; color: white; flex: 1 0 0; font-size: 150%; outline: none; width: 2.25em;}
-#musicActivity & + button {margin-left: 5%;}
-#musicActivity &:hover {background-color: white; color: black; cursor: pointer;}
-#musicActivity &.pause {display: none;}
-#musicActivity .volume {left: 2.5%; bottom: 12.5%; position: absolute;}
-#musicActivity button {border: 2px solid white; border-radius: 50%; color: white; font-size: 150%; outline: none; width: 1.5em;}
-#musicActivity & + button {margin-left: .25em;}
-#musicActivity &:hover {background-color: white; color: black; cursor: pointer;}
-#musicActivity .progress {-moz-appearance: none; -webkit-appearance: none; appearance: none; background-color: transparent; border: 0; bottom: 0; height: 10%; left: 0; position: absolute; width: 100%;}
-#musicActivity &::-moz-progress-bar, #musicActivity &::-webkit-progress-value {background-color: white;}
-#musicActivity &::-webkit-progress-bar {background-color: transparent;}
-#musicActivity .timer {border: 3px solid white; border-radius: .75em; bottom: 0; font-family: Fira Mono; font-size: 250%; height: 1.5em; left: 0; line-height: 1.66em; margin: auto; position: absolute; right: 0; text-align: center; top: 0; width: 4em;}
-#musicActivity .track-list {flex: 1 0 0; font-size: 1.25em;}
-#musicActivity ul {counter-reset: trackCounter; list-style: none; margin: 0; padding: 0;}
-#musicActivity .track-info {counter-increment: trackCounter; display: flex; padding: .5em;}
-#musicActivity &:before {content: counter(trackCounter) "."; margin-right: .25em;}
-#musicActivity &.active {color: white;}
-#musicActivity .title:after {content: ">"; margin-left: .5em;}
-#musicActivity &:nth-child(even) {background-color: transparentize(black, .75);}
-#musicActivity &:hover {background-color: transparentize(black, .66); cursor: pointer;}
-#musicActivity .title {flex: 7 0 0;}
-#musicActivity .time {flex: 1 0 0; text-align: right;}
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <style>
+            #musicActivity #list{
+                width: 700px;
+                height: 550px;
+                overflow: auto;
 
-</style>
+            }
+            #musicActivity #head{
+                text-align: left;
+                margin-top: 5%;
+            }
+            #musicActivity .music_picture{
+                height: 50px;
+                width: 50px;
+                margin-left: 10px;
+                border-radius: 22px;
+            }
+            #musicActivity .title,.playtime,.album{
+                float:left;
+                margin-right: 5px;
+            }
+            #musicActivity .artist{
+                float:right;
+            }
+            #musicActivity .album_location{
+                width: 500px;
+                float: left;
+                margin-top: -35px;
+            }
+            .att{
+                display: inline-block;
+                margin-right: 5px;
+            }
+            #musicActivity #title{
+                width:380px;
+            }
+            #musicActivity #artist{
+                width: 180px;
+                text-align: right;
+            }
+            #musicActivity #playtime{
+                margin-left: 15px;
+            }
+            #musicActivity .music_td{
+                border:solid 1px;
+            }
+        </style>
+    </head>
+    <body> 
+        <div id='head'>
+            <header>
+                <h1>재생 목록</h1>
+            </header>
+            <div id='list'>
+                <table width="100%" id='list_table'>
 
-<div class="wrap">
- <div class="player">
-  <audio class="audio-player" src=""></audio>
-  <div class="cover"></div>
-  <div class="controls">
-   <button class="prev">
-    <i class="fa fa-step-backward">Prev</i>
-   </button>
-   <button class="play">
-    <i class="fa fa-play">Play</i>
-   </button>
-   <button class="pause">
-   <i class="fa fa-pause">Pause</i>
-   </button>
-   <button class="stop">
-   <i class="fa fa-stop">Stop</i>
-   </button>
-   <button class="next">
-   <i class="fa fa-step-forward">Next</i>
-   </button>
-  </div>
-  <div class="timer">00:00</div>
-  <div class="volume">
-   <button class="volume-down">
-   <i class="fa fa-volume-down"></i>
-  </button>
-   <button class="volume-up">
-<i class="fa fa-volume-up"></i>
-  </button>
-  </div>
-  <progress class="prog" value="0" min="0" max="100" step="1"></progress>
- </div>
- <div class="track-list">
-  <ul>
-   <li class="track-info active" data-url="http://tylergrund.com/mp3/Beatles/Penny%20Lane.mp3" data-cover="http://streamd.hitparade.ch/cdimages/the_beatles-penny_lane_s_5.jpg">
-    <span class="title">Penny Lane</span>
-    <span class="time"></span>
-   </li>
-   <li class="track-info" data-url="http://tylergrund.com/mp3/Beatles/Eleanor%20Rigby.mp3" data-cover="http://images.gibson.com/Lifestyle/English/aaFeaturesImages2008pt2/beatles%20yellow%20sub.jpg">
-    <span class="title">Eleanor Rigby</span>
-    <span class="time"></span>
-   </li>
-   <li class="track-info" data-url="http://tylergrund.com/mp3/Beatles/Strawberry%20Fields%20Forever.mp3" data-cover="http://k31.kn3.net/1AA44B39D.jpg">
-    <span class="title">Strawberry Fields Forever</span>
-    <span class="time"></span>
-   </li>
-   <li class="track-info" data-url="http://tylergrund.com/mp3/Beatles/Ticket%20to%20Ride.mp3" data-cover="http://streamd.hitparade.ch/cdimages/the_beatles-ticket_to_ride_s_4.jpg">
-    <span class="title">Ticket to ride</span>
-    <span class="time"></span>
-   </li>
-   <li class="track-info" data-url="http://tylergrund.com/mp3/Super_25ma_sm.mp3" data-cover="http://streamd.hitparade.ch/cdimages/the_beatles-ticket_to_ride_s_4.jpg">
-    <span class="title">Guita Sound</span>
-    <span class="time"></span>
-   </li>
-   <li class="track-info" data-url="http://jhinter.ddns.net/Media/Music/%EC%B6%94%EC%96%B5%EC%9D%98%20%EB%A6%AC%EB%A9%94%EC%9D%B4%ED%81%AC%5BRemake%5D%20%ED%9E%88%ED%8A%B8%EA%B0%80%EC%9A%94%20%5B160%20%EC%97%AC%EA%B3%A1%5D%20%EC%84%A0%EA%B3%A1/018.%20%EA%B8%B0%EC%96%B5%EC%86%8D%EC%9D%98%20%EB%A8%BC%20%EA%B7%B8%EB%8C%80%EC%97%90%EA%B2%8C%20-%20%EB%B0%95%ED%9A%A8%EC%8B%A0.mp3" data-cover="">
-    <span class="title">박효신 기억속에 먼 그대에게</span>
-    <span class="time"></span>
-   </li>
-  </ul>
- </div>
-</div>
+                </table>
+            </div>
+        </div>
+        <script>
+            console.log('뜨나욧');
+        </script>
+
+
+    </body>
+</html>

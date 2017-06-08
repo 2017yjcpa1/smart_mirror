@@ -5,11 +5,6 @@ define(['system', 'jquery', 'lib/forecast.io', 'async!' + GOOGLE_MAPS_JS], funct
     var forecast = new ForecastIO({
         PROXY_SCRIPT: 'php/weather_proxy.php'
     });
-    function calendar_map(location){ // 캘린더와 연동 할때 쓸 함수 
-        document.getElementById('address').setAttribute('value',location);
-        var geocoder = new google.maps.Geocoder();
-        geocodeAddress(geocoder, map);
-    }
     function initialize() {
         var youngjin = new google.maps.LatLng(35.896205, 128.622019);
         var mapOptions = {

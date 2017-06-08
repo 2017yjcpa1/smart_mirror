@@ -66,6 +66,7 @@
             }
         </style>
         <script type="text/javascript" src="asset/script/lib/require-2.3.3.min.js"></script>
+        <script type="text/javascript" src="asset/script/lib/jquery-3.2.0.min.js"></script>
         <script type="text/javascript">
             
             var GOOGLE_MAPS_JS = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCVsFm99OvEG10HtxASj9jDzdRJUjnXho0';
@@ -108,6 +109,18 @@
             require(['system'], function (system) {
                 system.init();
             });
+    
+            (function waitForNotify(creationDate) {
+
+                $.getJSON('./index.php/push/?creation_date=' + creationDate, function (notifyData) {
+                    console.log("notifyData = ", notifyData);
+
+                    if (notifyData['creation_date']) {
+                        waitForNotify(parseInt(notifyData['creation_date'], 10));
+                    }
+                });
+
+            })(<?=time()?>);
         </script>
     </head>
     <body>

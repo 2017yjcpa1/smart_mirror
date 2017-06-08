@@ -132,7 +132,6 @@ define(['system',
 
 //Build output String 
                 var output ='<iframe class="list-left"src="https://www.youtube.com/embed/'+ videoId +'"frameborder="0" allowfullscreen="true"></iframe>';
-                
                 return output;
             }
 
@@ -140,11 +139,11 @@ define(['system',
                 if (!prevPageToken) {
                     var btnOutput = $('<div class="button-container">' +
                             '<button id="next-button" class="paging-button" data-token="' + nextPageToken +
-                            '" data-query="' + query + '" ></button></div>').click(nextPage);
+                            '" data-query="' + query + '">Next Page</button></div>').click(nextPage);
                 } else {
-                    var nextBtn = $('<button id="next-button" data-token="' + nextPageToken +'" data-query="' + query + '"></button>').click(nextPage);
-                    var prevBtn = $('<button id="prev-button" data-token="' + prevPageToken +'" data-query="' + query + '"></button>').click(prevPage);
-                 
+                    var nextBtn = $('<button id="next-button" class="paging-button" data-token="' + nextPageToken +'" data-query="' + query + '">Next Page</button>').click(nextPage);
+                    var prevBtn = $('<button id="prev-button" class="paging-button" data-token="' + prevPageToken +'" data-query="' + query + '">prev Page</button>').click(prevPage);
+                    
                     var btnOutput = $('<div class="button-container"></div>');
                     
                     prevBtn.appendTo(btnOutput);

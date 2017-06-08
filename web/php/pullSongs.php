@@ -25,9 +25,9 @@ for ($i; $i < $length; $i++) {
     $file = $getID3->analyze($path . $files[$i]);
     
     $id3tag[] = array(
-        'title' => $file['tags']['id3v2']['title'],
-        'artist' => $file['tags']['id3v2']['artist'],
-        'album' => $file['tags']['id3v2']['album'],
+        'title' => $file['tags']['id3v2']['title'][0],
+        'artist' => $file['tags']['id3v2']['artist'][0],
+        'album' => $file['tags']['id3v2']['album'][0],
         'lyric' => $file['tags']['id3v2']['unsynchronised_lyric'][0],
         'playtime' => $file['playtime_string'],
         'picture' => base64_encode($file['comments']['picture'][0]['data'])
@@ -36,9 +36,5 @@ for ($i; $i < $length; $i++) {
 }
 //echo base64_encode($file['comments']['picture']['0']['data']);
 
-echo json_encode($id3tag); // JSON 포맷 형식
-//echo print_r($file);
-//echo iconv_get_encoding($file['tags']['id3v2']['title'][0]);
-//echo mb_detect_encoding($file['tags']['id3v2']['title'][0]);
-
+echo json_encode($id3tag); // JSON 포맷 형식 
 ?>
