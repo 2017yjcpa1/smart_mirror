@@ -1,0 +1,124 @@
+<style>
+    @import "https://fonts.googleapis.com/css?family=Open+Sans:300";
+/*MAIN DISPLAY*/
+
+#clockActivity * {box-sizing: border-box; font-family: 'Open Sans'; font-weight: 300;}
+#clockActivity div.main-wrapper {display: -webkit-flex; display: flex; -webkit-flex-direction: column; flex-direction: column; width: 100%; height: 100%; color: white;}
+
+/*LAPS*/
+#clockActivity div#lap-wrapper {flex-shrink: 0; overflow-y: auto; max-height: 200px; border-bottom: 2px dotted rgba(0, 0, 0, 0.75); border-color: white;}
+#clockActivity p#laps {margin: 0px; padding: 0px; font-family: 'Open Sans'; font-weight: 300; font-size: 50px; text-align: center; color: white;}
+
+/*CLOCK DISPLAY*/
+#clockActivity div.clock-wrapper {flex-grow: 1; position: relative; overflow-y: auto;}
+#clockActivity p#clock {margin: 0px; padding: 0px; font-family: 'Open Sans'; font-weight: 300; font-size: 150px; color: white; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);}
+
+/*OPTIONS*/
+#clockActivity div.opt-wrapper {width: 100%; height: auto; margin-top: 10%; text-align: center; color: green;}
+#clockActivity label, #clockActivity button, #clockActivity input.timer-input{margin: 15px 0px 15px 15px; padding: 15px; display: inline-block; font-size: 15px; border: 0px solid; outline: none; color: white; transition: all 0.25s;}
+#clockActivity label:hover, #clockActivity button:hover, #clockActivity input.timer-input:focus {color: green; cursor: pointer;}
+#clockActivity input[name='clock-opt'] {display: none;}
+#clockActivity input[name='clock-opt']:checked + label {color: red;}
+#clockActivity input[name='clock-opt']:checked + label:hover {color: green;}
+#clockActivity #spw_btn_wrapper {color: green;}
+
+
+/*OPTION CONTROLS*/
+#clockActivity input.timer-input {width: 55px; text-align: center; color: black;}
+
+@-webkit-keyframes ring {
+  from {
+    transform: rotate(20deg);
+  }
+  to {
+    transform: rotate(-20deg);
+  }
+}
+@keyframes ring {
+  from {
+    transform: rotate(20deg);
+  }
+  to {
+    transform: rotate(-20deg);
+  }
+}
+
+/*OTHER*/
+#clockActivity .hidden {display: none; color: white;}
+
+
+/*MEDIA*/
+@media screen and (max-width: 700px) {
+  p#clock {font-size: 20vw;}
+}
+
+#clockActivity #Clock {
+    color: yellow;
+}
+</style>
+
+
+
+<div class="main-wrapper">
+
+  <div class="opt-wrapper">
+    
+    <input type="radio" id="alarm-btn" name="clock-opt"/>
+    <label for="alarm-btn">ALARM</label>
+    
+    <!--STOPWATCH-->
+    <input type="radio" id="stopwatch-btn" name="clock-opt"/>
+    <label for="stopwatch-btn">STOPWATCH</label>
+
+    <!--TIMER-->
+    <input type="radio" id="timer-btn" name="clock-opt" />
+    <label for="timer-btn">TIMER</label>
+    
+    <!---WORLD Time-->
+    <input type="radio" id="world-btn" name="clock-opt"/>
+    <label for="world-btn">WORLD Time</label>
+    
+    <div class="hidden" id="alarm_btn_wrapper">
+        <button id="alarm_setting">SETTING</button>
+    </div>
+    <div id=Clock></div>
+    <div class="hidden" id="alarm_set_wrapper">
+        <input id="alarm_h" type="text" placeholder="HH" name="H" class="timer-input">
+        <input id="alarm_m" type="text" placeholder="MM" name="M" class="timer-input">
+        <input id="alarm_s" type="text" placeholder="SS" name="S" class="timer-input">
+        <button id="alarmstart">START</button>
+        <button id="alarmreset">RESET</button>
+    </div>
+    
+    <div class="hidden" id="alarm_snooze_wrapper">
+        <input id="snoozeset" type="text" class="timer-input">
+        <button id="snoozestart">SNOOZE</button>
+    </div>
+    
+    <!--STOPWATCH CONTROLS-->
+    <div class="hidden" id="spw_btn_wrapper">
+      <button id="spw_start">START/STOP</button>
+      <button id="spw_lap">LAP</button>
+      <button id="spw_reset">RESET</button>
+    </div>
+
+    <!--TIMER CONTROLS-->
+    <div class="hidden" id="timer_btn_wrapper">
+      <input id="timer_h" type="text" placeholder="HH" class="timer-input" />
+      <input id="timer_m" type="text" placeholder="MM" class="timer-input" />
+      <input id="timer_s" type="text" placeholder="SS" class="timer-input" />
+      <button id="timeset">START</button>
+    </div>
+  </div>
+
+  <!--LAP DISPLAY-->
+  <div id="lap-wrapper" class="hidden">
+    <p id="laps">LAPS</p>
+  </div>
+  
+  <!--CLOCK DISPLAY-->
+  <div class="clock-wrapper">
+    <p id="clock">00:00:00</p>
+  </div>
+  
+</div>
