@@ -10,6 +10,7 @@ var clock_inter, stopwatch_inter, stopwatch_state;
 /*------------------------------*/
 
 //clock
+
 var clock = {
   start: function() {
     clock_inter = setInterval(function() {
@@ -29,12 +30,12 @@ var clock = {
 
         
 var today;
-var hours, minutes, seconds;
+var hours, minutes, seconds, day;
 var h, m, s;
 var alarm_inter;
-var snooze_inter;
-var snooze;
-
+var snooze=0;
+var alarm_onoff;
+        
   var alarm = {
       start: 
    function () {
@@ -43,41 +44,38 @@ var snooze;
  hours = today.getHours();
  minutes = today.getMinutes();
  seconds = today.getSeconds();
+ day = today.getDay();
+ 
+
+ 
  document.getElementById('clock').innerHTML = hours + ":" + minutes + ":" + seconds;
  
  
- h = document.getElementById('alarm_h').value;
- m = document.getElementById('alarm_m').value;
- s = document.getElementById('alarm_s').value;
- 
- if(h==hours && m==minutes && s==seconds)
-     playSound(timer_sound);
+    h = document.getElementById('alarm_h').value;
+    m = document.getElementById('alarm_m').value;
+    s = document.getElementById('alarm_s').value;
     
-    },1000)
-   }
-    
-      ,
-      
+   
+            var count=0;
+            if(h==hours && m==minutes && s==seconds)
+            {
+                   alarm_onoff = playSound(timer_sound);
+                                   setInterval(function() {
+                                      playSound(timer_sound); console.log(7000+snooze);
+                                  },6500+snooze) 
+
+            }
+                },1000)
+           },
+   
       stop: function() {
           clearInterval(alarm_inter);
-          clearInterval(snooze_inter);
+          clearInterval(alarm_onoff);
           stopSound(timer_sound);
-          console.log('끝');
+
       },
       
-      snooze: function() {
-        
-        snooze_inter = setInterval(function() {
-            
-            snooze = document.getElementById('snoozeset').value;
-            
-            
-        }) 
-          
-      }
 };
- 
-
 
 //stopwatch
 var start_time = 0;
@@ -158,74 +156,30 @@ function newOption() {
   stopwatch.reset(); // 스톱워치 리셋
   timer.stop(); // 타이머 리셋
   document.getElementById('alarm_btn_wrapper').classList.add('hidden');
-  document.getElementById('alarm_set_wrapper').classList.add('hidden');
+  
   document.getElementById('alarm_snooze_wrapper').classList.add('hidden');
+  document.getElementById('snooze_set_wrapper').classList.add('hidden');
+  
+  document.getElementById('day_set_wrapper').classList.add('hidden');
   document.getElementById('spw_btn_wrapper').classList.add('hidden');
   document.getElementById('timer_btn_wrapper').classList.add('hidden');
   document.getElementById('lap-wrapper').classList.add('hidden');
+
 }
 
-function alarm_start() {
-    alarm.start();
-}
-
-function alarm_stop() {
-    
-    alarm.stop();
-}
-
-function spw_control() {
-    
-    stopwatch.start_stop();
-}
-
-function spw_lap() {
-    
-    stopwatch.lap();
-}
-
-function spw_reset() {
-    
-    stopwatch.reset();
-}
-
-function time_control() {
-    
-    timer.stop();
-    timer.start();
-}
-
-function  time_end() {
-    timer.end();
-}
-
-function clock_button() {
-    
-    clock.start();
-}
-
-function alarmset() {
-    
-    document.getElementById("alarm_btn_wrapper").classList.remove('hidden');
-}
-
-function alarmbutton() {
-    
-    document.getElementById("alarm_set_wrapper").classList.remove('hidden');
-    document.getElementById('alarm_snooze_wrapper').classList.remove('hidden');
-}
-
-function spw_button() {
-    
-    document.getElementById('spw_btn_wrapper').classList.remove('hidden'); 
-    document.getElementById('lap-wrapper').classList.remove('hidden');
-}
-
-
-function timer_button() {
-    
-    document.getElementById('timer_btn_wrapper').classList.remove('hidden');
-}
+function alarm_start() {alarm.start();}
+function alarm_stop() {alarm.stop();}
+function spw_control() {stopwatch.start_stop();}
+function spw_lap() {stopwatch.lap();}
+function spw_reset() {stopwatch.reset();}
+function time_control() {timer.stop(); timer.start();}
+function time_end() {timer.end();}
+function clock_button() {clock.start();}
+function alarmbutton() {document.getElementById("alarm_btn_wrapper").classList.remove('hidden'); document.getElementById("alarm_snooze_wrapper").classList.remove('hidden');}
+function dayset() {document.getElementById("day_set_wrapper").classList.remove('hidden');}
+function snoozeset() {document.getElementById("snooze_set_wrapper").classList.remove('hidden');}
+function spw_button() {document.getElementById('spw_btn_wrapper').classList.remove('hidden'); document.getElementById('lap-wrapper').classList.remove('hidden');}
+function timer_button() {document.getElementById('timer_btn_wrapper').classList.remove('hidden');}
 
 
 /*------------------------------*/
@@ -271,7 +225,7 @@ function getSum(arr) {
 /*------------------------------*/
 /*AUDIO*/
 /*------------------------------*/
-var timer_sound = new Audio('http://tylergrund.com/mp3/Super_25ma_sm.mp3');
+var timer_sound = new Audio('http://www.gravomaster.com/alarm/sounds/SND-Energetic_-_Groovy_TNT.mp3');
 
 function playSound(sound) {
   sound.play();
@@ -297,12 +251,29 @@ function stopSound(sound) {
             console.log('clock init');
             clock.start();
             
+            $("#one").click(function() { 
+                 snooze=1000;
+                console.log(snooze);
+            }) 
+
+            $("#two").click(function(){
+                snooze=3000;
+               console.log(snooze);
+            })
+
+            $("#three").click(function() {
+                snooze=5000;
+               console.log(snooze);
+                /*setInterval(function() {
+                    playSound(timer_sound);
+                },1000)*/
+            })  
             $('.main-wrapper').draggable({axis: 'y'});
 
             $('#alarm-btn').click(newOption);
             $('#stopwatch-btn').click(newOption);
             $('#timer-btn').click(newOption);
-            $('#alarm-btn').click(alarmset);
+            $('#alarm-btn').click(alarmbutton);
             $('#stopwatch-btn').click(spw_button);
             $('#timer-btn').click(timer_button);
            
@@ -314,10 +285,12 @@ function stopSound(sound) {
             //ninivert, June 2016
             
              $('#alarm-btn').click(clock_button);
-             $('#alarm_btn_wrapper').click(alarmbutton);
+         
              $('#alarmstart').click(alarm_start);
              $('#alarmreset').click(alarm_stop);
-             $('#spw_start').click(spw_control); 
+             $('#snooze_setting').click(snoozeset);
+             $('#alarmday_setting').click(dayset);
+             $('#spw_start').click(spw_control);
              $('#spw_lap').click(spw_lap);
              $('#spw_reset').click(spw_reset);
              $('#timeset').click(time_control);

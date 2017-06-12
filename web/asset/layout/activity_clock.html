@@ -10,17 +10,19 @@
 #clockActivity p#laps {margin: 0px; padding: 0px; font-family: 'Open Sans'; font-weight: 300; font-size: 50px; text-align: center; color: white;}
 
 /*CLOCK DISPLAY*/
-#clockActivity div.clock-wrapper {flex-grow: 1; position: relative; overflow-y: auto;}
+#clockActivity div.clock-wrapper {flex-grow: 1; position: relative; margin-top: 5%; }
 #clockActivity p#clock {margin: 0px; padding: 0px; font-family: 'Open Sans'; font-weight: 300; font-size: 150px; color: white; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);}
 
 /*OPTIONS*/
 #clockActivity div.opt-wrapper {width: 100%; height: auto; margin-top: 10%; text-align: center; color: green;}
 #clockActivity label, #clockActivity button, #clockActivity input.timer-input{margin: 15px 0px 15px 15px; padding: 15px; display: inline-block; font-size: 15px; border: 0px solid; outline: none; color: white; transition: all 0.25s;}
 #clockActivity label:hover, #clockActivity button:hover, #clockActivity input.timer-input:focus {color: green; cursor: pointer;}
-#clockActivity input[name='clock-opt'] {display: none;}
-#clockActivity input[name='clock-opt']:checked + label {color: red;}
-#clockActivity input[name='clock-opt']:checked + label:hover {color: green;}
+#clockActivity input[name='clock-opt'], #clockActivity input[name='snooze-opt'], #clockActivity input[name='day-opt'] {display: none;}
+#clockActivity input[name='clock-opt']:checked + label, #clockActivity input[name='snooze-opt']:checked + label, #clockActivity input[name='day-opt']:checked + label {color: red;}
+#clockActivity input[name='clock-opt']:checked + label:hover, #clockActivity input[name='snooze-opt']:checked + label:hover, #clockActivity input[name='day-opt']:checked + label:hover {color: green;}
+
 #clockActivity #spw_btn_wrapper {color: green;}
+
 
 
 /*OPTION CONTROLS*/
@@ -78,21 +80,35 @@
     <input type="radio" id="world-btn" name="clock-opt"/>
     <label for="world-btn">WORLD Time</label>
     
-    <div class="hidden" id="alarm_btn_wrapper">
-        <button id="alarm_setting">SETTING</button>
-    </div>
     <div id=Clock></div>
-    <div class="hidden" id="alarm_set_wrapper">
+    <div class="hidden" id="alarm_btn_wrapper">
         <input id="alarm_h" type="text" placeholder="HH" name="H" class="timer-input">
         <input id="alarm_m" type="text" placeholder="MM" name="M" class="timer-input">
         <input id="alarm_s" type="text" placeholder="SS" name="S" class="timer-input">
         <button id="alarmstart">START</button>
         <button id="alarmreset">RESET</button>
     </div>
-    
+
     <div class="hidden" id="alarm_snooze_wrapper">
-        <input id="snoozeset" type="text" class="timer-input">
-        <button id="snoozestart">SNOOZE</button>
+        <button id="snooze_setting">SNOOZE</button>
+        <button id="alarmday_setting">DAY</button>
+    </div>
+    
+    <div class="hidden" id="snooze_set_wrapper">
+        <button type="button" id="one" name="snooze-opt">1분</button>
+        <button type="button" id="two" name="snooze-opt">2분</button>
+        <button type="button" id="three" name="snooze-opt">3분</button>    
+    </div>
+    
+    <div class="hidden" id="day_set_wrapper">
+        <input type="checkbox" id="mon" name="day-opt"/><label for="mon">월</label>
+        <input type="checkbox" id="tue" name="day-opt"/><label for="tue">화</label>
+        <input type="checkbox" id="wed" name="day-opt"/><label for="wed">수</label>
+        <input type="checkbox" id="thu" name="day-opt"/><label for="thu">목</label>
+        <input type="checkbox" id="fri" name="day-opt"/><label for="fri">금</label>
+        <input type="checkbox" id="sat" name="day-opt"/><label for="sat">토</label>
+        <input type="checkbox" id="sun" name="day-opt"/><label for="sun">일</label>
+        
     </div>
     
     <!--STOPWATCH CONTROLS-->
@@ -115,7 +131,7 @@
   <div id="lap-wrapper" class="hidden">
     <p id="laps">LAPS</p>
   </div>
-   
+  
   <!--CLOCK DISPLAY-->
   <div class="clock-wrapper">
     <p id="clock">00:00:00</p>
