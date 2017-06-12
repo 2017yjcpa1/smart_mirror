@@ -317,7 +317,7 @@ function stopSound(sound) {
              $('#alarm_btn_wrapper').click(alarmbutton);
              $('#alarmstart').click(alarm_start);
              $('#alarmreset').click(alarm_stop);
-             $('#spw_start').click(spw_control);
+             $('#spw_start').click(spw_control); 
              $('#spw_lap').click(spw_lap);
              $('#spw_reset').click(spw_reset);
              $('#timeset').click(time_control);
