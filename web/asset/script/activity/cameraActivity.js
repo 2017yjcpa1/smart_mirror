@@ -81,6 +81,8 @@ define(['system', 'jquery', 'jquery-draggable'], function (system) {
 
             /*  동영상  */
            
+                    /*  동영상  */
+           
             'use strict';
 
             /* globals MediaRecorder */
@@ -99,13 +101,13 @@ define(['system', 'jquery', 'jquery-draggable'], function (system) {
             downloadButton.onclick = download;
 
             // window.isSecureContext could be used for Chrome
-            var isSecureOrigin = location.protocol === 'https:' ||
-                    location.hostname === 'localhost';
-            if (!isSecureOrigin) {
-                alert('getUserMedia() must be run from a secure origin: HTTPS or localhost.' +
-                        '\n\nChanging protocol to HTTPS');
-                location.protocol = 'HTTPS';
-            }
+//            var isSecureOrigin = location.protocol === 'https:' ||
+//                    location.hostname === 'localhost';
+//            if (!isSecureOrigin) {
+//                alert('getUserMedia() must be run from a secure origin: HTTPS or localhost.' +
+//                        '\n\nChanging protocol to HTTPS');
+//                location.protocol = 'HTTPS';
+//            }
 
             var constraints = {
                 audio: false,
@@ -206,8 +208,37 @@ define(['system', 'jquery', 'jquery-draggable'], function (system) {
                 mediaRecorder.onstop = handleStop; // 녹화 정지후 응답 
                 console.log('Recorded Blobs: ', recordedBlobs);
                 recordedVideo.controls = true;
+                
+                storeVideo();
+                
             }
+            
+            function storeVideo(){
+                var blob=new Blob(recordedBlobs, {type: 'video/webm'});
+                var a={a:1,b:2,c:3};
+                console.log("나와라:"+blob.slice());
+                showObj(blob.slice());
+                            function showObj(obj) {
+                            var str = "";
+                            for(key in obj) {
+                                str = key+"="+obj[key]+"\n";
+                                console.log("데이터:"+str);
+                                }
 
+                            return;
+                        }
+
+
+
+//                $.ajax({
+//                    url:'../php/storeVideo.php',
+//                    type:'POST',
+//                    data:{data:blob},
+//                    success: function (a) {
+//                        alert('성공');
+//                    }
+//                })
+            }
             function play() {
                 var superBuffer = new Blob(recordedBlobs, {type: 'video/webm'});
                 recordedVideo.src = window.URL.createObjectURL(superBuffer);
@@ -216,7 +247,7 @@ define(['system', 'jquery', 'jquery-draggable'], function (system) {
             function download() {
                 var blob = new Blob(recordedBlobs, {type: 'video/webm'}); // 
                 var url = window.URL.createObjectURL(blob);
-                console.log("여기서 다운 :"+url);
+                console.log("파일형식 :"+url);
 //                $.ajax({
 //                    url: '/camera/video_store_process.php',
 //                    type: 'POST',
