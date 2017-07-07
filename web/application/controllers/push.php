@@ -27,6 +27,7 @@ class Push extends CI_Controller
         
         return array(
             'message' => $query->row()->message,
+            'message' => ($query->row()->message),
             'creation_date' => $query->row()->creation_date
         );
     }
@@ -67,8 +68,7 @@ class Push extends CI_Controller
 
         if ($creation_date === FALSE)
         {
-            $this->output->set_status_header(400);
-            return;
+            $creation_date = time();
         }
 
         $message = array('creation_date' => $creation_date);
