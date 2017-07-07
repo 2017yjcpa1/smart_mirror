@@ -6,7 +6,7 @@ define([
     
     function waitForNotify(creationDate) {
      
-        var url = './nofify/pull/';
+        var url = './notify/pull/';
         
         if (creationDate) {
             url += '?creation_date=' + creationDate;
