@@ -10,7 +10,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `messages` (
   `id` int(11) NOT NULL,
   `message` longblob NOT NULL,
-  `creation_date` bigint NOT NULL
+  `creation_date` int(11) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
