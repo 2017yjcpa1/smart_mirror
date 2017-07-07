@@ -59,7 +59,7 @@ class Curl
 	curl_setopt($sess, CURLOPT_BUFFERSIZE, 1024 * 4);
 	curl_setopt($sess, CURLOPT_SSL_VERIFYHOST, false);
 	curl_setopt($sess, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($sess, CURLOPT_TIMEOUT, $timeout); 
+        //curl_setopt($sess, CURLOPT_TIMEOUT, $timeout); 
 		
 	curl_setopt($sess, CURLOPT_COOKIE, http_build_query($_COOKIE, NULL, '; ')); 
 	curl_setopt($sess, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
