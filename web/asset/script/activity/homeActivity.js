@@ -20,7 +20,6 @@ define([
             system.attachWidget('skeletonWidget');
             system.attachWidget('transcriptWidget');
             system.attachWidget('weatherWidget');
-            system.attachWidget('calendarWidget');
             system.attachWidget('newsWidget');
 
             

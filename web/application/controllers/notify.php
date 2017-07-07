@@ -26,7 +26,7 @@ class Push extends CI_Controller
         }
         
         return array(
-            'message' => $query->row()->message,
+            'message' => json_decode($query->row()->message),
             'creation_date' => $query->row()->creation_date
         );
     }
