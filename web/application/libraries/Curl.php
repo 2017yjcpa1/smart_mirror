@@ -56,9 +56,9 @@ class Curl
         //curl_setopt($sess, CURLOPT_PROXY, '127.0.0.1');
         //curl_setopt($sess, CURLOPT_PROXYPORT, 8888);
         
-	curl_setopt($sess, CURLOPT_BUFFERSIZE, 1024 * 4);
-	curl_setopt($sess, CURLOPT_SSL_VERIFYHOST, false);
-	curl_setopt($sess, CURLOPT_SSL_VERIFYPEER, false);
+	//curl_setopt($sess, CURLOPT_BUFFERSIZE, 1024 * 4);
+	//curl_setopt($sess, CURLOPT_SSL_VERIFYHOST, false);
+	//curl_setopt($sess, CURLOPT_SSL_VERIFYPEER, false);
         //curl_setopt($sess, CURLOPT_TIMEOUT, $timeout); 
 		
 	curl_setopt($sess, CURLOPT_COOKIE, http_build_query($_COOKIE, NULL, '; ')); 
