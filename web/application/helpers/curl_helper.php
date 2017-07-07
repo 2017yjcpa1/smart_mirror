@@ -7,6 +7,6 @@ if ( ! function_exists('simple_get'))
         $CI =& get_instance();
         $CI->load->library('curl');
         
-        return $CI->curl->simple_get($url, $param, $timeout, $return);
+        return $CI->curl->simple_get($url, $params, $timeout, $return);
     }
 }

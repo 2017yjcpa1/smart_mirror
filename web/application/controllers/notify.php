@@ -53,7 +53,11 @@ class Notify extends CI_Controller
         $message = $this->input->post('message');
         $creation_date = microtime();
 
-        $query = $this->db->query('INSERT INTO messages (message, creation_date) VALUES (?, ?)', array($message, $creation_date));
+        $data = array();
+        $data['message'] = $message;
+        $data['creation_date'] = $creation_date;
+        
+        $this->db->insert('messages', $data);
     }
 
     public function pull()

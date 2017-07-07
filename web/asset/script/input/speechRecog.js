@@ -61,7 +61,7 @@ define(function () {
             }
             handlers = handlers.concat(listeners[regex]);
         }
-
+        
         for(var n = 0; n < handlers.length; ++n) {
             handlers[n](isFinal, transcript);
         }

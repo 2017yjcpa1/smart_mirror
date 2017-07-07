@@ -1,8 +1,11 @@
 define([ 
     'system',
     
-    'input/speechRecog'
-],function (system, speechRecog) {
+    'jquery',
+    
+    'input/speechRecog',
+    'output/speechUtterance',
+],function (system, $, speechRecog, speechUtterance) {
     
     return {
         
@@ -27,6 +30,20 @@ define([
             speechRecog.addEventListener('날씨\\s*실행', function (isFinal) { if (isFinal) system.startActivity('weatherActivity'); })
             speechRecog.addEventListener('뉴스\\s*실행', function (isFinal) { if (isFinal) system.startActivity('newsActivity'); })
             speechRecog.addEventListener('(달력|일정)\\s*실행', function (isFinal) { if (isFinal) system.startActivity('calendarActivity'); })
+            
+            
+            speechRecog.addEventListener('(.*?)\\s*뭐지', function (isFinal, transcript) { 
+                var matches = new RegExp('(.*?)\\s*뭐지', 'i').exec(transcript)
+                
+                if (matches.length > 0) {
+                    $.getJSON('./wiki/?q=' + encodeURIComponent(matches[1]), function (data) {
+                        if(data[2]) {
+                            console.log(data[2][0]);
+                            speechUtterance.speak(data[2][0]);
+                        }
+                    })
+                }
+            })
         },
         
         resume : function () {
