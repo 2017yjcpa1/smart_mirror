@@ -15,7 +15,7 @@ class Push extends CI_Controller
     {
         $query = $this->db->query('SELECT
                                         message,
-                                        UNIX_TIMESTAMP(creation_date) creation_date
+                                        creation_date
                                    FROM messages 
                                    WHERE id = ?
                                    LIMIT 1', array($id));
@@ -27,7 +27,6 @@ class Push extends CI_Controller
         
         return array(
             'message' => $query->row()->message,
-            'message' => ($query->row()->message),
             'creation_date' => $query->row()->creation_date
         );
     }
@@ -36,10 +35,10 @@ class Push extends CI_Controller
     {
         $query = $this->db->query('SELECT
                                         id,
-                                        UNIX_TIMESTAMP(creation_date) creation_date
+                                        creation_date
                                    FROM messages 
                                    WHERE creation_date > ? 
-                                   LIMIT 1', array(date('Y-m-d H:i:s', $creation_date)));
+                                   LIMIT 1', array($creation_date));
         
         if ($query->num_rows() <= 0)
         {
@@ -48,17 +47,17 @@ class Push extends CI_Controller
         
         return $query->row()->id;
     }
-
-    public function index()
+    
+    public function push()
     {
-        if ($this->input->get_post('message') !== FALSE) 
-        {
-            $message = $this->input->get_post('message');
-            
-            $query = $this->db->query('INSERT INTO messages (message) VALUES (?)', array($message));
-            return;
-        }
-        
+        $message = $this->input->post('message');
+        $creation_date = microtime();
+
+        $query = $this->db->query('INSERT INTO messages (message, creation_date) VALUES (?, ?)', array($message, $creation_date));
+    }
+
+    public function pull()
+    { 
         set_time_limit(0);
 
         $this->output->set_content_type('application/json');
@@ -68,7 +67,7 @@ class Push extends CI_Controller
 
         if ($creation_date === FALSE)
         {
-            $creation_date = time();
+            $creation_date = microtime();
         }
 
         $message = array('creation_date' => $creation_date);
