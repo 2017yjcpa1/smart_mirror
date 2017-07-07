@@ -24,7 +24,7 @@
             'wind' :                '바람',
         }
         
-        return value.replace(/^(.*?)$/, function(match) { // be sure to add every char in the pattern
+        return value.replace(/^(.*?)$/, function(match) {
             return table[match];
         });
     }
@@ -50,7 +50,7 @@
             'wind' :                'ic_windy.png',
         }
         
-        return './asset/drawable/activity_weather/' + value.replace(/^(.*?)$/, function(match) { // be sure to add every char in the pattern
+        return './asset/drawable/activity_weather/' + value.replace(/^(.*?)$/, function(match) {
             return table[match];
         });
     }
@@ -92,10 +92,12 @@
                 timestamp : data.time,
                 
                 dayOfWeek : toKoreanDayOfWeek(date.getDay()), // 요일
-                hourMinutes : [ String(date.getHours()).padStart(2, '0'), 
-                                String(date.getMinutes()).padStart(2, '0') ].join(':'), // 시,분
-                daysMonth : [ String(date.getMonth() + 1).padStart(2, '0'), 
-                              String(date.getDate()).padStart(2, '0') ].join('/'), // 일,월 
+                hourMinutes : [ 
+                    String(date.getHours()).padStart(2, '0'), 
+                    String(date.getMinutes()).padStart(2, '0') ].join(':'), // 시,분
+                daysMonth : [ 
+                    String(date.getMonth() + 1).padStart(2, '0'), 
+                    String(date.getDate()).padStart(2, '0') ].join('/'), // 일,월 
                 
                 comment : toKoreanComment(data.icon), // 간단한 설명
                 iconPath : getIconPath(data.icon), // 아이콘경로
