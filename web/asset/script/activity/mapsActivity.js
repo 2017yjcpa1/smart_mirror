@@ -1,10 +1,7 @@
-define(['system', 'jquery', 'lib/forecast.io', 'async!' + GOOGLE_MAPS_JS], function (system, $, ForecastIO) {
+define(['system', 'jquery', 'async!' + GOOGLE_MAPS_JS], function (system, $) {
     var directionsDisplay = new google.maps.DirectionsRenderer();
     var map;
     var marker;
-    var forecast = new ForecastIO({
-        PROXY_SCRIPT: 'php/weather_proxy.php'
-    });
     function calendar_map(location){ // 캘린더와 연동 할때 쓸 함수 
         document.getElementById('address').setAttribute('value',location);
         var geocoder = new google.maps.Geocoder();
@@ -39,19 +36,6 @@ define(['system', 'jquery', 'lib/forecast.io', 'async!' + GOOGLE_MAPS_JS], funct
                         longitude: results[0].geometry.location.lng()
                     }
                 ];
-                forecast.getCurrentConditions(locations, function (conditions) {
-                    var items = '';
-
-                    for (var i = 0; i < conditions.length; i++) {
-                        items += '<b><img src="./asset/drawable/weather_images/'
-                                + conditions[i].getIcon() + '.png" height="35" width="35">'
-                                + ((conditions[i].getTemperature() - 32) / 1.8).toFixed(1)
-                                + '℃&nbsp;&nbsp;<img src="./asset/drawable/weather_images/precipitationProbability.png" height="25" width="25">'
-                                + (conditions[i].getPrecipitationProbability() * 100).toFixed(0)
-                                + '%</b>';
-                    }
-                    document.getElementById('weatherinfo').innerHTML = items;
-                });
                 if(marker !=null) {
                     marker.setMap(null);
                 }

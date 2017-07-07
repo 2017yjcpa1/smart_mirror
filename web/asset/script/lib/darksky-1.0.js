@@ -104,7 +104,7 @@
                 maxTemp : toFahrenheit(parseFloat(data.temperatureMax)), // 최고온도
                 temp : toFahrenheit(parseFloat(data.temperature)), // 온도
                 
-                precipProbability : parseFloat(data.precipProbability) * 100, // 강수확률
+                precipProbabl : parseFloat(data.precipProbability) * 100, // 강수확률
                 
                 ozoneLevel: getOzoneLevel(data.ozone * 0.0001), // 오존레벨
             }

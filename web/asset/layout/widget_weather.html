@@ -1,9 +1,41 @@
 <style>
-#w_weatherdiv{position:absolute;top: 0px;right: 0;}
-#w_currentTemp{font-size: 35px;width:350px;font-weight:bold;text-align:left;vertical-align: text-top;white-space: nowrap;}
-#w_currentTemp div{display: inline-block;width:150px;margin:0px;vertical-align: middle;}
-#w_currentTemp img{top:0px; margin-top: 25px;}
-</style>
-<div id="w_weatherdiv">
-    <div id="w_currentTemp"></div>
-</div>
+    #weatherWidget * {
+        margin: 0;
+        padding: 0;
+        
+        vertical-align: middle; 
+    }
+    
+    #weatherWidget {
+        position: absolute;
+        top: 0;
+        right: 0;
+        
+        display: table;
+        
+        font-size: 35px;
+        font-weight:bold;
+    }
+    
+    #weatherWidget h1,
+    #weatherWidget p {
+        display: table-cell;
+    }
+    
+    #weatherWidget p {
+        width:150px;
+    }
+    
+    #weatherWidget em {
+        width: 250px;
+        display: block;
+        font-style: normal;
+    }
+</style> 
+<h1>
+    <img width="150">
+</h1>
+<p>
+    <em class="temp"></em>
+    <em class="precipProbabl"></em>
+</p>
