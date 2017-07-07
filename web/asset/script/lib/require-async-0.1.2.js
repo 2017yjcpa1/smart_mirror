@@ -41,14 +41,14 @@ define(function() {
 
     return {
         
-        load : function (name, req, onLoad, config) {
+        load : function (name, req, loaded, config) {
             if (config.isBuild) {
-                onLoad(null); // avoid errors on the optimizer
+                loaded(null); // avoid errors on the optimizer
             } else {
                 var uid = getUniqueId();
                 // create a global variable that stores onLoad so callback
                 // function can define new module after async load
-                window[uid] = onLoad;
+                window[uid] = loaded;
                 injectScript(getFormatUrl(req.toUrl(name), uid));
             }
         }
