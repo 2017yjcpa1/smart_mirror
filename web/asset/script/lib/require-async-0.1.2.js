@@ -6,28 +6,37 @@
  */
 define(function() {
 
+    var REGEX_PARAM = /!(.+)/;
+    
     var DEFAULT_PARAM_NAME = 'callback';
-    var _uid = 0;
+    
+    var uid = 0;
 
     function injectScript(src) {
-        var s, t;
-        s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = src;
-        t = document.getElementsByTagName('script')[0]; t.parentNode.insertBefore(s,t);
+        var scriptElement = document.createElement('script'); 
+        scriptElement.type = 'text/javascript'; 
+        scriptElement.async = true; 
+        scriptElement.src = src;
+        
+        var siblingNode = document.getElementsByTagName('script')[0]; 
+        siblingNode.parentNode.insertBefore(scriptElement, siblingNode);
     }
 
-    function formatUrl(name, id) {
-        var paramRegex = /!(.+)/;
-        var url = name.replace(paramRegex, '');
-        var param = (paramRegex.test(name))? name.replace(/.+!/, '') : DEFAULT_PARAM_NAME;
+    function getFormatUrl(name, uid) {
+        var url = name.replace(REGEX_PARAM, '');
+        var param = DEFAULT_PARAM_NAME;
+        
+        if (REGEX_PARAM.test(name)) {
+            param = name.replace(/.+!/, '');
+        }
         
         url += (url.indexOf('?') < 0)? '?' : '&';
         
-        return url + param +'='+ id;
+        return url + param + '=' + uid;
     }
 
-    function uid() {
-        _uid += 1;
-        return '__async_req_'+ _uid +'__';
+    function getUniqueId() {
+        return '__async_req_' + (uid++) + '__';
     }
 
     return {
@@ -36,11 +45,11 @@ define(function() {
             if (config.isBuild) {
                 onLoad(null); // avoid errors on the optimizer
             } else {
-                var id = uid();
+                var uid = getUniqueId();
                 // create a global variable that stores onLoad so callback
                 // function can define new module after async load
-                window[id] = onLoad;
-                injectScript(formatUrl(req.toUrl(name), id));
+                window[uid] = onLoad;
+                injectScript(getFormatUrl(req.toUrl(name), uid));
             }
         }
     };

@@ -83,6 +83,23 @@
                     return char.toUpperCase();
                 });
             };
+            
+            String.prototype.hashCode = function() {                
+                if (this.length === 0) {
+                    return 0;
+                }
+                
+                var hash = 0;
+                var char;
+                
+                for (var n = 0; n < this.length; n++) {
+                    char = this.charCodeAt(n);
+                    hash = ((hash << 5) - hash) + char;
+                    hash |= 0; // Convert to 32bit integer
+                }
+                
+                return hash;
+            };
     
             requirejs.config({
                 'baseUrl': './asset/script',

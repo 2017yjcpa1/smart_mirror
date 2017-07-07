@@ -1,4 +1,10 @@
-define(function () {
+(function (root, factory) {
+    if (typeof define === 'function' && define.amd) {
+        define(factory);
+    } else {
+        root.speechRecog = factory();
+    }
+}(this, function () {
     
     var SpeechRecognition = window.SpeechRecognition ||
                             window.webkitSpeechRecognition ||
@@ -73,4 +79,4 @@ define(function () {
         
         start : start
     }
-})
+}))

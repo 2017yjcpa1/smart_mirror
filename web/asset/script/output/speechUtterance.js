@@ -1,7 +1,7 @@
 (function (root, factory) {
-    if (typeof define === 'function' && define.amd) { // RequireJS 스타일
+    if (typeof define === 'function' && define.amd) {
         define(factory);
-    } else { // RequireJS 가 없을경우 브라우저 window 에 전역선언
+    } else {
         root.speechUtterance = factory();
     }
 }(this, function () {
@@ -17,16 +17,29 @@
     
     var timeoutId = null;
     
+    function isSpeaking() {
+        return speechSynthesis && speechSynthesis.speaking;
+    }
+    
+    function cancel() {
+        speechSynthesis.cancel();
+    }
+    
     function speak(text, volume, rate, pitch, voice) {
-        if (speechSynthesis && speechSynthesis.speaking) {
-            speechSynthesis.cancel();
+        if (isSpeaking()) {
+            cancel();
             
             if (timeoutId) {
                 window.clearTimeout(timeoutId);
                 timeoutId = null;
             }
 
-            timeoutId = window.setTimeout(function () { speak(text); }, 500);
+            timeoutId = window.setTimeout(
+                            function () { 
+                                speak(text); 
+                            }, 
+                            500
+                        );
             return;
         }
         
@@ -37,6 +50,7 @@
         speechUtter.volume = volume || DEFAULT_VOLUME;
         speechUtter.rate = rate || DEFAULT_RATE;
         speechUtter.pitch = pitch || DEFAULT_PITCH; 
+        
         speechUtter.voice = voice || getKoreanVoice();
         
         speechSynthesis.speak(speechUtter);
@@ -56,6 +70,10 @@
     
     return {
         
-        speak : speak
+        isSpeaking : isSpeaking,
+        
+        speak : speak,
+        
+        cancel : cancel,
     }
 }));
