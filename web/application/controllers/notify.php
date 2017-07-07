@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Push extends CI_Controller
+class Notify extends CI_Controller
 {
     const MAX_ATTEMPTS = 60;
     
