@@ -102,6 +102,7 @@
             };
     
             requirejs.config({
+                'urlArgs': 'bust=' + (new Date()).getTime(),
                 'baseUrl': './asset/script',
                 'paths': {
                       'async' : 'lib/require-async-0.1.2'

@@ -1,62 +1,86 @@
 <style type="text/css">
-    ul{list-style:none; padding-left:0px;} 
-    #currentTemp {font-size:90pt;font-weight:bold;text-align:left;vertical-align: middle;}
-    #currentTempbottom{font-size:20pt;font-weight:bold;text-align:left;vertical-align: middle;}
-    #currentTemp2 {font-size:20pt;font-weight:bold;text-align:left;vertical-align: middle;}
-    #currentTemp2bottom{font-size:20pt;font-weight:bold;text-align:left;vertical-align: middle;}
-    #currentTemp3 {font-size:20pt;font-weight:bold;text-align:left;vertical-align: middle;}
-    #currentTemp3bottom{font-size:20pt;font-weight:bold;text-align:left;vertical-align: middle;}
-    #itemList {display:inline;width: 3000px;}
-    #itemList3 {font-size:20pt;font-weight:bold;text-align:left;}
-    #itemList3 div{font-size:25pt;font-weight:bold;text-align:left;vertical-align: middle;}
-    #weatherActivity ul,
-    #weatherActivity li,
-    #weatherActivity img{/*-webkit-filter:invert(100%); 색반전*/vertical-align: middle;text-align: center;}
-    #firstdiv {width: 100%; height: 500px;} /*현재날씨*/
-    #seconddiv {float: left; width: 100%; height:310px; overflow:auto;}
-    .secondsubdiv {float:left; width:150px; height:200px; font-size:20pt;
-                   font-weight:bold; text-align:center; white-space: pre-wrap;}
-    #thirddiv{clear:both; float: left; width: 100%; height: 90%;}
-    .thirdsubdiv {clear:both; float: left; width: 100%; height: 100px;}
-    #weatherActivity .bar{dixsplay:inline-block;height:20px;-webkit-border-radius: 10px;
-                          -moz-border-radius: 10px;border-radius: 10px;background-color: white;}
+    #weatherActivity .current .wrap {
+        display: table;
+        
+        position: absolute;
+        top:0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        margin: auto;
+        width: 500px;
+        height: 300px
+    }
     
-
-    .as2 {
+    #weatherActivity .easy > * {
+        display: table-cell;
+        vertical-align: middle;
+    }
+    
+    #weatherActivity .easy .temp {
+        font-size: 90pt;
+        font-style: normal;
+        font-weight: bold;
+    } 
+    
+    #weatherActivity .current .ozone {
         font-size: 25pt;
-        margin-top: -180px;
-    }
-
-    h2 {    
-        margin-left: 3%;
-    }
-
+        text-align: center;
+        font-weight: bold;
+        line-height: 80px;
+    } 
 </style>
-<div style="width: 100%; height: 100%;">
-    <div id="firstdiv">
-        <ul id="currentTemp"></ul>
-        <!--            <ul id="currentTempbottom"></ul>-->
-    </div>
 
-    <!--    <div id="firstdiv">
-                <h2>저녁날씨</h2>
-                <ul id="currentTemp2"></ul>
-                <ul id="currentTemp2bottom"></ul>
+<div class="current">
+    
+    <div class="wrap">
+        
+        <div class="easy">
+            <h1>
+                <img width="256"/>
+            </h1>
+
+            <em class="temp">
+            </em>
         </div>
-        <div id="firstdiv">
-                <h2>내일날씨</h2>
-                <ul id="currentTemp3"></ul>
-                <ul id="currentTemp3bottom"></ul>
-        </div>-->
 
-    <div id="seconddiv">
-        <h2>시간별</h2>
-        <hr>
-        <div id="itemList"></div> 
+        <p class="ozone">
+            오존지수 좋음 씨발놈아
+        </p>
+        
     </div>
-    <div id="thirddiv">
-        <h2>요일별</h2>
-        <hr>
-        <div id="itemList3"></div>
-    </div>
+    
+</div>
+
+<style type="text/css">
+    #weatherActivity ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        
+        width: 9999px;
+    }
+    
+    #weatherActivity li {
+        float: left;
+    }
+</style>
+
+<div class="hourly">
+    <ul>
+        <li>
+            <span>토</span>
+            
+            <img />
+            
+            <em class="maxTemp">24.6</em>
+            <em class="minTemp">24.6</em>
+            
+            <em class="precipProbabl">10%</em>
+        </li>
+    </ul>
+</div>
+
+<div class="weekly">
+    
 </div>
