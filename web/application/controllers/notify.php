@@ -31,7 +31,7 @@ class Notify extends CI_Controller
         foreach ($query->result_array() as $row)
         {
             $messages []= json_decode($query->row()->message);
-            $creation_date = max(array($creation_date, $query->row()->creation_date));
+            $creation_date = max(array($creation_date, intval($query->row()->creation_date)));
         }
         
         return array(
