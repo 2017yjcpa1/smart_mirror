@@ -20,9 +20,12 @@ class Wiki extends CI_Controller
         $params['search'] = $query;
         $params['namespace'] = 0;
         
-        $output = simple_get('http://ko.wikipedia.org/w/api.php', $params);
+        $wiki = json_decode(simple_get('http://ko.wikipedia.org/w/api.php', $params));
+        
+        $wiki = array_filter($wiki[2]);
+        $wiki = array_values($wiki); // 인덱스 재정렬
         
         $this->output->set_content_type('application/json');
-        $this->output->set_output($output);
+        $this->output->set_output(json_encode($wiki));
     }
 }

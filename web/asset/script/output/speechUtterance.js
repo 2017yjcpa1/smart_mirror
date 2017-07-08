@@ -30,8 +30,6 @@
         var speechVoices = window.speechSynthesis.getVoices();
         
         for(var n = 0; n < speechVoices.length; ++n) {
-            console.log(String(speechVoices[n].name));
-                
             if (String(speechVoices[n].name).toLowerCase() == name.toLowerCase()) {
                 return speechVoices[n];
             }
