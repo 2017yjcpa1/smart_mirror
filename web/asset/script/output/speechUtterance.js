@@ -6,9 +6,10 @@
     }
 }(this, function () {
     
-    var DEFAULT_VOLUME = 1;
-    var DEFAULT_RATE = 1.2;
-    var DEFAULT_PITCH = 3;
+    var KOREAN_VOICE = 'Google 한국의';
+    var ENGLISH_VOICE = 'Google US English';
+    var JAPANESE_VOICE = 'Google 日本語'; 
+    var CHINESE_VOICE = 'Google 普通话（中国大陆）';
     
     var SpeechSynthesisUtterance = window.SpeechSynthesisUtterance;
 
@@ -25,7 +26,21 @@
         speechSynthesis.cancel();
     }
     
-    function speak(text, volume, rate, pitch, voice) {
+    function getVoice(name) {
+        var speechVoices = window.speechSynthesis.getVoices();
+        
+        for(var n = 0; n < speechVoices.length; ++n) {
+            console.log(String(speechVoices[n].name));
+                
+            if (String(speechVoices[n].name).toLowerCase() == name.toLowerCase()) {
+                return speechVoices[n];
+            }
+        }
+        
+        return null;
+    }
+    
+    function speak(text, voiceName) {
         if (isSpeaking()) {
             cancel();
             
@@ -36,7 +51,7 @@
 
             timeoutId = window.setTimeout(
                             function () { 
-                                speak(text); 
+                                speak(text, voiceName); 
                             }, 
                             500
                         );
@@ -47,30 +62,29 @@
 
         speechUtter.text = text;
         
-        speechUtter.volume = volume || DEFAULT_VOLUME;
-        speechUtter.rate = rate || DEFAULT_RATE;
-        speechUtter.pitch = pitch || DEFAULT_PITCH; 
+        speechUtter.volume = 1;
+        speechUtter.rate = 1;
+        speechUtter.pitch = 1; 
         
-        speechUtter.voice = voice || getKoreanVoice();
+        if (voiceName) {
+            speechUtter.voice =  getVoice(voiceName);
+        } else {
+            speechUtter.voice =  getVoice(KOREAN_VOICE);
+        }
         
         speechSynthesis.speak(speechUtter);
     }
 
-    function getKoreanVoice() {
-        var voices = window.speechSynthesis.getVoices();
+    return window.speechUtterance = {
         
-        for(var n = 0; n < voices.length; ++n) {
-            if (String(voices[n].name).indexOf('Korean') >= 0) {
-                return voices[n];
-            }
-        }
-        
-        return null;
-    }
-    
-    return {
+        KOREAN_VOICE : KOREAN_VOICE,
+        ENGLISH_VOICE : ENGLISH_VOICE,
+        JAPANESE_VOICE : JAPANESE_VOICE,
+        CHINESE_VOICE : CHINESE_VOICE, 
         
         isSpeaking : isSpeaking,
+        
+        getVoice : getVoice,
         
         speak : speak,
         

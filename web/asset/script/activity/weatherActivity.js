@@ -3,25 +3,27 @@ define([
     
     'lib/darksky-1.0', 
     
+    'output/speechUtterance',
+    
     'jquery', 
     'jquery-draggable'
-], function (system, darksky, $) {
+], function (system, darksky, speechUtterance, $) {
     
     var DEBUG_LAT = '35.8491';
     var DEBUG_LON = '128.5341';
     
     function getOzoneComment(level) {
         if (level >= 1) {
-            return [ "오존지수 좋음", "오존지수 좋음에 대한 멘트"].join('<br/>');
+            return [ "오존지수 좋음", "외출하기에 무난합니다."];
         } 
-        else if(level == 0) {
-            return [ "오존지수 보통", "오존지수 보통에 대한 멘트"].join('<br/>');
+        else if (level == 0) {
+            return [ "오존지수 보통", "외출하기에 무난합니다."];
         }
-        else if(level == -1) {
-            return [ "오존지수 나쁨", "강한 자외선에 유의하세요."].join('<br/>');
+        else if (level == -1) {
+            return [ "오존지수 나쁨", "강한 자외선에 유의하세요."];
         }
         
-        return [ "오존지수 매우나쁨", "노약자와 임산부는 외출을 자제하세요."].join('<br/>');
+        return [ "오존지수 매우나쁨", "노약자와 임산부는 외출을 자제하세요."];
     }
 
     return {
@@ -46,10 +48,14 @@ define([
                 function (data) {
                     console.log(data);
                     
+                    var ozoneComment = getOzoneComment(data.currently.ozoneLevel);
+                    
+                    speechUtterance.speak(ozoneComment[1]);
+                    
                     // 현재날씨
                     $('#weatherActivity .current img').attr('src', data.currently.iconPath);
                     $('#weatherActivity .current .temp').html(data.currently.temp + '℃');
-                    $('#weatherActivity .current .ozone').html(getOzoneComment(data.currently.ozoneLevel));
+                    $('#weatherActivity .current .ozone').html(ozoneComment.join('<br/>'));
                     
                     var hourlyContainer = $('#weatherActivity .hourly ul').empty();
                     var weeklyContainer = $('#weatherActivity .weekly ul').empty();

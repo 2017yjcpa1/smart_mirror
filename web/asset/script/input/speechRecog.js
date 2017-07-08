@@ -47,6 +47,7 @@
         }
         
         speechRecog.start();
+        console.log('마이크 대기중...');
     }
     
     function addEventListener(regex, method) {
