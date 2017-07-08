@@ -51,7 +51,7 @@ class Notify extends CI_Controller
     public function push()
     {
         $message = $this->input->post('message');
-        $creation_date = microtime();
+        $creation_date = microtime(TRUE);
 
         $data = array();
         $data['message'] = $message;
@@ -71,7 +71,7 @@ class Notify extends CI_Controller
 
         if ($creation_date === FALSE)
         {
-            $creation_date = microtime();
+            $creation_date = microtime(TRUE);
         }
 
         $message = array('creation_date' => $creation_date);
