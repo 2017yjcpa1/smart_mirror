@@ -11,14 +11,14 @@ class Notify extends CI_Controller
         $this->load->database();
     }
 	
-    function _get($id)
+    function _get($creation_date)
     {
         $query = $this->db->query('SELECT
                                         message,
                                         creation_date
                                    FROM messages 
-                                   WHERE id = ?
-                                   LIMIT 1', array($id));
+                                   WHERE creation_date > ?
+                                   LIMIT 1', array($creation_date));
         
         if ($query->num_rows() <= 0)
         {
@@ -87,9 +87,9 @@ class Notify extends CI_Controller
 
         while ($attempts++ < self::MAX_ATTEMPTS)
         {
-            if (($message_id = $this->_has_happened($creation_date)) !== FALSE)
+            if ($this->_has_happened($creation_date) !== FALSE)
             {
-                $message = $this->_get($message_id);
+                $message = $this->_get($creation_date);
                 break;
             }
 
