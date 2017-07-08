@@ -79,7 +79,7 @@ define([
             if ( ! isCreated) {
                 var rootLayout = $(document.createElement('div'))
                                         .addClass('activity')
-                                        .load('asset/layout/' + activity.layoutHTML, layoutLoaded)
+                                        .load('asset/layout/' + activity.layoutHTML + '?bust' + new Date().getTime(), layoutLoaded)
                                         .attr('id', activityId);
                     
                 activity.rootLayout = rootLayout[0];    
@@ -159,7 +159,7 @@ define([
                 }
             };
             
-            rootLayout.load('asset/layout/' + widget.layoutHTML, layoutLoaded);      
+            rootLayout.load('asset/layout/' + widget.layoutHTML + '?bust' + new Date().getTime(), layoutLoaded);      
         });
         
         return true;

@@ -56,7 +56,16 @@
                 visibility: visible;
                 animation: scale-down .5s ease both;
             }
-            
+
+            .clearFix:before, 
+            .clearFix:after{
+                content: " ";
+                display:table
+            }
+            .clearFix:after{
+                clear:both
+            }
+
             @keyframes scale-down {
                 to { opacity: 0; transform: scale(.8); }
             }

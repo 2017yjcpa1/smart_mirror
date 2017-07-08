@@ -1,4 +1,12 @@
 <style type="text/css">
+    
+    #weatherActivity .current {
+        position: relative;
+        
+        width: 100%;
+        height: 800px;
+    }
+    
     #weatherActivity .current .wrap {
         display: table;
         
@@ -7,7 +15,9 @@
         right: 0;
         bottom: 0;
         left: 0;
+        
         margin: auto;
+        
         width: 500px;
         height: 300px
     }
@@ -45,7 +55,6 @@
         </div>
 
         <p class="ozone">
-            오존지수 좋음 씨발놈아
         </p>
         
     </div>
@@ -64,23 +73,62 @@
     #weatherActivity li {
         float: left;
     }
+    
+    #weatherActivity .dayOfWeek,
+    #weatherActivity .hourMinutes {
+        display: block;
+        text-align: center;
+    }
+    
+    #weatherActivity img {
+        display: block;
+        
+        width: 150px;
+    }
+    
+    #weatherActivity .temp {
+        display: table;
+        width: 100%;
+        text-align: center;
+    }
+    
+    #weatherActivity .temp > * {
+        display: table-cell;
+        font-size: 13pt;
+        font-style: normal;
+    }
+    
+    #weatherActivity .hourly,
+    #weatherActivity .weekly { 
+        margin: 50px 0;
+    }
 </style>
 
 <div class="hourly">
-    <ul>
+    <ul class="clearFix">
         <li>
-            <span>토</span>
+            <span class="hourMinutes">토요일</span>
             
-            <img />
+            <img src="./asset/drawable/activity_weather/ic_cloudy.png" width="150"/>
             
-            <em class="maxTemp">24.6</em>
-            <em class="minTemp">24.6</em>
-            
-            <em class="precipProbabl">10%</em>
+            <div class="temp">
+                <em>24.6</em>
+            </div>
         </li>
     </ul>
 </div>
 
 <div class="weekly">
-    
+    <ul class="clearFix">
+        <li>
+            <span class="dayOfWeek">토요일</span>
+            
+            <img src="./asset/drawable/activity_weather/ic_cloudy.png" width="150"/>
+            
+            <div class="temp">
+                <em class="maxTemp">24.6</em>
+                <em class="minTemp">24.6</em>
+            </div>
+        </li>
+    </ul>
 </div>
