@@ -25,9 +25,18 @@ class Notify extends CI_Controller
             return FALSE;
         }
         
+        $messages = array();
+        $creation_date = 0;
+         
+        foreach ($query->result_array() as $row)
+        {
+            $messages []= json_decode($query->row()->message);
+            $creation_date = max(array($creation_date, $query->row()->creation_date));
+        }
+        
         return array(
-            'message' => json_decode($query->row()->message),
-            'creation_date' => $query->row()->creation_date
+            'creation_date' => $creation_date,
+            'messages' => $messages,
         );
     }
 	
