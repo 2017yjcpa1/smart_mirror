@@ -51,6 +51,9 @@ define([
                     $('#weatherActivity .current .temp').html(data.currently.temp + '℃');
                     $('#weatherActivity .current .ozone').html(getOzoneComment(data.currently.ozoneLevel));
                     
+                    var hourlyContainer = $('#weatherActivity .hourly ul').empty();
+                    var weeklyContainer = $('#weatherActivity .weekly ul').empty();
+                    
                     // 시간대별 날씨
                     for(var n = 0; n < data.hourly.length; ++n) {
                         
@@ -65,7 +68,7 @@ define([
                                             '</div>',
                                         '</li>',
                                     ].join(''))
-                                        .appendTo('#weatherActivity .hourly ul');
+                                        .appendTo(hourlyContainer);
                                 
                         $('.hourMinutes', hourly).text(data.hourly[n].hourMinutes);
                         $('em', hourly).text(data.hourly[n].temp + '℃');
@@ -87,7 +90,7 @@ define([
                                             '</div>',
                                         '</li>',
                                     ].join(''))
-                                        .appendTo('#weatherActivity .weekly ul');
+                                        .appendTo(weeklyContainer);
                                 
                         $('.dayOfWeek', weekly).text(data.daily[n].dayOfWeek + '요일');
                         $('.minTemp', weekly).text(data.daily[n].minTemp + '℃');
