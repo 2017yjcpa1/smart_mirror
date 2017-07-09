@@ -1,5 +1,5 @@
 <style>
-    @import "https://fonts.googleapis.com/css?family=Open+Sans:300";
+   
 /*MAIN DISPLAY*/
 
 #clockActivity * {box-sizing: border-box; font-family: 'Open Sans'; font-weight: 300;}
@@ -20,6 +20,11 @@
 #clockActivity input[name='clock-opt'], #clockActivity input[name='snooze-opt'], #clockActivity input[name='day-opt'] {display: none;}
 #clockActivity input[name='clock-opt']:checked + label, #clockActivity input[name='snooze-opt']:checked + label, #clockActivity input[name='day-opt']:checked + label {color: red;}
 #clockActivity input[name='clock-opt']:checked + label:hover, #clockActivity input[name='snooze-opt']:checked + label:hover, #clockActivity input[name='day-opt']:checked + label:hover {color: green;}
+
+#clockActivity #map {height: 70%; width: 30%; left: 35%; margin-top: 0.5em;}
+#clockActivity #world_btn_wrapper {height: 100%; width: 100%;} 
+#clockActivity #location_input {width:30%; margin-left: 35%; margin-top: 1%;}
+#clockActivity html, #clockActivity body {height: 100%; margin: 1em; padding: 0;}
 
 #clockActivity #spw_btn_wrapper {color: green;}
 
@@ -58,8 +63,6 @@
     color: yellow;
 }
 </style>
-
-
 
 <div class="main-wrapper">
 
@@ -127,6 +130,16 @@
     </div>
   </div>
 
+    <div class="hidden" id="world_btn_wrapper">
+            <div id="input">
+                
+                <input type="text" id="location_input" placeholder="Search...">
+            </div>
+            <div id="map"></div>
+        </div>
+    
+ 
+    
   <!--LAP DISPLAY-->
   <div id="lap-wrapper" class="hidden">
     <p id="laps">LAPS</p>
@@ -136,5 +149,6 @@
   <div class="clock-wrapper">
     <p id="clock">00:00:00</p>
   </div>
+
   
 </div>
