@@ -143,6 +143,86 @@ var timer = {
 
 };
 
+var map, infoWindow;
+
+
+function initMap() {
+                map = new google.maps.Map(document.getElementById('map'), {
+                    center: {lat: 35.896205, lng: 128.622019},
+                    zoom: 6,
+                });
+                
+                // Create the search box and link it to the google maps
+                var autocomplete = new google.maps.places.Autocomplete(document.getElementById('location_input'));
+                autocomplete.bindTo('bounds', map);
+                
+                infoWindow = new google.maps.InfoWindow();
+                var marker = new google.maps.Marker({
+                    map: map
+                });
+
+                // When a place is selected, show it on the map with local time and UTC time
+                // We use infoWindow for this, instead of markers
+                google.maps.event.addListener(autocomplete, 'place_changed', function() {
+                    infoWindow.close();
+                    var place = autocomplete.getPlace();
+                    if (place.geometry.viewport) {
+                        map.fitBounds(place.geometry.viewport);
+                    } else {
+                        map.setCenter(place.geometry.location);
+                        map.setZoom(17);
+                    }
+                  
+                    // Find the timezone of result location
+                    // Calculate offset (in hours)
+                    var utc_offset = place.utc_offset/60;
+                    
+                    // Format and display the dates in the infoWindow
+                    infoWindow.setContent(formatInfoString(place.name, utc_offset));
+                    infoWindow.setPosition(place.geometry.location);
+                    infoWindow.open(map);
+                });
+
+            }
+            
+            // Use HTML5 geolocation to find your location
+            
+
+            // Geolocation failed
+            function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+                infoWindow.setPosition(pos);
+                infoWindow.setContent(browserHasGeolocation ?
+                                  'Error: The Geolocation service failed.' :
+                                  'Error: Your browser doesn\'t support geolocation.');
+                infoWindow.open(map);
+            }
+            
+            // Formats the string, given place name and offset, to display on the infoWindow
+            /* Example String:  
+             *
+             *  Toronto
+             *  Local Time (UTC-5):
+             *  Fri, 11 Nov 2016 00:05:40
+             *
+             *  UTC Time:
+             *  Fri, 11 Nov 2016 05:05:40
+             */
+            function formatInfoString(name, offset) {
+                // Find the UTC time
+                var utc_time_name = 'UTC Time:';
+                var utc_time = new Date(Date.now());
+                var utc_time_string = utc_time.toUTCString().substring(0,25);
+                
+                // Find the local time with a "hack"
+                // Add the utc offset to UTC time, and print it as UTC time
+                var local_time_name = 'Local Time (UTC' + (offset > 0 ? '+' : '') + offset + '):';
+                var modified_time = new Date((new Date)*1 + 1000*3600*offset);
+                var modified_time_string = modified_time.toUTCString().substring(0,25);
+                
+                return '<div style="color: black"><strong>' + name + '</strong><br>' + local_time_name + '<br>' +
+                    modified_time_string + '<br><br>' + utc_time_name + '<br>' + utc_time_string;
+            }
+            
 
 
 /*------------------------------*/
@@ -163,6 +243,8 @@ function newOption() {
   document.getElementById('day_set_wrapper').classList.add('hidden');
   document.getElementById('spw_btn_wrapper').classList.add('hidden');
   document.getElementById('timer_btn_wrapper').classList.add('hidden');
+  document.getElementById('world_btn_wrapper').classList.add('hidden');
+ 
   document.getElementById('lap-wrapper').classList.add('hidden');
 
 }
@@ -180,7 +262,7 @@ function dayset() {document.getElementById("day_set_wrapper").classList.remove('
 function snoozeset() {document.getElementById("snooze_set_wrapper").classList.remove('hidden');}
 function spw_button() {document.getElementById('spw_btn_wrapper').classList.remove('hidden'); document.getElementById('lap-wrapper').classList.remove('hidden');}
 function timer_button() {document.getElementById('timer_btn_wrapper').classList.remove('hidden');}
-
+function world_button() {document.getElementById('world_btn_wrapper').classList.remove('hidden'); document.getElementById('clock').innerHTML = '';}
 
 /*------------------------------*/
 /*UTILITY*/
@@ -269,15 +351,20 @@ function stopSound(sound) {
                 },1000)*/
             })  
             $('.main-wrapper').draggable({axis: 'y'});
-
+      
             $('#alarm-btn').click(newOption);
             $('#stopwatch-btn').click(newOption);
             $('#timer-btn').click(newOption);
+            $('#world-btn').click(newOption);
             $('#alarm-btn').click(alarmbutton);
             $('#stopwatch-btn').click(spw_button);
             $('#timer-btn').click(timer_button);
+            $('#world-btn').click(world_button);
+            $('#world-btn').click(initMap);
+            //$('#world-btn').click(handleLocationError);
+            $('#world-btn').click(formatInfoString);
+            //$(initMap).submit(formatInfoString);
            
-            
         },
         
         resume : function () {
@@ -294,6 +381,10 @@ function stopSound(sound) {
              $('#spw_lap').click(spw_lap);
              $('#spw_reset').click(spw_reset);
              $('#timeset').click(time_control);
+             //$('#location_input').submit(formatInfoString);
+             //$('#world-btn').append()(handleLocationError);
+             //$('#location_input').append(formatInfoString);
+             //$('#world-btn').click(initMap).add(formatInfoString);
         },
         
         pause : function () {
