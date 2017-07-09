@@ -7,10 +7,10 @@
     
 }(this, function () {
     
-    var VOICE_KOREAN = 'Google 한국';
-    var VOICE_ENGLISH = 'Google US English';
-    var VOICE_JAPANESE = 'Google 日本語'; 
-    var VOICE_CHINESE = 'Google 普通话';
+    var VOICE_KOREAN = '한국';
+    var VOICE_ENGLISH = 'US English';
+    var VOICE_JAPANESE = '日本語'; 
+    var VOICE_CHINESE = '普通话';
     
     var SpeechSynthesisUtterance = window.SpeechSynthesisUtterance;
 
