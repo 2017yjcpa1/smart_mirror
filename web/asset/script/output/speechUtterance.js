@@ -6,10 +6,10 @@
     }
 }(this, function () {
     
-    var KOREAN_VOICE = 'Google 한국의';
-    var ENGLISH_VOICE = 'Google US English';
-    var JAPANESE_VOICE = 'Google 日本語'; 
-    var CHINESE_VOICE = 'Google 普通话（中国大陆）';
+    var VOICE_KOREAN = 'Google 한국';
+    var VOICE_ENGLISH = 'Google US English';
+    var VOICE_JAPANESE = 'Google 日本語'; 
+    var VOICE_CHINESE = 'Google 普通话';
     
     var SpeechSynthesisUtterance = window.SpeechSynthesisUtterance;
 
@@ -30,7 +30,11 @@
         var speechVoices = window.speechSynthesis.getVoices();
         
         for(var n = 0; n < speechVoices.length; ++n) {
-            if (String(speechVoices[n].name).toLowerCase() == name.toLowerCase()) {
+            
+            var str1 = String(speechVoices[n].name).toLowerCase();
+            var str2 = name.toLowerCase();
+            
+            if (str1.indexOf(str2) > 0) {
                 return speechVoices[n];
             }
         }
@@ -67,7 +71,7 @@
         if (voiceName) {
             speechUtter.voice =  getVoice(voiceName);
         } else {
-            speechUtter.voice =  getVoice(KOREAN_VOICE);
+            speechUtter.voice =  getVoice(VOICE_KOREAN);
         }
         
         speechSynthesis.speak(speechUtter);
@@ -75,10 +79,10 @@
 
     return window.speechUtterance = {
         
-        KOREAN_VOICE : KOREAN_VOICE,
-        ENGLISH_VOICE : ENGLISH_VOICE,
-        JAPANESE_VOICE : JAPANESE_VOICE,
-        CHINESE_VOICE : CHINESE_VOICE, 
+        KOREAN_VOICE : VOICE_KOREAN,
+        ENGLISH_VOICE : VOICE_ENGLISH,
+        JAPANESE_VOICE : VOICE_JAPANESE,
+        CHINESE_VOICE : VOICE_CHINESE, 
         
         isSpeaking : isSpeaking,
         

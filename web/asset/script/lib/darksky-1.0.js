@@ -7,6 +7,7 @@
     }
 }(this, function ($) {
     
+    // 일정시간이 지나면 캐시를 지워야함.
     var caches = {};
     
     function toKoreanComment(value) {
