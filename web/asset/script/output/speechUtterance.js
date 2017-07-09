@@ -1,9 +1,10 @@
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         define(factory);
-    } else {
-        root.speechUtterance = factory();
     }
+    
+    root.speechUtterance = factory();
+    
 }(this, function () {
     
     var VOICE_KOREAN = 'Google 한국';
@@ -77,7 +78,7 @@
         speechSynthesis.speak(speechUtter);
     }
 
-    return window.speechUtterance = {
+    return {
         
         KOREAN_VOICE : VOICE_KOREAN,
         ENGLISH_VOICE : VOICE_ENGLISH,
