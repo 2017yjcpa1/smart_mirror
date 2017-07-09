@@ -77,7 +77,7 @@
         <script type="text/javascript" src="asset/script/lib/require-2.3.3.min.js"></script>
         <script type="text/javascript">
             
-            var GOOGLE_MAPS_JS = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCVsFm99OvEG10HtxASj9jDzdRJUjnXho0';
+            var GOOGLE_MAPS_JS = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCVsFm99OvEG10HtxASj9jDzdRJUjnXho0&callback=initMap&libraries=places';
             
             Array.prototype.peek = function () {
                 return this[ this.length - 1 ];
