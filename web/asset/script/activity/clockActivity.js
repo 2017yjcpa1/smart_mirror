@@ -1,4 +1,4 @@
-define([ 'system', 'jquery', 'jquery-draggable' ],function (system, $) {
+define([ 'system', 'jquery', 'jquery-draggable', 'input/speechRecog', 'output/speechUtterance', ],function (system, $, speechRecog, speechUtterance) {
    
    
 
@@ -332,6 +332,12 @@ function stopSound(sound) {
         init : function () {
             console.log('clock init');
             clock.start();
+            
+            speechRecog.addEventListener('(시계|클락)\\s*실행', function (isFinal) { if (isFinal) system.startActivity('clockActivity'); })
+            speechRecog.addEventListener('알람\\s*실행', function (isFinal) { if (isFinal) system.startActivity('clockActivity'); })
+            speechRecog.addEventListener('(스톱워치|스탑워치)\\s*실행', function (isFinal) { if (isFinal) system.startActivity('clockActivity'); })
+            speechRecog.addEventListener('타이머\\s*실행', function (isFinal) { if (isFinal) system.startActivity('clockActivity'); })
+            speechRecog.addEventListener('세계시간\\s*실행', function (isFinal) { if (isFinal) system.startActivity('clockActivity'); })
             
             $("#one").click(function() { 
                  snooze=1000;
