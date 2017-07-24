@@ -24,7 +24,7 @@ define([
                 speechUtterance.speak(message['contents']);
                 
                 $('<li class="clearFix kakaoTalk"></li>')
-                     .append($('<i style="background-image:url(\'' + message['icon'] + '\')"></i>'))
+                     .append($('<i style="background-image:url(\'' + message['icon'].replace(/\n/gi, '') + '\')"></i>'))
                      .append($('<h1>' + message['title'] + '</h1>'))
                      .append($('<p>' + message['contents'] + '</p>'))
                      .insertBefore('#notifyWidget ul li:first-child');
