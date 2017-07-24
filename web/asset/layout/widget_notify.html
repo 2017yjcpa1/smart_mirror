@@ -2,30 +2,54 @@
     #notifyWidget {
         position: absolute;
         z-index: 5000;
-        top: 0;
+        top: 170px;
         left: 0;
-        bottom: 0;
-        right: 0;
-        margin: auto;
-        width: 450px;
-        height: 300px;
-        overflow: hidden;
-        font-size: 20px;
-    }
-    
-    #notifyWidget h1 {
-        font-size: 50px;
-        text-align: center;
     }
     
     #notifyWidget ul {
         list-style: none;
         padding: 0;
         margin: 0;
+        
+        font-size: 25px;
+    }
+     
+    #notifyWidget li {
+        margin-bottom: 5px;
     }
     
-</style>
-<h1>알림메세지</h1>
+    #notifyWidget li > * {
+        vertical-align: middle;
+    }
+    
+    #notifyWidget span {
+        display: inline-block;
+        width: 300px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+     
+    #notifyWidget em {
+        font-style: normal;
+        color: #6f6f6f;
+    }
+</style> 
 <ul>
-    <li></li>
+    <li> 
+        <span>하하하하하하하하하하하하하하하하</span>
+        <em>1분전</em>
+    </li>
+    <li> 
+        <span>하하하하</span>
+        <em>1분전</em>
+    </li>
+    <li> 
+        <span>하하하하</span>
+        <em>1분전</em>
+    </li>
+    <li> 
+        <span>하하하하</span>
+        <em>1분전</em>
+    </li>
 </ul>

@@ -14,8 +14,14 @@ define([
      
         $.getJSON(url, function (notifyData) {
             
-           $('<li></li>').text(notifyData['message']).insertBefore('#notifyWidget ul li:first-child');
-
+            console.log(notifyData);
+            
+            /*
+            $('<li></li>')
+                 .append(notifyData['message'])
+                 .insertBefore('#notifyWidget ul li:first-child');
+            */
+           
             if (notifyData['creation_date']) {
                 waitForNotify(parseInt(notifyData['creation_date'], 10));
             }
