@@ -56,9 +56,13 @@
         position: absolute;
     } 
     
-    #notifyWidget i:after {
-        background-image:url(./asset/drawable/kakaotalk-icon1.png);
-    }
+    #notifyWidget li[data-package="com.kakao.talk"]:after {background-image:url(./asset/drawable/kakaotalk-icon1.png)}
+    
+    #notifyWidget li[data-package="com.facebook.mlite"]:after {background-image:url(./asset/drawable/facebook-messenger.png)}
+    #notifyWidget li[data-package="com.facebook.orca"]:after {background-image:url(./asset/drawable/facebook-messenger.png)}
+    
+    #notifyWidget li[data-package="com.facebook.lite"]:after {background-image:url(./asset/drawable/facebook.png)}
+    #notifyWidget li[data-package="com.facebook.katana"]:after {background-image:url(./asset/drawable/facebook.png)}
     
     #notifyWidget h1 {
         font-style: normal;

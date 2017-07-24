@@ -64,6 +64,7 @@ public class NotificationService extends NotificationListenerService {
         final MessageModel o = new MessageModel();
         o.title = extras.getString("android.title");
         o.contents = extras.getString("android.text");
+        o.packageName = pkg;
 
         if (icon != null) {
             o.icon = ImageUtil.toDataURL(icon);

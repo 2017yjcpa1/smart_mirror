@@ -23,7 +23,8 @@ define([
                 
                 speechUtterance.speak(message['contents']);
                 
-                $('<li class="clearFix kakaoTalk"></li>')
+                $('<li class="clearFix"></li>')
+                     .data('package', message.packageName)
                      .append($('<i style="background-image:url(\'' + message['icon'].replace(/\n/gi, '') + '\')"></i>'))
                      .append($('<h1>' + message['title'] + '</h1>'))
                      .append($('<p>' + message['contents'] + '</p>'))

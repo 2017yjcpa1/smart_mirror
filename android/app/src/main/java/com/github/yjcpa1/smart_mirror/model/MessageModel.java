@@ -11,8 +11,13 @@ public class MessageModel {
     public String title;
     public String contents;
     public String icon;
+    public String packageName;
 
     public boolean validate() {
+        if (packageName == null || packageName.isEmpty()) {
+            return false;
+        }
+
         if (title == null || title.isEmpty()) {
             return false;
         }
