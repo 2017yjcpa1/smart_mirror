@@ -25,7 +25,7 @@ define([
                 
                 $('<li class="clearFix"></li>')
                      .attr('data-package', message.packageName)
-                     .append($('<i style="background-image:url(\'' + message['icon'].replace(/\n/gi, '') + '\')"></i>'))
+                     .append($('<i style="background-image:url(\'' + message['icon'] + '\')"></i>'))
                      .append($('<h1>' + message['title'] + '</h1>'))
                      .append($('<p>' + message['contents'] + '</p>'))
                      .insertBefore('#notifyWidget ul li:first-child');
