@@ -3,7 +3,7 @@
         position: absolute;
         z-index: 5000;
         top: 170px;
-        left: 0; 
+        left: 5px; 
     }
     
     #notifyWidget ul {
@@ -65,8 +65,11 @@
     #notifyWidget li[data-package="com.facebook.katana"] i:after {background-image:url(./asset/drawable/facebook.png)}
     
     #notifyWidget h1 {
-        font-style: normal;
         color: #6f6f6f;
+        max-width: 140px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
     
     #notifyWidget p {
