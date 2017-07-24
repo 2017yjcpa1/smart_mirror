@@ -30,12 +30,35 @@
         display: block;
     }
     
-    #notifyWidget img {
-        height: 100%;
-        width: auto;
+    #notifyWidget i {
+        position: relative;
+        
+        height: 40px;
+        width: 40px;
         border-radius: 50%;
         margin-right: 10px;
+        
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-color: white;
     } 
+    
+    #notifyWidget i:after {
+        content: '';
+        width: 20px;
+        border-radius: 50%;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-color: red;
+        height: 20px;
+        bottom: -5px;
+        right: -5px;
+        position: absolute;
+    } 
+    
+    #notifyWidget i:after {
+        background-image:url(./asset/drawable/kakaotalk-icon1.png);
+    }
     
     #notifyWidget h1 {
         font-style: normal;
@@ -50,5 +73,6 @@
     }
 </style> 
 <ul>
-    <li>&nbsp;</li> 
+    <li class="clearFix">
+    </li> 
 </ul>
