@@ -1,26 +1,21 @@
 package com.github.yjcpa1.smart_mirror.service;
 
 import android.app.Notification;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
-import android.util.Base64;
-import android.util.Log;
 
 import com.github.yjcpa1.smart_mirror.model.MessageModel;
-import com.github.yjcpa1.smart_mirror.util.HTTPClient;
+import com.github.yjcpa1.smart_mirror.util.SimpleHttpClient;
+import com.github.yjcpa1.smart_mirror.util.ImageUtil;
 import com.google.gson.Gson;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by aw9223 on 2017-07-24.
@@ -31,21 +26,29 @@ public class NotificationService extends NotificationListenerService {
     private Handler mHandler = new Handler();
 
     private List<String> mPackages = new ArrayList<String>() {{
-        add("com.kakao.talk");
+        add("com.kakao.talk"); // 카카오톡
 
-        add("com.android.mms");
+        add("jp.naver.line.android"); // 라인
 
-        add("com.facebook.orca");
-        add("com.facebook.katana");
+        add("com.skype.raider"); // 스카이프프
+
+        add("com.android.mms"); // 문자메세지
+
+        add("org.telegram.messenger"); // 텔레그램
+
+        add("com.instagram.android"); // 인스타그램
+
+        add("com.twitter.android"); // 트위터
+
+        add("com.google.android.gm"); // 지메일
+
+        add("com.snapchat.android"); // 스냅챗
+
+        add("com.facebook.mlite"); // 페이스북 메신저 라이트
+        add("com.facebook.orca"); // 페이스북 메신저
+        add("com.facebook.lite"); // 페이스북 라이트
+        add("com.facebook.katana"); // 페이스북
     }};
-
-
-    public static String convert(Bitmap bmp) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.PNG, 100, baos);
-
-        return "data:image/png;base64," + Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
-    }
 
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
@@ -61,8 +64,9 @@ public class NotificationService extends NotificationListenerService {
         final MessageModel o = new MessageModel();
         o.title = extras.getString("android.title");
         o.contents = extras.getString("android.text");
+
         if (icon != null) {
-            o.icon = convert(icon);
+            o.icon = ImageUtil.toDataURL(icon);
         }
 
         if ( ! o.validate()) {
@@ -74,7 +78,7 @@ public class NotificationService extends NotificationListenerService {
             @Override
             protected String doInBackground(String[] params) {
                 try {
-                    HTTPClient.post("http://aw9223.synology.me/notify/push/", "message", new Gson().toJson(o));
+                    SimpleHttpClient.post("http://aw9223.synology.me/notify/push/", "message", new Gson().toJson(o));
                 }
                 catch(IOException e) {
                     e.printStackTrace();

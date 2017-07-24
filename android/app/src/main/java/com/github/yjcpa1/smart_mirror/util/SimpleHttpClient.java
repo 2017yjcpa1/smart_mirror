@@ -16,56 +16,18 @@ import java.util.Map;
  * Created by aw9223 on 2017-07-24.
  */
 
-public class HTTPClient {
-
-    public static String urlencode(String s) {
-        try {
-            return URLEncoder.encode(s, "UTF-8");
-        }
-        catch (UnsupportedEncodingException e) {
-            throw new UnsupportedOperationException(e);
-        }
-    }
-
-    public static String urlencode(Map<?,?> m) {
-        StringBuilder sb = new StringBuilder();
-
-        for (Map.Entry<?,?> e : m.entrySet()) {
-
-            if (sb.length() > 0) {
-                sb.append("&");
-            }
-
-            sb.append(String.format("%s=%s",
-                urlencode(e.getKey().toString()),
-                urlencode(e.getValue().toString())
-            ));
-        }
-
-        return sb.toString();
-    }
+public class SimpleHttpClient {
 
     public static String post(String url, String key, String value) throws IOException {
-        Map<String, String> m = new HashMap<>();
-        m.put(key, value);
-
-        return exec(url, urlencode(m).getBytes(), "POST");
+        return exec(url, String.format("%s=%s", key, HttpUtil.urlencode(value)).getBytes(), "post");
     }
 
     public static String post(String url, Map<?, ?> m) throws IOException {
-        return exec(url, urlencode(m).getBytes(), "POST");
+        return exec(url, HttpUtil.urlencode(m).getBytes(), "post");
     }
 
     public static String exec(String url, byte[] bytes, String type) throws IOException {
-        HttpURLConnection conn = null;
-
-        try {
-            conn = (HttpURLConnection) new URL(url).openConnection();
-        }
-        catch (MalformedURLException e) {
-            e.printStackTrace();
-            return null;
-        }
+        HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
 
         conn.setRequestMethod(type.toUpperCase());
 
