@@ -21,7 +21,8 @@ define([
                 
                 $('<li class="clearFix"></li>')
                      .append($('<img src="' + message['icon'] + '">'))
-                     .append($('<span>' + message['contents'] + '</span>'))
+                     .append($('<h1>' + message['title'] + '</h1>'))
+                     .append($('<p>' + message['contents'] + '</p>'))
                      .insertBefore('#notifyWidget ul li:first-child');
             }
             
