@@ -29,27 +29,35 @@
         white-space: nowrap;
         text-overflow: ellipsis;
     }
+    
+    #notifyWidget img {
+        width: 30px;
+        height: 30px;
+    }
      
     #notifyWidget em {
         font-style: normal;
         color: #6f6f6f;
     }
+    
+    #notifyWidget li > * {
+        float: left;
+        font-size: 30px;
+        vertical-align: middle; 
+        margin: 0 5px 0 0;
+        display: block;
+    }
 </style> 
 <ul>
-    <li> 
-        <span>하하하하하하하하하하하하하하하하</span>
-        <em>1분전</em>
-    </li>
-    <li> 
-        <span>하하하하</span>
-        <em>1분전</em>
-    </li>
-    <li> 
-        <span>하하하하</span>
-        <em>1분전</em>
-    </li>
-    <li> 
-        <span>하하하하</span>
+    <li>&nbsp;</li>
+    <li class="clearFix">
+        <img />
+        <h1>
+            한지호
+        </h1>
+        <p>
+            하하하하하하하하하하하하하하하하
+        </p>
         <em>1분전</em>
     </li>
 </ul>

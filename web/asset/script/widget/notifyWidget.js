@@ -19,7 +19,7 @@ define([
                 
                 var message = messages[n];
                 
-                $('<li></li>')
+                $('<li class="clearFix"></li>')
                      .append($('<img src="' + message['icon'] + '">'))
                      .append($('<span>' + message['contents'] + '</span>'))
                      .insertBefore('#notifyWidget ul li:first-child');
