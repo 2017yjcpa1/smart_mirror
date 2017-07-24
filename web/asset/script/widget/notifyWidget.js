@@ -1,7 +1,10 @@
 define([
     'jquery',
     'system',
-], function ($, system) {
+    
+    
+    'output/speechUtterance',
+], function ($, system, speechUtterance) {
     
     
     function waitForNotify(creationDate) {
@@ -18,6 +21,8 @@ define([
             for (var n = 0; n < messages.length; ++n) {
                 
                 var message = messages[n];
+                
+                speechUtterance.speak(message['contents']);
                 
                 $('<li class="clearFix"></li>')
                      .append($('<img src="' + message['icon'] + '">'))
