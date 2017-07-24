@@ -14,14 +14,17 @@ define([
      
         $.getJSON(url, function (notifyData) {
             
-            console.log(notifyData);
+            var messages = notifyData['messages'];
+            for (var n = 0; n < messages.length; ++n) {
+                
+                var message = messages[n];
+                
+                $('<li></li>')
+                     .append($('<img src="' + message['icon'] + '">'))
+                     .append($('<span>' + message['contents'] + '</span>'))
+                     .insertBefore('#notifyWidget ul li:first-child');
+            }
             
-            /*
-            $('<li></li>')
-                 .append(notifyData['message'])
-                 .insertBefore('#notifyWidget ul li:first-child');
-            */
-           
             if (notifyData['creation_date']) {
                 waitForNotify(parseInt(notifyData['creation_date'], 10));
             }
