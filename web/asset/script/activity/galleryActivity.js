@@ -1,5 +1,5 @@
 define(['system', 'jquery', 'jquery-draggable'
-], function (system) {
+], function (system, $) {
 
     return {
 
@@ -10,34 +10,32 @@ define(['system', 'jquery', 'jquery-draggable'
 
         init: function () {
             console.log('gallery init');
-            $('#gallery').draggable({axis: 'y'});
+            
+
+            var swiper = new Swiper('.swiper-container', {
+                pagination: '.swiper-pagination',
+                effect: 'coverflow',
+                grabCursor: true,
+                centeredSlides: true,
+                slidesPerView: 'auto',
+                coverflow: {
+                    rotate: 50,
+                    stretch: 0,
+                    depth: 100,
+                    modifier: 1,
+                    slideShadows : true
+                }
+            });
+            
+            $(window).resize();
         },
 
         resume: function () {
             console.log('gallery resume');
-
-            $(document).ready(function () {
-                var path = '/smart_mirror/gallery/';
-                var i = 0;
-                
-                $.ajax({
-                    url: '/smart_mirror/web/php/pic_load_process.php',
-                    success: function (data) {
-                        var file = JSON.parse(data);
-                        for (i; i < file.length; i++) {
-                            console.log(file[i]);
-                            $('#gallery').append("<a href='" + path + file[i] + "' target='_blank'> <img src='" + path + file[i] + "'> </a>")
-                        }
-                    }
-                })
-            })
-
-            
         },
 
         pause: function () {
             console.log('gallery pause');
-            $('#gallery').empty();
         },
 
         destroy: function () {
