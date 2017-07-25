@@ -41,7 +41,13 @@ define([
                     $.getJSON('./wiki/?q=' + encodeURIComponent(matches[1]), function (data) {
                         if(data && data.length > 0) {
                             console.log(data[0]);
-                            speechUtterance.speak(data[0]);
+                            speechUtterance.speak(data[0].replace(/\([^\)]+\)/gi, "")
+                                                         .replace(/\[[^\]]+\]/gi, "")
+                                                         .replace(/\{[^\}]+\}/gi, "")
+                                                         .replace(/『[^』]+』/gi, "")
+                                                         .replace(/《[^》]+》/gi, "")
+                                                         .replace(/「[^」]+」/gi, "")
+                                                         .replace(/〈[^〉]+〉/gi, ""));
                         }
                     }) 
                 }
