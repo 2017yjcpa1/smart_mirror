@@ -6,6 +6,7 @@ define([
 ], function ($, kinectCursor, speechRecog) {
     
     var activities = new Array();
+    var isLock = false;
     
     activities.indexOf = function (id) {
         for (var n = 0; n < this.length; ++n) {
@@ -31,9 +32,15 @@ define([
     }
     
     function startActivity(activityId, data, doNotShowEffect) {
+        if (isLock) {
+            return false;
+        }
+        
         if (activities.length > 0 && activities.peek().id === activityId) {
             return false;
         }
+        
+        isLock = true;
         
         var isCreated = require.defined('activity/' + activityId);
         
@@ -74,6 +81,8 @@ define([
                 }
 
                 activities.push(activity);
+                
+                isLock = false;
             }
             
             if ( ! isCreated) {
