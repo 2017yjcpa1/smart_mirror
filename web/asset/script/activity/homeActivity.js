@@ -21,7 +21,7 @@ define([
             system.attachWidget('clockWidget');
             system.attachWidget('menuWidget');
             system.attachWidget('skeletonWidget');
-            system.attachWidget('transcriptWidget');
+            //system.attachWidget('transcriptWidget');
             system.attachWidget('weatherWidget');
             system.attachWidget('newsWidget');
 
