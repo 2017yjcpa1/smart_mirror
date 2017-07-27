@@ -16,19 +16,23 @@ define([
      
         $.getJSON(url, function (notifyData) {
             
-            var messages = notifyData['messages'];
-            for (var n = 0; n < messages.length; ++n) {
-                
-                var message = messages[n];
-                
-                speechUtterance.speak(message['contents']);
-                
-                $('<li class="clearFix"></li>')
-                     .attr('data-package', message.packageName)
-                     .append($('<i style="background-image:url(\'' + message['icon'] + '\')"></i>'))
-                     .append($('<h1>' + message['title'] + '</h1>'))
-                     .append($('<p>' + message['contents'] + '</p>'))
-                     .insertBefore('#notifyWidget ul li:first-child');
+            if (notifyData['messages']) {
+                var messages = notifyData['messages'];
+                if (messages.length) {
+                    for (var n = 0; n < messages.length; ++n) {
+
+                        var message = messages[n];
+
+                        speechUtterance.speak(message['contents']);
+
+                        $('<li class="clearFix"></li>')
+                             .attr('data-package', message.packageName)
+                             .append($('<i style="background-image:url(\'' + message['icon'] + '\')"></i>'))
+                             .append($('<h1>' + message['title'] + '</h1>'))
+                             .append($('<p>' + message['contents'] + '</p>'))
+                             .insertBefore('#notifyWidget ul li:first-child');
+                    }
+                }
             }
             
             // TODO 달력데이터와 어떻게...??
