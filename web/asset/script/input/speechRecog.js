@@ -17,15 +17,11 @@
     
     var listeners = [];
     var speechRecog = null; 
-    var isListening = false;
-    
-    var timeoutId = null;
-    
+     
     function init() {
         console.log('init()');
         
         if (speechRecog && speechRecog.stop) {
-            //speechRecog.abort();
             speechRecog.stop();
         }
 
@@ -40,20 +36,11 @@
         };
         
         speechRecog.onstart = function () { 
-            console.log('speechRecog.onstart()'); 
-            
-            isListening = true;
+            console.log('speechRecog.onstart()');
         };
         
         speechRecog.onend = function () {
             console.log('speechRecog.onend()');
-            
-            if (timeoutId) {
-                window.clearTimeout(timeoutId);
-                timeoutId = null;
-            }
-            
-            isListening = false;
             
             start();
         };
@@ -68,17 +55,6 @@
             var results = event.results[event.resultIndex];
             var isFinal = results.isFinal;
             var transcripts = [];
-            
-            // 간혹 병목현상이 걸리는 경우가 생겨서 tiemout 걸어버림
-            if ( ! timeoutId) {
-                timeoutId = window.setTimeout(start, 1000 * 5);
-                return;
-            }
-            
-            if (isFinal && timeoutId) {
-                window.clearTimeout(timeoutId);
-                timeoutId = null;
-            }
                 
             for (var n = 0; n < results.length; ++n) {
                 transcripts[n] = results[n].transcript.trim();
@@ -103,7 +79,7 @@
     
     function start() {
         console.log('start()');
-        if ( ! speechRecog || isListening) {
+        if ( ! speechRecog) {
             init();
         }
         
