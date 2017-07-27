@@ -99,7 +99,14 @@
     }
     
     function start() {
-        init();
+        if (speechRecog && speechRecog.abort) {
+            speechRecog.abort();
+            speechRecog = null;
+        }
+        
+        if ( ! speechRecog) {
+            init();
+        }
         
         speechRecog.start();
     }
