@@ -50,6 +50,8 @@ define([
                                                          .replace(/〈[^〉]+〉/gi, ""));
                         }
                     }) 
+                } else {
+                    speechUtterance.speak('적절한 답변을 찾지 못하였습니다.');
                 }
             })
         },
