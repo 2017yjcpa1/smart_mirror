@@ -6,7 +6,7 @@
     }
 }(this, function () {
     
-    var COMMAND_START = '미러야';
+    var COMMAND_START = '뽀삐야';
     var REGEXP_START =  COMMAND_START + '(?!.*' + COMMAND_START + ')(.*)';
     
     var SpeechRecognition = window.SpeechRecognition ||
