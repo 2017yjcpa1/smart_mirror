@@ -42,6 +42,11 @@
         speechRecog.onend = function () {
             console.log('speechRecog.onend()');
             
+            if (timeoutId) {
+                window.clearTimeout(timeoutId);
+                timeoutId = null;
+            }
+            
             start();
         };
         
