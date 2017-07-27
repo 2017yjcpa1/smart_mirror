@@ -21,6 +21,8 @@
     var timeoutId = null;
     
     function init() {
+        console.log('init()');
+        
         if (speechRecog && speechRecog.abort) {
             speechRecog.abort();
         }
@@ -94,12 +96,14 @@
     }
     
     function restart() {
+        console.log('restart()');
         init();
 
         start();
     }
     
     function start() {
+        console.log('start()');
         if ( ! speechRecog) {
             init();
         }
