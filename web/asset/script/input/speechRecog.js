@@ -29,7 +29,7 @@
         speechRecog.lang = 'ko-KR';
         speechRecog.continuous = true;
         speechRecog.interimResults = true;
-        speechRecog.maxAlternatives = 5;
+        //speechRecog.maxAlternatives = 5;
 
         speechRecog.onerror = function (event) {
             console.log('speechRecog.onerror() = ' + event.error);
