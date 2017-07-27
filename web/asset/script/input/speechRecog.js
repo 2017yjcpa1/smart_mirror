@@ -70,7 +70,7 @@
             
             // 간혹 병목현상이 걸리는 경우가 생겨서 tiemout 걸어버림
             if ( ! timeoutId) {
-                timeoutId = window.setTimeout(restart, 1000 * 5);
+                timeoutId = window.setTimeout(start, 1000 * 5);
                 return;
             }
             
@@ -98,13 +98,6 @@
                 }
             }
         };
-    }
-    
-    function restart() {
-        console.log('restart()');
-        init();
-
-        start();
     }
     
     function start() {
