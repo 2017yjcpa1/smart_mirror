@@ -17,6 +17,7 @@
     
     var listeners = [];
     var speechRecog = null; 
+    var isListening = false;
     
     var timeoutId = null;
     
@@ -39,6 +40,8 @@
         
         speechRecog.onstart = function () { 
             console.log('speechRecog.onstart()'); 
+            
+            isListening = true;
         };
         
         speechRecog.onend = function () {
@@ -48,6 +51,8 @@
                 window.clearTimeout(timeoutId);
                 timeoutId = null;
             }
+            
+            isListening = false;
             
             start();
         };
@@ -104,7 +109,7 @@
     
     function start() {
         console.log('start()');
-        if ( ! speechRecog) {
+        if ( ! speechRecog || isListening) {
             init();
         }
         
