@@ -85,7 +85,7 @@ define([
                 'activity/galleryActivity',
                 'activity/cameraActivity',
                 'activity/clockActivity',
-                'activity/androidAppActivity',
+                //'activity/androidAppActivity',
             ], function () {
                 for(var n = 0; n < arguments.length; ++n) {
                     createMenu(arguments[n]);
