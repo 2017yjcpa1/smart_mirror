@@ -99,9 +99,7 @@
     }
     
     function start() {
-        if ( ! speechRecog) {
-            init();
-        }
+        init();
         
         speechRecog.start();
     }
