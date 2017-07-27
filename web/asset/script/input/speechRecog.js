@@ -62,7 +62,10 @@
             
             for (var n = 0; n < transcripts.length; ++n) { // maxAlternatives 수 만큼 인식한 문장들
                 console.log(isFinal, transcripts[n]); 
-                    
+                
+                dispatchEvent(isFinal, transcripts[n]);
+                
+                continue;
                 var matches = new RegExp(REGEXP_START, 'i').exec(transcripts[n].replace(/\s+/g, ""));
                 if ( ! (matches && matches[1])) {
                     continue;
@@ -105,9 +108,13 @@
             handlers = handlers.concat(listeners[regex]);
         }
         
-        for(var n = 0; n < handlers.length; ++n) {
-            handlers[n](isFinal, transcript);
+        if (handlers[0]) {
+            handlers[0](isFinal, transcript);
         }
+        
+        //for(var n = 0; n < handlers.length; ++n) {
+        //    handlers[n](isFinal, transcript);
+        //}
     }
     
     return {
