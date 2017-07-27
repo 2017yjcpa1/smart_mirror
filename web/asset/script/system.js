@@ -88,7 +88,7 @@ define([
             if ( ! isCreated) {
                 var rootLayout = $(document.createElement('div'))
                                         .addClass('activity')
-                                        .load('asset/layout/' + activity.layoutHTML + '?bust' + new Date().getTime(), layoutLoaded)
+                                        .load('asset/layout/' + activity.layoutHTML + '?bust=' + new Date().getTime(), layoutLoaded)
                                         .attr('id', activityId);
                     
                 activity.rootLayout = rootLayout[0];    

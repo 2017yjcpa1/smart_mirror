@@ -6,7 +6,7 @@
     }
 }(this, function () {
     
-    var COMMAND_START = '거울아';
+    var COMMAND_START = '미러야';
     var REGEXP_START =  COMMAND_START + '(?!.*' + COMMAND_START + ')(.*)';
     
     var SpeechRecognition = window.SpeechRecognition ||
@@ -42,10 +42,10 @@
         speechRecog.onend = function () {
             console.log('speechRecog.onend()');
             
-            /*if (timeoutId) {
+            if (timeoutId) {
                 window.clearTimeout(timeoutId);
                 timeoutId = null;
-            }*/
+            }
             
             start();
         };
@@ -62,14 +62,15 @@
             var transcripts = [];
             
             // 간혹 병목현상이 걸리는 경우가 생겨서 tiemout 걸어버림
-            /*if ( ! timeoutId) {
+            if ( ! timeoutId) {
                 timeoutId = window.setTimeout(restart, 1000 * 5);
+                return;
             }
             
             if (isFinal && timeoutId) {
                 window.clearTimeout(timeoutId);
                 timeoutId = null;
-            }*/
+            }
                 
             for (var n = 0; n < results.length; ++n) {
                 transcripts[n] = results[n].transcript.trim();
