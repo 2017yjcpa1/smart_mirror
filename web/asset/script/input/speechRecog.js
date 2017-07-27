@@ -24,8 +24,9 @@
     function init() {
         console.log('init()');
         
-        if (speechRecog && speechRecog.abort) {
-            speechRecog.abort();
+        if (speechRecog && speechRecog.stop) {
+            //speechRecog.abort();
+            speechRecog.stop();
         }
 
         speechRecog = new SpeechRecognition();
