@@ -29,6 +29,7 @@ define([
             speechRecog.addEventListener('날씨\\s*실행', function (isFinal) { if (isFinal) system.startActivity('weatherActivity'); })
             speechRecog.addEventListener('뉴스\\s*실행', function (isFinal) { if (isFinal) system.startActivity('newsActivity'); })
             speechRecog.addEventListener('(달력|일정)\\s*실행', function (isFinal) { if (isFinal) system.startActivity('calendarActivity'); })
+            speechRecog.addEventListener('(시계|클락)\\s*실행', function (isFinal) { if (isFinal) system.startActivity('clockActivity'); })
             
             speechRecog.addEventListener('(.*?)\\s*(뭐지|검색)', function (isFinal, transcript) { 
                 if ( ! isFinal) {
