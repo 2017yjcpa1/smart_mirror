@@ -1,4 +1,4 @@
-define([ 'system', 'jquery', 'jquery-draggable', 'input/speechRecog', 'output/speechUtterance', ],function (system, $, speechRecog, speechUtterance) {
+define([ 'system', 'jquery', 'input/speechRecog', 'output/speechUtterance', 'jquery-draggable'],function (system, $, speechRecog, speechUtterance) {
    
    
 
@@ -333,11 +333,31 @@ function stopSound(sound) {
             console.log('clock init');
             clock.start();
             
-            speechRecog.addEventListener('(시계|클락)\\s*실행', function (isFinal) { if (isFinal) system.startActivity('clockActivity'); })
-            speechRecog.addEventListener('알람\\s*실행', function (isFinal) { if (isFinal) system.startActivity('clockActivity'); })
-            speechRecog.addEventListener('(스톱워치|스탑워치)\\s*실행', function (isFinal) { if (isFinal) system.startActivity('clockActivity'); })
-            speechRecog.addEventListener('타이머\\s*실행', function (isFinal) { if (isFinal) system.startActivity('clockActivity'); })
-            speechRecog.addEventListener('세계시간\\s*실행', function (isFinal) { if (isFinal) system.startActivity('clockActivity'); })
+            speechRecog.addEventListener('(알람|알림)\\s*(보여줘|보자)', function (isFinal) { if(isFinal) { newOption(); alarmbutton(); }})
+            speechRecog.addEventListener('(스톱워치|스탑워치)\\s*(보여줘|보자)', function (isFinal) { if (isFinal) { newOption(); spw_button(); }})
+            speechRecog.addEventListener('타이머\\s*(보여줘|보자)', function (isFinal) { if (isFinal) { newOption(); timer_button(); }})
+            speechRecog.addEventListener('세계 시간\\s*(보여줘|보자)', function (isFinal) { if (isFinal) { newOption(); world_button(); initMap(); }})
+            
+            speechRecog.addEventListener('반복 기능\\s*(실행|켜줘)', function (isFinal) { if(isFinal) snoozeset(); })
+            speechRecog.addEventListener('[1]*분', function (isFinal) { if(isFinal) snooze=1000; })
+            speechRecog.addEventListener('[3]*분', function (isFinal) { if(isFinal) snooze=3000; })
+            speechRecog.addEventListener('[5]*분', function (isFinal) { if(isFinal) snooze=5000; })
+            
+            speechRecog.addEventListener('(스톱워치|스탑워치)\\s*(시작|실행)', function (isFinal) { if(isFinal) stopwatch.start_stop(); })
+            speechRecog.addEventListener('(스톱워치|스탑워치)\\s*랩', function (isFinal) { if(isFinal) stopwatch.lap(); })
+            speechRecog.addEventListener('(스톱워치|스탑워치)\\s*그만', function (isFinal) { if(isFinal) stopwatch.reset(); })
+            
+            speechRecog.addEventListener('([0-9]|[0-9]*[0-9])*시', function (isFinal) { if(isFinal) document.getElementById('timer_h').value; })
+            speechRecog.addEventListener('([0-9]|[0-9]*[0-9])*분', function (isFinal) { if(isFinal) document.getElementById('timer_m').value; })
+            speechRecog.addEventListener('([0-9]|[0-9]*[0-9])*초', function (isFinal) { if(isFinal) document.getElementById('timer_s').value; })
+        
+            speechRecog.addEventListener('타이머\\s*(시작|실행)', function (isFinal) { if (isFinal) { timer.stop(); timer.start(); }})
+            
+            //speechRecog.addEventListener('(시계|클락)\\s*실행', function (isFinal) { if (isFinal) system.startActivity('clockActivity'); })
+            //speechRecog.addEventListener('알람\\s*실행', function (isFinal) { if (isFinal) system.startActivity('clockActivity'); })
+            //speechRecog.addEventListener('(스톱워치|스탑워치)\\s*실행', function (isFinal) { if (isFinal) system.startActivity('clockActivity'); })
+            //speechRecog.addEventListener('타이머\\s*실행', function (isFinal) { if (isFinal) system.startActivity('clockActivity'); })
+            //speechRecog.addEventListener('세계시간\\s*실행', function (isFinal) { if (isFinal) system.startActivity('clockActivity'); })
             
             $("#one").click(function() { 
                  snooze=1000;
