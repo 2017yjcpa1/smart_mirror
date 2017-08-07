@@ -336,9 +336,9 @@ function stopSound(sound) {
             clock.start();
             
             speechRecog.addEventListener('(알람|알 람|알림)\\s*(보여줘|보자)', function (isFinal) { if(isFinal) { clock.start(); newOption(); alarmbutton(); }})
-            speechRecog.addEventListener('(스톱워치|스탑워치)\\s*(보여줘|보자)', function (isFinal) { if (isFinal) { newOption(); spw_button(); }})
-            speechRecog.addEventListener('타이머\\s*(보여줘|보자)', function (isFinal) { if (isFinal) { newOption(); timer_button(); }})
-            speechRecog.addEventListener('(세계 시간|세계시간)\\s*(보여줘|보자)', function (isFinal) { if (isFinal) { newOption(); world_button(); initMap(); }})
+            speechRecog.addEventListener('(스톱워치|스탑워치)\\s*(보여줘|보자)', function (isFinal) { if (isFinal) { clock.stop(); newOption(); spw_button(); }})
+            speechRecog.addEventListener('타이머\\s*(보여줘|보자)', function (isFinal) { if (isFinal) { clock.stop(); newOption(); timer_button(); }})
+            speechRecog.addEventListener('(세계 시간|세계시간)\\s*(보여줘|보자)', function (isFinal) { if (isFinal) { clock.stop(); newOption(); world_button(); initMap(); }})
             
             speechRecog.addEventListener('(반복|한복|반 복|한 복)\\s*(실행|켜줘)', function (isFinal) { if(isFinal) newOption(); snoozeset(); })
             speechRecog.addEventListener('(반복|한복|반 복|한 복)\\s*1분', function (isFinal) { if(isFinal) snooze=1000; })
@@ -346,7 +346,7 @@ function stopSound(sound) {
             speechRecog.addEventListener('(반복|한복|반 복|한 복)\\s*5분', function (isFinal) { if(isFinal) snooze=5000; })
             
             speechRecog.addEventListener('(알람|알 람|알림)\\s*(시작|실행)', function (isFinal) { if(isFinal) { alarm.start(); }})
-            speechRecog.addEventListener('(알람|알림)\\s*(멈춰|그만)', function (isFinal) { if(isFinal) { alarm.stop(); }})
+            speechRecog.addEventListener('(알람|알 람|알림)\\s*(멈춰|그만)', function (isFinal) { if(isFinal) { alarm.stop(); }})
             
             speechRecog.addEventListener('(스톱워치|스탑워치)\\s*(시작|실행)', function (isFinal) { if(isFinal) stopwatch.start_stop(); })
             speechRecog.addEventListener('(스톱워치|스탑워치)\\s*랩', function (isFinal) { if(isFinal) stopwatch.lap(); })
