@@ -35,7 +35,8 @@ var h, m, s;
 var alarm_inter;
 var snooze=0;
 var alarm_onoff;
-        
+var alarm_on;
+
   var alarm = {
       start: 
    function () {
@@ -55,25 +56,26 @@ var alarm_onoff;
     m = document.getElementById('alarm_m').value;
     s = document.getElementById('alarm_s').value;
     
-   
-            var count=0;
-            if(h==hours && m==minutes && s==seconds)
+        
+        if(h==hours && m==minutes && s==seconds)
             {
                    alarm_onoff = playSound(timer_sound);
-                                   setInterval(function() {
+                               alarm_on = setInterval(function() {
                                       playSound(timer_sound); console.log(7000+snooze);
                                   },6500+snooze) 
 
             }
                 },1000)
            },
+           
+            
    
       stop: function() {
           
+          clearInterval(alarm_on);
           clearInterval(alarm_inter);
           clearInterval(alarm_onoff);
           stopSound(timer_sound);
-          snooze=0;
 
       },
       
