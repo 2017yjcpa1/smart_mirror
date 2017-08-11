@@ -1,4 +1,4 @@
-define([ 'system', 'jquery', 'input/speechRecog', 'output/speechUtterance', 'jquery-draggable'],function (system, $, speechRecog, speechUtterance) {
+define([ 'system', 'jquery', 'input/speechRecog', 'output/speechUtterance', 'jquery-draggable' ],function (system, $, speechRecog, speechUtterance) {
    
    
 
@@ -35,8 +35,8 @@ var h, m, s;
 var alarm_inter;
 var snooze=0;
 var alarm_onoff;
-var alarm_on;
-
+var alarm_on;        
+        
   var alarm = {
       start: 
    function () {
@@ -56,8 +56,9 @@ var alarm_on;
     m = document.getElementById('alarm_m').value;
     s = document.getElementById('alarm_s').value;
     
-        
-        if(h==hours && m==minutes && s==seconds)
+   
+            var count=0;
+            if(h==hours && m==minutes && s==seconds)
             {
                    alarm_onoff = playSound(timer_sound);
                                alarm_on = setInterval(function() {
@@ -67,8 +68,6 @@ var alarm_on;
             }
                 },1000)
            },
-           
-            
    
       stop: function() {
           
@@ -76,6 +75,7 @@ var alarm_on;
           clearInterval(alarm_inter);
           clearInterval(alarm_onoff);
           stopSound(timer_sound);
+          
 
       },
       
@@ -336,7 +336,9 @@ function stopSound(sound) {
         init : function () {
             console.log('clock init');
             clock.start();
-            
+
+            //(알람|알림|알람기능|알림기능)\s+(실행|켜줘|보여줘|실행해줘|보고싶어)
+            // 알람 음성인식
             speechRecog.addEventListener('(알람|알 람|알림)\\s*(보여줘|보자)', function (isFinal) { if(isFinal) { clock_button(); newOption(); alarmbutton(); }})
             speechRecog.addEventListener('(스톱워치|스탑워치)\\s*(보여줘|보자)', function (isFinal) { if (isFinal) { clock.stop(); newOption(); spw_button(); }})
             speechRecog.addEventListener('타이머\\s*(보여줘|보자)', function (isFinal) { if (isFinal) { clock.stop(); newOption(); timer_button(); }})
@@ -359,12 +361,7 @@ function stopSound(sound) {
             speechRecog.addEventListener('([0-9]|[0-9]*[0-9])*초', function (isFinal) { if(isFinal) document.getElementById('timer_s').value; })
         
             speechRecog.addEventListener('타이머\\s*(시작|실행)', function (isFinal) { if (isFinal) { timer.stop(); timer.start(); }})
-            
-            //speechRecog.addEventListener('(시계|클락)\\s*실행', function (isFinal) { if (isFinal) system.startActivity('clockActivity'); })
-            //speechRecog.addEventListener('알람\\s*실행', function (isFinal) { if (isFinal) system.startActivity('clockActivity'); })
-            //speechRecog.addEventListener('(스톱워치|스탑워치)\\s*실행', function (isFinal) { if (isFinal) system.startActivity('clockActivity'); })
-            //speechRecog.addEventListener('타이머\\s*실행', function (isFinal) { if (isFinal) system.startActivity('clockActivity'); })
-            //speechRecog.addEventListener('세계시간\\s*실행', function (isFinal) { if (isFinal) system.startActivity('clockActivity'); })
+           
             
             $("#one").click(function() { 
                  snooze=1000;
@@ -383,16 +380,6 @@ function stopSound(sound) {
                     playSound(timer_sound);
                 },1000)*/
             })  
-            
-            $("#alarmreset").click(function() {
-                
-                snooze=0;
-                clearInterval(alarm_inter);
-                clearInterval(alarm_onoff);
-                stopSound(timer_sound);
-                
-            })
-            
             $('.main-wrapper').draggable({axis: 'y'});
       
             $('#alarm-btn').click(newOption);
@@ -428,6 +415,9 @@ function stopSound(sound) {
              //$('#world-btn').append()(handleLocationError);
              //$('#location_input').append(formatInfoString);
              //$('#world-btn').click(initMap).add(formatInfoString);
+             
+             // 알람 시간 값
+
         },
         
         pause : function () {
