@@ -197,12 +197,29 @@ define([
         attachWidget : attachWidget,
 
         getWidget : getWidget,
+        
+        scheduleScreenSaver : function () {
+            var timeoutId = null;
+         
+            $(document).on('mouseover mouseout mousemove mouseup mousedown click', function () {
+               
+                if (timeoutId) {
+                    window.clearTimeout(timeoutId);
+                }
+               
+                timeoutId = window.setTimeout(function () {
+                    startActivity('screensaverActivity'); 
+                }, 2000); 
+            });  
+        },
 
         init : function () {
             kinectCursor.start();
             speechRecog.start();
             
             startActivity('homeActivity', null, true);
+            
+            this.scheduleScreenSaver();
         }
     };
 });
