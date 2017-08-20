@@ -126,7 +126,7 @@
             }
             
             $.getJSON(
-                './weather/?' + query,
+                'http://' + API_SERVER_URL + '/weather/?' + query,
                 function (data) {
                     
                     var renewal = {
