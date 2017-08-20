@@ -185,6 +185,47 @@ define([
         return require('widget/' + widgetId);
     }
     
+    var screenSaver = (function () {
+        
+        var idleEvents = [
+            'mouseover',
+            'mouseout',
+            'mousemove', 
+            'mouseup',
+            'mousedown', 
+            'click'
+        ].join(' ');
+        
+        return {
+            schedule : function () {
+                var timeoutId = null;
+
+                $(document).on(idleEvents, function () {
+
+                    if (timeoutId) {
+                        window.clearTimeout(timeoutId);
+                    }
+
+                    timeoutId = window.setTimeout(
+                                    function () {
+                                        startActivity('screenSaverActivity'); 
+                                    }
+                                    , 2000
+                                ); 
+                });  
+            },
+            
+            wakeup : function () {
+                
+                $(document).bind(idleEvents, function () {
+                    finishActivity('screenSaverActivity'); 
+
+                    $(this).unbind(idleEvents, arguments.callee)
+                });  
+            }
+        };
+    })();
+    
     return {
         
         /**
@@ -200,21 +241,6 @@ define([
         attachWidget : attachWidget,
 
         getWidget : getWidget,
-        
-        scheduleScreenSaver : function () {
-            var timeoutId = null;
-         
-            $(document).on('mouseover mouseout mousemove mouseup mousedown click', function () {
-               
-                if (timeoutId) {
-                    window.clearTimeout(timeoutId);
-                }
-               
-                timeoutId = window.setTimeout(function () {
-                    startActivity('screenSaverActivity'); 
-                }, 2000); 
-            });  
-        },
 
         init : function () {
             kinectCursor.start();
@@ -222,7 +248,7 @@ define([
             
             startActivity('homeActivity', null, true);
             
-            this.scheduleScreenSaver();
+            screenSaver.schedule();
         }
     };
 });

@@ -8,7 +8,7 @@ define(['system', 'jquery'], function (system, $) {
         title: '화면보호기',
         icon: '',
         layoutHTML: 'activity_screen_saver.html',
-
+ 
         init: function () {
             console.log('screensaver init'); 
         },
@@ -21,14 +21,10 @@ define(['system', 'jquery'], function (system, $) {
             }
             
             intervalId = window.setInterval(function () {
-                $('#screenSaverActivity li:first-child').detach().appendTo("#screenSaverActivity ul"); 
+                $('#screenSaverActivity li:first-child')
+                    .detach()
+                    .appendTo("#screenSaverActivity ul"); 
             }, 1000);
-            
-            $(document).bind('mouseover mouseout mousemove mouseup mousedown click', function () { 
-                system.finishActivity('screenSaverActivity'); 
-                
-                $(this).unbind('mouseover mouseout mousemove mouseup mousedown click', arguments.callee)
-            });  
         },
 
         pause: function () {
@@ -40,8 +36,7 @@ define(['system', 'jquery'], function (system, $) {
         },
 
         destroy: function () {
-            console.log('screensaver destroy');            
- 
+            console.log('screensaver destroy');
         },
     }
 })
