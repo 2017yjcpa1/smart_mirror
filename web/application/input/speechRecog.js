@@ -121,6 +121,6 @@
         
         addEventListener : addEventListener,
         
-        start : start
+        start : function () {}//start
     }
 }))
