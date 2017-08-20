@@ -19,7 +19,7 @@ define(['system', 'jquery'], function (system) {
             }
             
             var video = $('#cameraActivity video')[0];
-
+video.crossOrigin = 'anonymous';
             navigator
                 .mediaDevices
                 .getUserMedia({ video: true })
