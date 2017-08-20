@@ -117,8 +117,11 @@ define([
         
         require(['activity/' + activityId], function (activity) {
             var parentActivity = activity.parentActivity;
+            console.log(parentActivity)
             if (parentActivity) {
-                $(parentActivity.rootLayout).addClass('activityOnTop');
+                $(parentActivity.rootLayout)
+                    .removeClass('hideEffect')
+                    .addClass('showEffect activityOnTop');
                 
                 if (typeof(parentActivity.resume) === 'function') {
                     parentActivity.resume();
