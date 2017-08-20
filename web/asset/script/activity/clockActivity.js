@@ -1,4 +1,4 @@
-define([ 'system', 'jquery', 'jquery-draggable' ],function (system, $) {
+define([ 'system', 'jquery', 'input/speechRecog', 'output/speechUtterance', 'jquery-draggable' ],function (system, $, speechRecog, speechUtterance) {
    
    
 
@@ -35,6 +35,7 @@ var h, m, s;
 var alarm_inter;
 var snooze=0;
 var alarm_onoff;
+var alarm_on;        
         
   var alarm = {
       start: 
@@ -60,7 +61,7 @@ var alarm_onoff;
             if(h==hours && m==minutes && s==seconds)
             {
                    alarm_onoff = playSound(timer_sound);
-                                   setInterval(function() {
+                               alarm_on = setInterval(function() {
                                       playSound(timer_sound); console.log(7000+snooze);
                                   },6500+snooze) 
 
@@ -69,9 +70,12 @@ var alarm_onoff;
            },
    
       stop: function() {
+          
+          clearInterval(alarm_on);
           clearInterval(alarm_inter);
           clearInterval(alarm_onoff);
           stopSound(timer_sound);
+          
 
       },
       
@@ -332,6 +336,32 @@ function stopSound(sound) {
         init : function () {
             console.log('clock init');
             clock.start();
+
+            //(알람|알림|알람기능|알림기능)\s+(실행|켜줘|보여줘|실행해줘|보고싶어)
+            // 알람 음성인식
+            speechRecog.addEventListener('(알람|알 람|알림)\\s*(보여줘|보자)', function (isFinal) { if(isFinal) { clock_button(); newOption(); alarmbutton(); }})
+            speechRecog.addEventListener('(스톱워치|스탑워치)\\s*(보여줘|보자)', function (isFinal) { if (isFinal) { clock.stop(); newOption(); spw_button(); }})
+            speechRecog.addEventListener('타이머\\s*(보여줘|보자)', function (isFinal) { if (isFinal) { clock.stop(); newOption(); timer_button(); }})
+            speechRecog.addEventListener('(세계 시간|세계시간)\\s*(보여줘|보자)', function (isFinal) { if (isFinal) { clock.stop(); newOption(); world_button(); initMap(); }})
+            
+            speechRecog.addEventListener('(반복|한복|반 복|한 복)\\s*(실행|켜줘)', function (isFinal) { if(isFinal) newOption(); snoozeset(); })
+            speechRecog.addEventListener('(반복|한복|반 복|한 복)\\s*1분', function (isFinal) { if(isFinal) snooze=1000; })
+            speechRecog.addEventListener('(반복|한복|반 복|한 복)\\s*3분', function (isFinal) { if(isFinal) snooze=3000; })
+            speechRecog.addEventListener('(반복|한복|반 복|한 복)\\s*5분', function (isFinal) { if(isFinal) snooze=5000; })
+            
+            speechRecog.addEventListener('(알람|알 람|알림)\\s*(시작|실행)', function (isFinal) { if(isFinal) { alarm.start(); }})
+            speechRecog.addEventListener('(알람|알 람|알림)\\s*(멈춰|그만)', function (isFinal) { if(isFinal) { alarm.stop(); }})
+            
+            speechRecog.addEventListener('(스톱워치|스탑워치)\\s*(시작|실행)', function (isFinal) { if(isFinal) stopwatch.start_stop(); })
+            speechRecog.addEventListener('(스톱워치|스탑워치)\\s*랩', function (isFinal) { if(isFinal) stopwatch.lap(); })
+            speechRecog.addEventListener('(스톱워치|스탑워치)\\s*그만', function (isFinal) { if(isFinal) stopwatch.reset(); })
+            
+            speechRecog.addEventListener('([0-9]|[0-9]*[0-9])*시', function (isFinal) { if(isFinal) document.getElementById('timer_h').value; })
+            speechRecog.addEventListener('([0-9]|[0-9]*[0-9])*분', function (isFinal) { if(isFinal) document.getElementById('timer_m').value; })
+            speechRecog.addEventListener('([0-9]|[0-9]*[0-9])*초', function (isFinal) { if(isFinal) document.getElementById('timer_s').value; })
+        
+            speechRecog.addEventListener('타이머\\s*(시작|실행)', function (isFinal) { if (isFinal) { timer.stop(); timer.start(); }})
+           
             
             $("#one").click(function() { 
                  snooze=1000;
@@ -385,6 +415,9 @@ function stopSound(sound) {
              //$('#world-btn').append()(handleLocationError);
              //$('#location_input').append(formatInfoString);
              //$('#world-btn').click(initMap).add(formatInfoString);
+             
+             // 알람 시간 값
+
         },
         
         pause : function () {
