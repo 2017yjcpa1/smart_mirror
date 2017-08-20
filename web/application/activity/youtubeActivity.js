@@ -160,15 +160,9 @@ define(['system',
         layoutHTML: 'activity_youtube.html',
         init: function () {
             console.log('youtube init');
-            $('#youtubeActivity').draggable({axis:'y'});
-            $('#search-form').submit(search);
         },
         resume: function () {
             console.log('youtube resume');
-            $(function () {
-                var searchField = $('#query');
-                var icon = $('#searchBtn');
-            });
         },
         pause: function () {
             console.log('youtube pause');
