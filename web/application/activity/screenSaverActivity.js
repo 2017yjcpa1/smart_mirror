@@ -25,7 +25,7 @@ define(['system', 'jquery'], function (system, $) {
             }, 1000);
             
             $(document).bind('mouseover mouseout mousemove mouseup mousedown click', function () { 
-                system.startActivity('homeActivity'); 
+                system.finishActivity('screenSaverActivity'); 
                 
                 $(this).unbind('mouseover mouseout mousemove mouseup mousedown click', arguments.callee)
             });  
