@@ -7,122 +7,278 @@
 
 
         <style>
-            #calendarActivity .half{
-                display: none;
-            }
-            #calendarActivity li{
-                list-style: none;
-            }
-            #calendarActivity #blank{
-                width: 100px;
+
+            #calendarActivity * {
+                margin: 0;
+                border: 0;
             }
 
-            #calendarActivity #button{
-                margin-left: 5%;
-                margin-top: 3%;
-            }
-            #calendarActivity .list{
-                vertical-align: baseline;
-            }
-            #calendarActivity .list_align{
-                text-align: -webkit-center;
-                width: 10rem;
-            }
-            #calendarActivity .days{
-                width: 10rem;
-            }
-            #calendarActivity .weeklyday{
-                display: inline-block;
-                border-left-style: outset;
-                width:180px;
-                height:100%;
-                text-align: center;
-            }
-            #calendarActivity td{
-                border-style: groove;
-                text-align: center;
-            }
-            
-            #calendarActivity #week{
-                width: 90%;
+            #calendarActivity body {
+                flex-direction: column;
+                display: flex;
+                align-items: center;
+                align-content: center;
+                justify-content: center;
+                font-family: "DINPro", "Helvetica Neue", sans-serif;
+                padding: 3rem;
+                margin: 0;
+                background: #fafafa;
+                box-sizing: border-box;
                 height: 100vh;
-                margin: 0 auto;
+
             }
-            
-            #calendarActivity #week:before{
-                width: 89.5%;
-                margin-left: 3px;
-                content: '';
-                position: absolute;
-                border: 1px solid;
-                top: 386px;
-                color: gray;
+
+            #calendarActivity .offset {
+
             }
-            
-            #calendarActivity h3{
-                font-size: 2em;
-                display: inline-block;
-                color: gray;
-                opacity: 0.9;
+
+            #calendarActivity .outer {
+                position:relative;
             }
-            
-            #calendarActivity .h2{
-                color:orangered;
+
+            #calendarActivity .calendar {
+                margin: 5% auto;
+                max-width: 1280px;
+                min-width: 500px;
+
+                box-shadow: 0px 30px 50px rgba(0, 0, 0, 0.2) ,0px 3px 7px rgba(0, 0, 0, 0.1);
+                border-radius: 8px;
             }
-            
-            #calendarActivity table{
-                width: 100%;
-                height: 100%;
-                background: rgba(245, 243, 243, 0.9);
+            #calendarActivity .wrap {
+
+                overflow-x: hidden;
+                overflow-y: scroll;
+                max-width: 1280px;
+                height: 500px;
+                border-radius: 8px;
             }
-            
-            #calendarActivity td{
-                width: 14%;
+
+            #calendarActivity thead {
+                box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.2);
             }
-            
-            #calendarActivity tr:nth-of-type(1){
-                height: 30%;
-            }
-            #calendarActivity ul{
-                position: relative;
-                padding: 0;
-            }
-            #calendarActivity #header{
-                width: 100%;
-                height: 15%;
-                background: orangered;
-            }
-            #calendarActivity #header > div:nth-of-type(2) {
+
+            #calendarActivity thead th {
+
                 text-align: center;
-                width: 60%;
+                width: 100%;
+
+            }
+
+            #calendarActivity header {
+                background: #fff;
+                padding: 1rem;
+                color: rgba(0, 0, 0, 0.7);
+                border-bottom: 1px solid rgba(0, 0, 0, 0.1);
                 position: relative;
-                left: 0;
-                right: 0;
-                margin: auto;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                border-radius: 8px 8px 0px 0px;
+            }
+
+            #calendarActivity header h1 {
+                font-size: 1.25rem;
+                text-align: center;
+                font-weight: normal;
+
+            }
+            #calendarActivity tbody {
+                position: relative;
+                top: 100px;
+            }
+            #calendarActivity table {
+                background: #fff;
+                width: 100%;
                 height: 100%;
+                border-collapse: collapse;
+                table-layout: fixed;
+
             }
-            
-            #calendarActivity #header div > span {
+
+
+
+            #calendarActivity .headcol {
+                width: 60px;
+                font-size: 0.875rem;
+                font-weight: 500;
+                color: rgba(0, 0, 0, 0.5);
+                padding: 0.25rem 0;
+                text-align: center;
+                border: 0;
                 position: relative;
-                top: -30%;
-                font-size: 1.75em;
-                font-weight: bold;
-                margin: 0 10%;
+                top: -12px;
+                border-bottom: 1px solid transparent;
             }
-            
-            #calendarActivity img{
+
+            #calendarActivity thead th {
+                font-size: 1rem;
+                font-weight: bold;
+                color: rgba(0, 0, 0, 0.9);
+                padding: 1rem;
+            }
+
+            #calendarActivity thead {
+                z-index: 2;
+                background: white;
+                border-bottom: 2px solid #ddd;
+
+            }
+
+            #calendarActivity tr, tr td {
+                height: 20px;
+            }
+            #calendarActivity td {
+                text-align: center;
+            }
+            #calendarActivity tr:nth-child(odd) td:not(.headcol) {
+                border-bottom: 1px solid #e8e8e8;
+            }
+
+            #calendarActivity tr:nth-child(even) td:not(.headcol) {
+                border-bottom: 1px solid #eee;
+            }
+
+            #calendarActivity tr td {
+                border-right: 1px solid #eee;
+                padding: 0;
+                white-space: none;
+                word-wrap: nowrap;
+            }
+
+            #calendarActivity tbody tr td {
+                position: relative;
+                vertical-align: top;
+                height: 40px;
+                padding: 0.25rem 0.25rem 0 0.25rem;
+                width: auto;
+
+            }
+
+            #calendarActivity .secondary {
+                color: rgba(0, 0, 0, 0.4);
+            }
+
+
+            #calendarActivity .checkbox {
+                display: none;
+            }
+
+            #calendarActivity .checkbox + label {
+                border: 0;
+                outline: 0;
+                width: 100px;
+                heigth: 100px;
+                background: white;
+                color: transparent;
+                display:block;
+                display: none;
+            }
+
+            #calendarActivity .checkbox:checked + label {
+                border: 0;
+                outline: 0;
+                width: 100%;
+                heigth: 100%;
+                background: red;
+                color: transparent;
+                display: inline-block;
+            }
+
+            #calendarActivity .event {
+                background: #00B4FC;
+                color: white;
+                border-radius: 2px;
+                text-align: left;
+                font-size: 0.875rem;
+                z-index: 2;
+                padding: 0.5rem;
+                overflow-x: hidden;
+                transition: all 0.2s;
                 cursor: pointer;
             }
-            
-            #calendarActivity #year-month{
-                position: absolute;
-                left: 0;
-                right: 0;
-                margin: auto;
+
+            #calendarActivity .event:hover {
+                box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+                background: #00B4FC;
             }
-            
-            #calendarActivity div:nth-of-type(1){
-                height:70px;    
+
+            #calendarActivity .event.double {
+                height: 200%;
+            }
+
+            /**
+            thead {
+                tr {
+                  display: block;
+                  position: relative;
+                }
+              }
+            tbody {
+                display: block;
+                overflow: auto;
+                width: 800px;
+                height: 100%;
+              }
+            */
+
+
+
+            /*#calendarActivity td:hover:after {
+              content: "+";
+              vertical-align: middle;
+              font-size: 1.875rem;
+              font-weight: 100;
+              color: rgba(0, 0, 0, 0.5);
+              position: absolute;
+            }*/
+
+            #calendarActivity button.secondary {
+                border: 1px solid rgba(0, 0, 0, 0.1);
+                background: white;
+                padding: 0.5rem 0.75rem;
+                font-size: 14px;
+                border-radius: 2px;
+                color: rgba(0, 0, 0, 0.5);
+                box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
+                cursor: pointer;
+                font-weight: 500;
+            }
+
+            #calendarActivity button.secondary:hover {
+                background: #fafafa;
+            }
+            #calendarActivity button.secondary:active {
+                box-shadow: none;
+            }
+            #calendarActivity button.secondary:focus {
+                outline: 0;
+            }
+
+            #calendarActivity tr td:nth-child(2), tr td:nth-child(3), .past {
+                background: #fafafa;
+            }
+
+            #calendarActivity .today {
+                color: red;
+            }
+
+            #calendarActivity .now {
+                box-shadow: 0px -1px 0px 0px red;
+            }
+
+            #calendarActivity .icon {
+                font-size: 1.5rem;
+                margin: 0 1rem;
+                text-align: center;
+                cursor: pointer;
+                vertical-align: middle;
+                position: relative;
+                top: -2px;
+            }
+
+            #calendarActivity .icon:hover {
+                color: red;
             }
         </style>
         <script>
@@ -130,71 +286,321 @@
 //                $("tr:eq(0)").children().eq(0).css('background','rgba(255, 255, 255, 0.5)');
 //            })
 //                
-            
+
         </script>
-        <!--  <script src="/GoogleCalendarApi-master\resources\views\events/script.js"></script>
-         <script
-   src="https://code.jquery.com/jquery-3.2.1.slim.js"
-   integrity="sha256-tA8y0XqiwnpwmOIl3SGAcFl2RvxHjA8qp0+1uCGmRmg="
-   crossorigin="anonymous"></script>
-        -->
+
     </head>
     <body>
-        <header style="text-align: center; margin-top:100px;">
-            <div>
-            <h1 id="year-month"></h1>
-            </div>
-        </header>
-       
-        <div id="week">
-            <div id="header">
-                
-                <div id='button' style="float:left;">
-                    <input type='button' id='signup' value="사용자 등록">   
-                    <button type="button" id='sync'>동기화</button>
-                    <button type="button" id="today">오늘</button>
+        <div class="calendar">
+
+            <header>
+                <button class="secondary" style="align-self: flex-start; flex: 0 0 1">Today</button>
+                <div class="calendar__title" style="display: flex; justify-content: center; align-items: center">
+                    <div class="icon secondary chevron_left">‹</div>
+                    <h1 id="year-month" style="flex: 1;"><span></span><strong> </strong> </h1>
+                    <div class="icon secondary chevron_left">›</div>
+                </div> 
+                <div style="align-self: flex-start; flex: 0 0 1"></div>
+            </header>
+
+            <div class="outer">
+
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="headcol"></th>
+                            <th>Mon, 18</th>
+                            <th>Tue, 19</th>
+                            <th class="today">Wed, 20</th>
+                            <th>Thu, 21</th>
+                            <th>Fri, 22</th>
+                            <th class="secondary">Sat, 23</th>
+                            <th class="secondary">Sun, 24</th>
+                        </tr>
+                    </thead>
+                </table>
+
+                <div class="wrap"> 
+                    <table class="offset">
+
+                        <tbody>
+                            <tr>
+                                <td class="headcol"></td>
+                                <td></td>
+                                <td></td>
+                                <td class="past"></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="headcol">6:00</td>
+                                <td></td>
+                                <td></td>
+                                <td class="past"></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="headcol"></td>
+                                <td></td>
+                                <td></td>
+                                <td class="past"></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="headcol">7:00</td>
+                                <td></td>
+                                <td></td>
+                                <td class="past"></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="headcol"></td>
+                                <td></td>
+                                <td></td>
+                                <td class="now"></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="headcol">8:00</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="headcol"></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td><div class="event double"><input id="check" type="checkbox" class="checkbox" /><label for="check"></label>8:30–9:30 Yoga</div></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="headcol">9:00</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="headcol"></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="headcol">10:00</td>
+                                <td></td>
+                                <td></td>
+                                <td><div class="event double"><input id="check" type="checkbox" class="checkbox" /><label for="check"></label>10:00–11:00 Meeting</div></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="headcol"></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="headcol">11:00</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="headcol"></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="headcol">12:00</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="headcol"></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="headcol">13:00</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="headcol"></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="headcol">14:00</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="headcol"></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="headcol">15:00</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="headcol"></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="headcol">16:00</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="headcol"></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="headcol">17:00</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="headcol"></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="headcol">18:00</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="headcol"></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-                
-                <div>
-                    <img src="\smart_mirror\web\asset\drawable/y_prev2.png">
-                
-                    <img src="\smart_mirror\web\asset\drawable/y_next2.png">
-                </div>
             </div>
-            <table>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>                   
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-            </table>
         </div>
         <script>
-      //
-      //   $(document).ready(function() {
-      //
-      //     // page is now ready, initialize the calendar...
-      //
-      //     $('#fullcal').fullCalendar({
-      //         // put your options and callbacks here
-      //         events:'api/cal'
-      //     })
-      //
-      // });
-
             var reg = document.getElementById('signup');
 
             reg.addEventListener('click', function (event) {
