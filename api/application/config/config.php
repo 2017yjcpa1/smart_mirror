@@ -34,7 +34,7 @@ $config['base_url'] = 'http://aw9223.synology.me/api/';
 | variable so that it is blank.
 |
 */
-$config['index_page'] = '';//'index.php';
+$config['index_page'] = 'index.php';
 
 /*
 |--------------------------------------------------------------------------
