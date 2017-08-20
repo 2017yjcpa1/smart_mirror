@@ -21,7 +21,7 @@ define(['system', 'jquery'], function (system, $) {
             }
             
             intervalId = window.setInterval(function () {
-                $('#screensaverActivity li:first-child').detach().appendTo("#screensaverActivity ul"); 
+                $('#screenSaverActivity li:first-child').detach().appendTo("#screenSaverActivity ul"); 
             }, 1000);
             
             $(document).bind('mouseover mouseout mousemove mouseup mousedown click', function () { 
