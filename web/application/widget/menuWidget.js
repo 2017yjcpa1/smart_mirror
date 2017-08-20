@@ -80,12 +80,9 @@ define([
                 'activity/newsActivity',
                 'activity/weatherActivity',
                 'activity/youtubeActivity',
-                'activity/mapsActivity',
-                'activity/musicActivity',
                 'activity/galleryActivity',
                 'activity/cameraActivity',
                 'activity/clockActivity',
-                //'activity/androidAppActivity',
             ], function () {
                 for(var n = 0; n < arguments.length; ++n) {
                     createMenu(arguments[n]);

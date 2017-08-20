@@ -4,10 +4,10 @@ define(['system', 'jquery'], function (system, $) {
 
     return {
 
-        id: 'screensaverActivity',
+        id: 'screenSaverActivity',
         title: '화면보호기',
         icon: '',
-        layoutHTML: 'activity_screensaver.html',
+        layoutHTML: 'activity_screen_saver.html',
 
         init: function () {
             console.log('screensaver init'); 

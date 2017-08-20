@@ -208,7 +208,7 @@ define([
                 }
                
                 timeoutId = window.setTimeout(function () {
-                    startActivity('screensaverActivity'); 
+                    startActivity('screenSaverActivity'); 
                 }, 2000); 
             });  
         },
