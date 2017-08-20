@@ -45,7 +45,7 @@ define([
         var isCreated = require.defined('activity/' + activityId);
         
         require(['activity/' + activityId], function (activity) {
-            isCreated = isCreated && $(activity.rootLayout).length > 0;
+            isCreated = isCreated && $(activity.rootLayout).parent().length > 0;
             
             var layoutLoaded = function () {
                 var rootLayout = $(activity.rootLayout);
@@ -117,7 +117,7 @@ define([
         
         require(['activity/' + activityId], function (activity) {
             var parentActivity = activity.parentActivity;
-            console.log(parentActivity)
+            
             if (parentActivity) {
                 $(parentActivity.rootLayout)
                     .removeClass('hideEffect')
@@ -136,6 +136,8 @@ define([
             
             require.undef(activityId);
             
+            activities.remove(activityId);
+
             if (typeof(activity.destroy) === 'function') {
                 activity.destroy();
             }
@@ -185,9 +187,10 @@ define([
         return require('widget/' + widgetId);
     }
     
-    var screenSaver = (function () {
-        
-        var idleEvents = [
+    function scheduleScreenSaver() {
+        var timeoutId = null;
+
+        var captureEvents = [
             'mouseover',
             'mouseout',
             'mousemove', 
@@ -195,36 +198,20 @@ define([
             'mousedown', 
             'click'
         ].join(' ');
-        
-        return {
-            schedule : function () {
-                var timeoutId = null;
 
-                $(document).on(idleEvents, function () {
-
-                    if (timeoutId) {
-                        window.clearTimeout(timeoutId);
-                    }
-
-                    timeoutId = window.setTimeout(
-                                    function () {
-                                        startActivity('screenSaverActivity'); 
-                                    }
-                                    , 2000
-                                ); 
-                });  
-            },
-            
-            wakeup : function () {
-                
-                $(document).bind(idleEvents, function () {
-                    finishActivity('screenSaverActivity'); 
-
-                    $(this).unbind(idleEvents, arguments.callee)
-                });  
+        $(document).bind(captureEvents, function () {
+            if (timeoutId) {
+                window.clearTimeout(timeoutId);
             }
-        };
-    })();
+
+            timeoutId = window.setTimeout(
+                            function () {
+                                startActivity('screenSaverActivity');
+                            }
+                            , 2000
+                        ); 
+        }); 
+    } 
     
     return {
         
@@ -241,6 +228,8 @@ define([
         attachWidget : attachWidget,
 
         getWidget : getWidget,
+        
+        scheduleScreenSaver : scheduleScreenSaver,
 
         init : function () {
             kinectCursor.start();
@@ -248,7 +237,7 @@ define([
             
             startActivity('homeActivity', null, true);
             
-            screenSaver.schedule();
+            scheduleScreenSaver();
         }
     };
 });

@@ -2,6 +2,15 @@ define(['system', 'jquery'], function (system, $) {
 
     var intervalId = null;
 
+    var captureEvents = [
+        'mouseover',
+        'mouseout',
+        'mousemove', 
+        'mouseup',
+        'mousedown', 
+        'click'
+    ].join(' ');
+
     return {
 
         id: 'screenSaverActivity',
@@ -20,11 +29,21 @@ define(['system', 'jquery'], function (system, $) {
                 window.clearInterval(intervalId);
             }
             
-            intervalId = window.setInterval(function () {
-                $('#screenSaverActivity li:first-child')
-                    .detach()
-                    .appendTo("#screenSaverActivity ul"); 
-            }, 1000);
+            intervalId = window.setInterval(
+                             function () {
+                                 $('#screenSaverActivity li:first-child')
+                                     .detach()
+                                     .appendTo("#screenSaverActivity ul"); 
+                             }
+                             , 1000
+                         );
+                 
+                 
+            $(document).bind(captureEvents, function () { 
+                system.finishActivity('screenSaverActivity'); 
+                
+                $(document).unbind(captureEvents, arguments.callee)
+            });  
         },
 
         pause: function () {
@@ -37,6 +56,8 @@ define(['system', 'jquery'], function (system, $) {
 
         destroy: function () {
             console.log('screensaver destroy');
+            
+            system.scheduleScreenSaver();
         },
     }
 })
