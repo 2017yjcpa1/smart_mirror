@@ -10,32 +10,11 @@ define(['system', 'jquery'], function (system, $) {
     }
     
     function addColor(i){
-                    $(".h3:eq(" + i + ")").css({
-                                                'color':'black',
-                                                'position':'relative',
-                                                'font-size': '40px',
-                                                'margin': '0'
-                                                });
-                                            
-                    $(".h2:eq(" + i + ")").css({
-                                                'position':'relative',
-                                                'bottom':'26px'
-                                                });
-                                            
-                    $("tr:eq(0)").children().eq(i).css('background','rgba(255, 255, 255, 0.5)');
-                    $("tr:eq(1)").children().eq(i).css('background','rgba(255, 255, 255, 0.5)');
+                   $("thead > tr > th").eq(i).css("color","red");
     }
     
-    function initColor(i){
-                        $(".h3:eq(" + i + ")").css({
-                                                    'color':'gray',
-                                                    'font-size':'2em',
-                                                    'margin':'none'
-                                                   });
-                                                   
-                        $(".h2:eq(" + i + ")").css('bottom','initial');                           
-                        $("tr:eq(0)").children().eq(i).css({'background':'initial'});
-                        $("tr:eq(1)").children().eq(i).css({'background':'initial'});
+    function initColor(i){                      
+                      $("thead > tr > th").eq(i).css("color","initial");
     }
     
     function headerDate(month,firstDay,lastDay){ // 그 주의 첫번째,마지막 월,일 
@@ -171,7 +150,7 @@ define(['system', 'jquery'], function (system, $) {
                             real_event[q] = JSON.parse(event_array[q]); 
                             console.log('rea_event:' + real_event[q]);
                         }
-                        sync();
+                        toToday();
                     }
                 })
             })
@@ -207,7 +186,7 @@ define(['system', 'jquery'], function (system, $) {
                 str=korean_day[i]+", "+s;
                 $("thead > tr > th").eq(i+1).html(str);
                 if (s == today) {
-                    addColor(i);
+                    addColor(i+1);
                     day_array[i] = s;
                 }
 //                for (; z < real_event.length; z++) {  // 일정 정리
@@ -237,23 +216,23 @@ define(['system', 'jquery'], function (system, $) {
                         month--;
                     } // beyond_tmp가 없으면 month가 0보다 작아짐 . *month는 전역변수
 
-            $("#year-month").append(year); //0 년
-//            $("img[src$='y_prev2.png']").after("<span></span>");
+            $("#year-month > span").text(year); //0 년
             headerDate(month,firstDay,lastDay);
            
             function add_location(z,eventday){ //  <a href=''>약속장소</a>, 약속장소 클릭 시 map 이 띄어지고 약속 장소 보여줌.                  
-                if(real_event[z].location){
-//
-                        $("tr:eq(2)").children().eq(i).html("<ul></ul>");
-                        $("ul:eq("+i+")").append(
-                                "<li><h1>"+real_event[z].hour+"시" + 
-                                real_event[z].min + '분</h1><h2>' + 
-                                real_event[z].title+"</h2></li>" 
-                                );
-//                      $("tr:eq(1)").children().eq(i).html("<li><h1>"+real_event[z].hour+"시" + real_event[z].min + '분</h1><h2>' + real_event[z].title+"</h2></li>" );
+                    if(real_event[z].location){
+    //
+                            $("tr:eq(2)").children().eq(i).html("<ul></ul>");
+                            $("ul:eq("+i+")").append(
+                                    "<li><h1>"+real_event[z].hour+"시" + 
+                                    real_event[z].min + '분</h1><h2>' + 
+                                    real_event[z].title+"</h2></li>" 
+                                    );
+    //                      $("tr:eq(1)").children().eq(i).html("<li><h1>"+real_event[z].hour+"시" + real_event[z].min + '분</h1><h2>' + real_event[z].title+"</h2></li>" );
+                }
             }
-            }
-            var sync = function () {
+            
+            var toToday = function () {
                 var tmp = month;
                 year = d.getFullYear(); // 2017
                 month = d.getMonth(); // 3
@@ -264,9 +243,9 @@ define(['system', 'jquery'], function (system, $) {
 
                 var p = 0;
                 i = 0;
-                
-                    for (; i <= 7; i++) {
-                         $("tr:eq(1)").children().eq(i).empty(); // 일정 불러온 뒤 날짜 넘길때 비움
+
+                    for (; i < 7; i++) {
+                         $("thead > tr > th").eq(i+1).empty(); // 일정 불러온 뒤 날짜 넘길때 비움
                     }
 
                 if (getday != 'Sun') {
@@ -292,9 +271,7 @@ define(['system', 'jquery'], function (system, $) {
 
                     }
 
-
                     sunday = sunday - total; // 그달의 첫번째 일요일
-
 
                 }
 
@@ -320,111 +297,109 @@ define(['system', 'jquery'], function (system, $) {
                   if(i==6)
                     lastDay=day;
                 
-                     str="<h2 class='h2'>"+korean_day[i]+"</h2><h3 class='h3'>"+day+"</h3>";
-                     $("tr:eq(0)").children().eq(i).html(str);
+                    str = korean_day[i] + ", " + day;
+                    $("thead > tr > th").eq(i+1).html(str);
 
                     day_array[i] = day;
                     if (day == today && current_month == month && current_year == year){
-                       addColor(i);
+                       addColor(i+1);
                     }    
                     
-                    z = 0;
-                    for (; z < real_event.length; z++) {
-
-                        if (year == real_event[z].year && month == real_event[z].month && day == real_event[z].day) {
-                            var eventday = day_array.indexOf(real_event[z].day); // 일정 day                                   
-                            $("#at" + real_event[z].hour).children().eq(eventday+1).text(real_event[z].title);
-                            $("tr:eq(2)").children().eq(i).html("<ul></ul>");
-                            $("ul:eq("+i+")").append(
-                                "<li><h1>"+real_event[z].hour+"시" + 
-                                real_event[z].min + '분</h1><h2>' + 
-                                real_event[z].title+"</h2></li>" 
-                                );
-// 
-                            add_location(z,eventday);
-                            
-                        }
-
-                    }
+//                    z = 0;
+//                    for (; z < real_event.length; z++) {
+//
+//                        if (year == real_event[z].year && month == real_event[z].month && day == real_event[z].day) {
+//                            var eventday = day_array.indexOf(real_event[z].day); // 일정 day                                   
+//                            $("#at" + real_event[z].hour).children().eq(eventday+1).text(real_event[z].title);
+//                            $("tr:eq(2)").children().eq(i).html("<ul></ul>");
+//                            $("ul:eq("+i+")").append(
+//                                "<li><h1>"+real_event[z].hour+"시" + 
+//                                real_event[z].min + '분</h1><h2>' + 
+//                                real_event[z].title+"</h2></li>" 
+//                                );
+//// 
+//                            add_location(z,eventday);
+//                            
+//                        }
+//
+//                    }
                     day++;
                 }
                 if (isbeyond) {
                     month = beyond_tmp;
                     month--;
                 } // beyond_tmp가 없으면 month가 0보다 작아짐 . *month는 전역변수
-
-                $("#year-month").text(months[month] + " " + year); // 월 년
+                
+                
+                $("#year-month > span").text(year);
                 headerDate(month,firstDay,lastDay);
             }
-//
-//            $('#today').click(function () {
-//                console.log('오늘');
-//                sync();
-//
-//            })
-//
-//            $('img[src$="y_next2.png"]').click(function () {
-//                console.log('오른쪽');
-//                sunday = sunday + 7;
-//                var tmp = month;
-//
-//                total = new Date(year, month + 1, 0).getDate(); // 그달의 총 일수
-//                var p = 0;
-//                i = 0;
-//                for (; p < 23; p++) {
-//                    for (; i <= 7; i++) {
-//                         $("tr:eq(1)").children().eq(i).empty(); // 일정 불러온 뒤 날짜 넘길때 비움
+
+            $('#today').click(function () {
+                console.log('오늘');
+                toToday();
+
+            })
+
+            $('#right').click(function () {
+                console.log('오른쪽');
+                sunday = sunday + 7;
+                var tmp = month;
+
+                total = new Date(year, month + 1, 0).getDate(); // 그달의 총 일수
+                var p = 0;
+                i = 0;
+//                for (; p < 23; p++) { // 달력에 나타내는 일정 초기화. ( 모두 없앰 )  
+//                    for (; i < 7; i++) {
+//                         $("thead > tr > th").eq(i+1).empty(); // 날짜 넘길때 비움
 //                    }
 //                    i=0;
 //                }
-//                p = 0;
-//                if (sunday > total) { // 다음달로 넘어갈때
-//                    month++;
-//
-//                    if (sunday > total && months[tmp] == 'December') { //  1월로 넘어갈때
-//                        year++;
-//                        month = 0; // 1월
-//
-//                    }
-//
-//
-//                    sunday = sunday - total; // 그달의 첫번째 일요일
-//
-//
-//                }
-//
-//                i = 0;
-//                var z = 0;
-//                day = sunday;
-//                var beyond_tmp;
-//                var isbeyond = false;
-//                z = 0;
-//                for (; i < 7; i++) { // 일요일부터 토요일까지 출력
-//                    if (day > total) { // 달이 이어질때, 그 달의 총 일수 초과
-//                        month++;
-//                        day = 1;
-//                        isbeyond = true;
-//                        beyond_tmp = month; // beyond_tmp로 12~1월 제어
-//                        if (month == 12)
-//                            month = 0;
-//                    }
-//                    
-//                        if(i==0)
-//                            firstDay=day;
-//                        
-//                        if(i==6)
-//                            lastDay=day;
-//                        
-//                         str="<h2 class='h2'>"+korean_day[i]+"</h2><h3 class='h3'>"+day+"</h3>";
-//                         $("tr:eq(0)").children().eq(i).html(str);
-//
-//                    if (day == today && current_month == month && current_year == year) {
-//                        addColor(i);
-//                    } else{
-//                        initColor(i);
-//                    }
-//                    z = 0;
-//                    day_array[i] = day;
+                p = 0;
+                if (sunday > total) { // 다음달로 넘어갈때
+                    month++;
+
+                    if (sunday > total && months[tmp] == 'December') { //  1월로 넘어갈때
+                        year++;
+                        month = 0; // 1월
+                    }
+
+                    sunday = sunday - total; // 그달의 첫번째 일요일
+
+                }
+
+                i = 0;
+                var z = 0;
+                day = sunday;
+                var beyond_tmp;
+                var isbeyond = false;
+                z = 0;
+                for (; i < 7; i++) { // 일요일부터 토요일까지 출력
+                    if (day > total) { // 달이 이어질때, 그 달의 총 일수 초과
+                        month++;
+                        day = 1;
+                        isbeyond = true;
+                        beyond_tmp = month; // beyond_tmp로 12~1월 제어
+                        if (month == 12)
+                            month = 0;
+                    }
+                    
+                        if(i==0)
+                            firstDay=day;
+                        
+                        if(i==6)
+                            lastDay=day;
+                        
+                    str = korean_day[i] + ", " + day;
+                    $("thead > tr > th").eq(i + 1).html(str);
+
+                    if (day == today && current_month == month && current_year == year) { // 오늘 날짜면, 오늘 날짜에 색깔 추가 
+                        addColor(i+1);
+                    } else{
+                        initColor(i+1);
+                    }
+                    z = 0;
+                    day_array[i] = day;
 //                    for (; z < real_event.length; z++) {
 //
 //                        if (year == real_event[z].year && month == real_event[z].month && day == real_event[z].day) {
@@ -440,83 +415,82 @@ define(['system', 'jquery'], function (system, $) {
 //                            add_location(z,eventday)
 //                            $("#at" + real_event[z].hour).children().eq(eventday+1).css('padding-top',real_event[z].min+"px");
 //
-//
 //                        }
 //
 //                    }
-//                    day++;
-//
-//                }
-//                if (isbeyond) {
-//                    month = beyond_tmp;
-//                    month--;
-//                } // beyond_tmp가 없으면 month가 0보다 작아짐 . *month는 전역변수
-//
-//                $("#year-month").text(months[month] + " " + year); // 월 년
-//                headerDate(month,firstDay,lastDay);
-//            })
-//            $('img[src$="y_prev2.png"]').click(function () {
-//                console.log('왼쪽');
-//
-//                sunday = sunday - 7; // 일요일 날짜!!!!
-//                var tmp = month;
-//                var p = 0;
-//                i = 0;
-//                for (; p < 23; p++) {
-//                    for (; i <= 7; i++) {
-//                         $("tr:eq(1)").children().eq(i).empty(); // 일정 불러온 뒤 날짜 넘길때 비움
-//                    }
-//                    i=0
-//                }
-//                p = 0;
-//                if (sunday <= 0) {
-//                    month--;
-//
-//                    if (sunday <= 0 && months[tmp] == 'January') { // 일요일이 0이하, 1월일때
-//                        year--;
-//                        month = 11; // 12월
-//
-//                    }
-//
-//                    total = new Date(year, month + 1, 0).getDate(); // 그달의 총 일수
-//
-//                    sunday = total + (sunday); // 그달의 마지막 일요일
-//
-//
-//                }
-//
-//
-//                i = 0;
-//                var z = 0;
-//                day = sunday;
-//                var beyond_tmp;
-//                var isbeyond;
-//                for (; i < 7; i++) { // 일요일부터 토요일까지 출력
-//                    if (day > total) { // 달이 이어질때, 그 달의 총 일수 초과
-//                        month++;
-//                        day = 1;
-//                        isbeyond = true;
-//                        beyond_tmp = month; // beyond_tmp로 12~1월 제어
-//                        if (month == 12)
-//                            month = 0;
-//                    }
-//                        if(i==0)
-//                            firstDay=day;
-//                        
-//                        if(i==6)
-//                            lastDay=day;
-//                        
-//                         str="<h2 class='h2'>"+korean_day[i]+"</h2><h3 class='h3'>"+day+"</h3>";
-//                         $("tr:eq(0)").children().eq(i).html(str);
-//                       
-//                    if (day == today && current_month == month && current_year == year) {
-//                        addColor(i);
-//
-//                    } else{
-//                        initColor(i);
-//                    }
-//                    z = 0;
-//                    day_array[i] = day;
+                    day++;
+
+                }
+                if (isbeyond) {
+                    month = beyond_tmp;
+                    month--;
+                } // beyond_tmp가 없으면 month가 0보다 작아짐 . *month는 전역변수
+
+                $("#year-month > span").text(year); // 년
+                headerDate(month,firstDay,lastDay);
+            })
+            
+            $('#left').click(function () {
+                console.log('왼쪽');
+
+                sunday = sunday - 7; // 일요일 날짜!!!!
+                var tmp = month;
+                var p = 0;
+                i = 0;
+                for (; p < 23; p++) {
+                    for (; i <= 7; i++) {
+                         $("tr:eq(1)").children().eq(i).empty(); // 일정 불러온 뒤 날짜 넘길때 비움
+                    }
+                    i=0
+                }
+                p = 0;
+                if (sunday <= 0) {
+                    month--;
+
+                    if (sunday <= 0 && months[tmp] == 'January') { // 일요일이 0이하, 1월일때
+                        year--;
+                        month = 11; // 12월
+
+                    }
+
+                    total = new Date(year, month + 1, 0).getDate(); // 그달의 총 일수
+
+                    sunday = total + (sunday); // 그달의 마지막 일요일
+
+
+                }
+
+
+                i = 0;
+                var z = 0;
+                day = sunday;
+                var beyond_tmp;
+                var isbeyond;
+                for (; i < 7; i++) { // 일요일부터 토요일까지 출력
+                    if (day > total) { // 달이 이어질때, 그 달의 총 일수 초과
+                        month++;
+                        day = 1;
+                        isbeyond = true;
+                        beyond_tmp = month; // beyond_tmp로 12~1월 제어
+                        if (month == 12)
+                            month = 0;
+                    }
+                        if(i==0)
+                            firstDay=day;
+                        
+                        if(i==6)
+                            lastDay=day;
+
+                    str = korean_day[i] + ", " + day;
+                    $("thead > tr > th").eq(i + 1).html(str);
+                       
+                    if (day == today && current_month == month && current_year == year) { // 오늘 날짜면, 오늘 날짜에 색깔 추가 
+                        addColor(i+1);
+                    } else{
+                        initColor(i+1);
+                    }
+                    z = 0;
+                    day_array[i] = day;
 //                    for (; z < real_event.length; z++) {
 //
 //                        if (year == real_event[z].year && month == real_event[z].month && day == real_event[z].day) {
@@ -537,17 +511,17 @@ define(['system', 'jquery'], function (system, $) {
 //                        }
 //
 //                    }
-//                    day++;
-//
-//                }
-//                if (isbeyond) {
-//                    month = beyond_tmp;
-//                    month--;
-//                } // beyond_tmp가 없으면 month가 0보다 작아짐 . *month는 전역변수
-//
-//                $("#year-month").text(months[month] + " " + year); // 월 년
-//                headerDate(month,firstDay,lastDay);
-//            })
+                    day++;
+
+                }
+                if (isbeyond) {
+                    month = beyond_tmp;
+                    month--;
+                } // beyond_tmp가 없으면 month가 0보다 작아짐 . *month는 전역변수
+
+                $("#year-month > span").text(year); // 월 년
+                headerDate(month,firstDay,lastDay);
+            })
 
         },
 

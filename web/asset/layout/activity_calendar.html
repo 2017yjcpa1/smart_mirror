@@ -294,11 +294,11 @@
         <div class="calendar">
 
             <header>
-                <button class="secondary" style="align-self: flex-start; flex: 0 0 1">Today</button>
+                <button id="today" class="secondary" style="align-self: flex-start; flex: 0 0 1">Today</button>
                 <div class="calendar__title" style="display: flex; justify-content: center; align-items: center">
-                    <div class="icon secondary chevron_left">‹</div>
-                    <h1 id="year-month" style="flex: 1;"><span></span><strong> </strong> </h1>
-                    <div class="icon secondary chevron_left">›</div>
+                    <div id="left" class="icon secondary chevron_left">‹</div>
+                    <h1 id="year-month" style="flex: 1;"><strong> </strong> <span></span> </h1>
+                    <div id="right" class="icon secondary chevron_left">›</div>
                 </div> 
                 <div style="align-self: flex-start; flex: 0 0 1"></div>
             </header>
@@ -312,7 +312,7 @@
                             <th class="headcol"></th>
                             <th>Mon, 18</th>
                             <th>Tue, 19</th>
-                            <th class="today">Wed, 20</th>
+                            <th>Wed, 20</th>
                             <th>Thu, 21</th>
                             <th>Fri, 22</th>
                             <th class="secondary">Sat, 23</th>
@@ -325,6 +325,7 @@
                     <table class="offset">
 
                         <tbody>
+                            
                             <tr>
                                 <td class="headcol"></td>
                                 <td></td>
