@@ -276,6 +276,11 @@ define([
             deactivate();
             return false;
         }
+        
+        if (data.handRight.x < data.shoulderRight.x) {
+            deactivate();
+            return false;
+        }
 
         if ( ! isActive) {
             window.setTimeout(activate, 1000);
