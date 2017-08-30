@@ -272,13 +272,13 @@ define([
     function update(data) {
         updateImage(data);
         
-        if (data.handRight.y < data.hipRight.y) {
+        if (data.handRight.y < data.elbowRight.y) {
             deactivate();
             return false;
         }
 
         if ( ! isActive) {
-            window.setTimeout(activate, 1000 * 0.7);
+            window.setTimeout(activate, 1000);
             return false;
         }
         
