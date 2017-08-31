@@ -8,7 +8,7 @@ define([
     
     function waitForNotify(creationDate) {
      
-        var url = API_PATH + '/notify/pull/';
+        var url = window.URL.createEndpointURL('/notify/pull/');
         
         if (creationDate) {
             url += '?creation_date=' + creationDate;

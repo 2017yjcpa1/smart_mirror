@@ -76,10 +76,22 @@
         </style>
         <script type="text/javascript" src="application/lib/require-2.3.3.min.js"></script>
         <script type="text/javascript">
-            var API_PATH = '/api/index.php';
             
             window.URL.createEndpointURL = function (path, params) {
-                // TODO
+                var API_PATH = '/api/index.php';
+            
+                path = path.trim();
+                path = '/' + path.ltrim('/');
+                
+                if (params) {
+                    if (typeof(params) != 'string') {
+                        params = $.param(params);
+                    }
+                    
+                    path += '?' + params.ltrim('?');
+                }
+                
+                return API_PATH + path;
             }
             
             Array.prototype.peek = function () {
@@ -89,6 +101,21 @@
             Math.toDegrees = function (rad) {
                 return rad * 180.0 / Math.PI;
             }
+            
+            
+            String.prototype.trim = function() {
+                return this.ltrim().rtrim();
+            };
+            
+            String.prototype.ltrim = function(mask) {
+                mask = mask || '\\s';
+                return this.replace(new RegExp('^' + mask + '+', 'g'), "");
+            };
+            
+            String.prototype.rtrim = function(mask)  {
+                mask = mask || '\\s';
+                return this.replace(new RegExp(mask + '+$', 'g'), "");
+            };
             
             String.prototype.camelize = function () {
                 return this.replace(/[_.-](\w|$)/g, function (_, char) {

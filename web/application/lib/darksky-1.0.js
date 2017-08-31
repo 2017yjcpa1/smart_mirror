@@ -126,7 +126,7 @@
             }
             
             $.getJSON(
-                API_PATH + '/weather/?' + query,
+                window.URL.createEndpointURL('/weather/', query),
                 function (data) {
                     
                     var renewal = {
