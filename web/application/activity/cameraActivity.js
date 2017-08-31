@@ -1,5 +1,7 @@
 define(['system', 'jquery'], function (system) {
 
+    // http://codingbytodesign.net/2014/07/20/kinectcamv2-for-kinect-v2/
+
     return {
 
         id: 'cameraActivity',
