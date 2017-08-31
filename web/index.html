@@ -88,7 +88,7 @@
                         params = $.param(params);
                     }
                     
-                    path += '?' + params.ltrim('?');
+                    path += '?' + params.ltrim('\\?');
                 }
                 
                 return API_PATH + path;
