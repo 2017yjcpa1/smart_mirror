@@ -17,13 +17,17 @@ define(['system', 'jquery'], function (system, $) {
                       $("thead > tr > th").eq(i).css("color","initial");
     }
     
-    function headerDate(month,firstDay,lastDay){ // 그 주의 첫번째,마지막 월,일 
+    function headerDate(month,firstDay,lastDay){ // 그 주의 첫번째,마지막 월,일      
                 var m2=(month+1);
-                
+                                
                 if(month<9)
+                {
                     m="0"+(month+1);
+                }
                 else
+                {
                     m=(month+1);
+                }
             
                 if(firstDay<10)
                    firstDay="0"+firstDay;
@@ -35,8 +39,8 @@ define(['system', 'jquery'], function (system, $) {
                     m2++;
                 
                 if(m2==13)
-                    m2=1;
-                
+                    m2=1;                             
+                               
             $("#year-month > strong").text(m + '/' + firstDay + '  -  ' +m2 + '/' + lastDay);
         
             }
@@ -158,9 +162,9 @@ define(['system', 'jquery'], function (system, $) {
 
             var sunday = today - r; // 일요일 날짜!!!!
 
-            if (sunday == 0) { // 이전달 
-                sunday = new Date(year, month, 0).getDate();
-                total = new Date(year, month, 0).getDate(); // 그달의 총 일수
+            if (sunday <= 0) { // 이전달 
+                sunday = new Date(year, month, 0).getDate()+sunday;
+                total = new Date(year, month, 0).getDate(); // 이전 달의 총 일수
                 month--;
             }
 
@@ -248,17 +252,17 @@ define(['system', 'jquery'], function (system, $) {
                          $("thead > tr > th").eq(i+1).empty(); // 일정 불러온 뒤 날짜 넘길때 비움
                     }
 
-                if (getday != 'Sun') {
-                    while (getday != days[r]) { // 오늘이 일요일이 아니라면
+                if (getday != 'Sun') { // 오늘이 일요일이 아니라면
+                    while (getday != days[r]) { // 오늘 요일 찾기 
                         r++;
                     }
                 }
 
                 sunday = today - r; // 일요일 날짜!!!!
 
-                if (sunday == 0) {
-                    sunday = new Date(year, month, 0).getDate();
-                    total = new Date(year, month, 0).getDate(); // 그달의 총 일수
+                if (sunday <= 0) { // 이전 달 일때 
+                    sunday = new Date(year, month, 0).getDate() + sunday; 
+                    total = new Date(year, month, 0).getDate(); // 이전 달의 총 일수
                     month--;
                 }
 
