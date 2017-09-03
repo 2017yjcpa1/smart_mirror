@@ -4,10 +4,9 @@ define([
     
     'jquery-draggable',
 ], function ($, system) {
-    /*
-    var isDrag = false;
+    
+    //var isDrag = false;
     var timeoutId = -1;
-    */
    
     function createMenu(activity) {
         $('<li>' +
@@ -31,7 +30,7 @@ define([
             });
     }
     
-    /*
+    
     function hideAfterWhile() {
         if (timeoutId !== -1) {
             window.clearTimeout(timeoutId);
@@ -41,7 +40,6 @@ define([
         
         timeoutId = window.setTimeout(hide, 1000 * 5);  
     }
-    */
    
     function show() {
         var windowHeight = $(window).height();
@@ -51,7 +49,7 @@ define([
         
         $('#menuWidget').addClass('showMenus');
         
-        //hideAfterWhile();
+        hideAfterWhile();
     }
     
     function hide() {        
@@ -74,6 +72,8 @@ define([
                 .click(show)
                 .on('mouseover', show)
             
+            $('#menuWidget ul')
+                .on('mousemove', hideAfterWhile)
             /*
             $('#menuWidget ul')
                 .on('dragstart drag mousemove', hideAfterWhile)

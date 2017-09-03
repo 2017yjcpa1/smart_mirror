@@ -1,13 +1,13 @@
 <style type="text/css">
     
-    #weatherActivity .current {
+    #weatherActivity .currentWeather {
         position: relative;
         
         width: 100%;
-        height: 800px;
+        height: 50vh;
     }
     
-    #weatherActivity .current .wrap {
+    #weatherActivity .currentWeather > div {
         position: absolute;
         top:0;
         right: 0;
@@ -17,25 +17,25 @@
         margin: auto;
         
         width: 500px;
-        height: 300px
+        height: 350px
     }
     
-    #weatherActivity .easy {
+    #weatherActivity .easyToSeeWeather {
         display: table; 
     }
     
-    #weatherActivity .easy > * {
+    #weatherActivity .easyToSeeWeather > * {
         display: table-cell;
         vertical-align: middle;
     }
     
-    #weatherActivity .easy .temp {
+    #weatherActivity .easyToSeeWeather .weatherTemp {
         font-size: 90pt;
         font-style: normal;
         font-weight: bold;
     } 
     
-    #weatherActivity .current .ozone {
+    #weatherActivity .currentWeather .ozoneComment {
         font-size: 25pt;
         text-align: center;
         font-weight: bold;
@@ -43,20 +43,21 @@
     } 
 </style>
 
-<div class="current">
+<div class="currentWeather">
     
-    <div class="wrap">
+    <div>
         
-        <div class="easy">
+        <div class="easyToSeeWeather">
             <h1>
                 <img width="256"/>
             </h1>
 
-            <em class="temp">
+            <em class="weatherTemp">
+                
             </em>
         </div>
 
-        <p class="ozone">
+        <p class="ozoneComment">
         </p>
         
     </div>
@@ -89,25 +90,27 @@
         width: 150px;
     }
     
-    #weatherActivity .temp {
+    #weatherActivity .weatherTemp {
         display: table;
         width: 100%;
         text-align: center;
     }
     
-    #weatherActivity .temp > * {
+    #weatherActivity .weatherTemp > * {
         display: table-cell;
         font-size: 13pt;
         font-style: normal;
     }
     
-    #weatherActivity .hourly,
-    #weatherActivity .weekly { 
-        margin: 50px 0;
+    #weatherActivity .weatherHourly,
+    #weatherActivity .weatherWeekly { 
+        padding: 50px 0;
+        height: 25vh;
+        box-sizing: border-box;
     }
 </style>
 
-<div class="hourly">
+<div class="weatherHourly">
     <ul class="clearFix">
         <!--
         <li>
@@ -123,7 +126,7 @@
     </ul>
 </div>
 
-<div class="weekly">
+<div class="weatherWeekly">
     <ul class="clearFix">
         <!--
         <li>

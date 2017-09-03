@@ -32,44 +32,44 @@ define([
                 console.log(data);
 
                 // 현재날씨
-                $('#weatherActivity .current img').attr('src', data.currently.iconPath);
-                $('#weatherActivity .current .temp').html(data.currently.temp + '℃');
-                $('#weatherActivity .current .ozone').html(getOzoneComment(data.currently.ozoneLevel).join('<br/>'));
+                $('#weatherActivity .currentWeather img').attr('src', data.currently.iconPath);
+                $('#weatherActivity .currentWeather .weatherTemp').html(data.currently.temp + '℃');
+                $('#weatherActivity .currentWeather .ozoneComment').html(getOzoneComment(data.currently.ozoneLevel).join('<br/>'));
 
-                var hourlyContainer = $('#weatherActivity .hourly ul').empty();
-                var weeklyContainer = $('#weatherActivity .weekly ul').empty();
+                var hourlyContainer = $('#weatherActivity .weatherHourly ul').css('left', 0).empty();
+                var weeklyContainer = $('#weatherActivity .weatherWeekly ul').css('left', 0).empty();
 
                 // 시간대별 날씨
                 for(var n = 0; n < data.hourly.length; ++n) {
 
-                    var hourly = $([
+                    var weatherHourly = $([
                                     '<li>',
                                         '<span class="hourMinutes">시:분</span>',
 
                                         '<img src="아이콘" width="150"/>',
 
-                                        '<div class="temp">',
+                                        '<div class="weatherTemp">',
                                             '<em>온도</em>',
                                         '</div>',
                                     '</li>',
                                 ].join(''))
                                     .appendTo(hourlyContainer);
 
-                    $('.hourMinutes', hourly).text(data.hourly[n].hourMinutes);
-                    $('em', hourly).text(data.hourly[n].temp + '℃');
-                    $('img', hourly).attr('src', data.hourly[n].iconPath);
+                    $('.hourMinutes', weatherHourly).text(data.hourly[n].hourMinutes);
+                    $('em', weatherHourly).text(data.hourly[n].temp + '℃');
+                    $('img', weatherHourly).attr('src', data.hourly[n].iconPath);
                 }
 
                 // 주간별 날씨
                 for(var n = 0; n < data.daily.length; ++n) {
 
-                    var weekly = $([
+                    var weatherWeekly = $([
                                     '<li>',
                                         '<span class="dayOfWeek">요일</span>',
 
                                         '<img src="아이콘" width="150"/>',
 
-                                        '<div class="temp">',
+                                        '<div class="weatherTemp">',
                                             '<em class="maxTemp">최고온도</em>',
                                             '<em class="minTemp">최저온도</em>',
                                         '</div>',
@@ -77,10 +77,10 @@ define([
                                 ].join(''))
                                     .appendTo(weeklyContainer);
 
-                    $('.dayOfWeek', weekly).text(data.daily[n].dayOfWeek + '요일');
-                    $('.minTemp', weekly).text(data.daily[n].minTemp + '℃');
-                    $('.maxTemp', weekly).text(data.daily[n].maxTemp + '℃');
-                    $('img', weekly).attr('src', data.daily[n].iconPath);
+                    $('.dayOfWeek', weatherWeekly).text(data.daily[n].dayOfWeek + '요일');
+                    $('.minTemp', weatherWeekly).text(data.daily[n].minTemp + '℃');
+                    $('.maxTemp', weatherWeekly).text(data.daily[n].maxTemp + '℃');
+                    $('img', weatherWeekly).attr('src', data.daily[n].iconPath);
                 } 
             }
         )
@@ -96,7 +96,8 @@ define([
         init: function () {
             console.log('weather init');
             
-            $('#weatherActivity').draggable({ 'axis' : 'y' });
+            $('#weatherActivity .weatherHourly ul').draggable({ 'axis' : 'x' });
+            $('#weatherActivity .weatherWeekly ul').draggable({ 'axis' : 'x' });
         },
         
         resume: function () {

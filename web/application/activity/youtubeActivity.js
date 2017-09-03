@@ -32,18 +32,6 @@ define([
         readMore(contents);
     }
     
-    function onClickedListItem() {
-        var activity = $('#youtubeActivity');
-        
-        var contents = $(this).data('contents');
-        
-        $('.queryResult', activity).css('top', '100%');
-        $('.watchVideo', activity).css('top', '0%');
-        
-        $('.watchVideo iframe', activity)
-            .attr('src', 'https://www.youtube.com/embed/' + contents.id + '?modestbranding=1&autoplay=1&loop=1&cc_load_policy=1&rel=0&controls=0&showinfo=0');
-    }
-    
     function queryResult(data) {
         var activity = $('#youtubeActivity');
         
@@ -65,7 +53,6 @@ define([
             ].join(''))
                 .data('contents', contents)
                 .hover(onHoveredListItem)
-                .click(onClickedListItem)
                 .appendTo('#youtubeActivity ul');
         }
     }
