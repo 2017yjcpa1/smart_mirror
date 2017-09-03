@@ -117,11 +117,6 @@ define([
                             system.startActivity('youtubeActivity');
                             break;
 
-                        case '앨범':
-                        case '갤러리':
-                            system.startActivity('galleryActivity');
-                            break;
-
                         case '카메라':
                         case '사진기':
                         case 'camera':

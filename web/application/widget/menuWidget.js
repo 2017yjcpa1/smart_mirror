@@ -4,10 +4,11 @@ define([
     
     'jquery-draggable',
 ], function ($, system) {
-    
+    /*
     var isDrag = false;
     var timeoutId = -1;
-    
+    */
+   
     function createMenu(activity) {
         $('<li>' +
             '<img src="asset/drawable/' + activity.icon + '"/>' +
@@ -17,14 +18,20 @@ define([
         '</li>')
             .appendTo('#menuWidget ul')
             .click(function () {
+                /*
                 if ( ! isDrag && system.startActivity(activity.id)) {
                     hide();
                 }
                 
                 isDrag = false;
+                */
+                if (system.startActivity(activity.id)) {
+                    hide();
+                }
             });
     }
     
+    /*
     function hideAfterWhile() {
         if (timeoutId !== -1) {
             window.clearTimeout(timeoutId);
@@ -34,7 +41,8 @@ define([
         
         timeoutId = window.setTimeout(hide, 1000 * 5);  
     }
-    
+    */
+   
     function show() {
         var windowHeight = $(window).height();
         var menuWrapper = $('#menuWidget ul');
@@ -43,7 +51,7 @@ define([
         
         $('#menuWidget').addClass('showMenus');
         
-        hideAfterWhile();
+        //hideAfterWhile();
     }
     
     function hide() {        
@@ -82,6 +90,7 @@ define([
                 'activity/newsActivity',
                 'activity/weatherActivity',
                 'activity/youtubeActivity',
+                'activity/cameraActivity',
                 'activity/clockActivity',
             ], function () {
                 for(var n = 0; n < arguments.length; ++n) {
