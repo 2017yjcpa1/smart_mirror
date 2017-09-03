@@ -7,6 +7,136 @@ define([
     'output/speechUtterance',
 ],function (system, $, speechRecog, speechUtterance) {
     
+    function registWikiCommand() {
+        
+        var speechSuffix = [
+            '뭐지',
+            '뭐냐',
+            '뭐야',
+            '찾아줘',
+            '찾아봐',
+            '찾아',
+            '검색해줘',
+            '검색해',
+            '검색',
+        ];
+        
+        speechRecog.addEventListener(
+            '^(.*?)(' + speechSuffix.join('|') + ')', 
+            function (isFinal, transcript, matches) {
+                console.log(isFinal, transcript, matches[1]);
+                
+                if (system.isForegroundActivity('youtubeActivity')) {
+                    return false;
+                }
+
+                if ( ! isFinal) {
+                    return false;
+                }
+
+                var url = window.URL.createEndpointURL('wiki', { 'q' : matches[1] });
+                var func = function (data) {
+                    if ( ! data || data.length <= 0) {
+                        speechUtterance.speak('적절한 답변을 찾지 못하였습니다.');
+                        return;
+                    }
+                    
+                    var data = data[0].replace(/\([^\)]+\)/gi, "")
+                                      .replace(/\[[^\]]+\]/gi, "")
+                                      .replace(/\{[^\}]+\}/gi, "")
+                                      .replace(/『[^』]+』/gi, "")
+                                      .replace(/《[^》]+》/gi, "")
+                                      .replace(/「[^」]+」/gi, "")
+                                      .replace(/〈[^〉]+〉/gi, "");
+                    
+                    speechUtterance.speak(data);
+                }
+                
+                $.getJSON(url, func);
+                return true;
+            }
+        )
+    }
+    
+    function registExecCommand() {
+        
+        var speechSuffix = [
+            '보여줘',
+            '띄워줘',
+            '띄워',
+            '꺼내줘',
+            '꺼내',
+            '열어줘',
+            '열어봐',
+            '열어',
+            '실행해줘',
+            '실행해',
+            '실행',
+            '켜줘',
+            '켜봐',
+            '켜'
+        ];
+        
+        speechRecog.addEventListener(
+            '^(.*?)(' + speechSuffix.join('|') + ')', 
+            function (isFinal, transcript, matches) { 
+                console.log(isFinal, transcript, matches[1]);
+
+                if ( ! isFinal) {
+                    return;
+                }
+
+                var activity = matches[1].replace(/\s/g, '').toLowerCase(); 
+
+                switch (activity) {
+                    case '모션학습':
+                        system.startActivity('tutorialActivity');
+                        break;
+
+                    case '일정':
+                    case '달력':
+                        system.startActivity('calendarActivity');
+                        break;
+
+                    case '뉴스':
+                    case 'news':
+                        system.startActivity('newsActivity');
+                        break;
+
+                    case '날씨':
+                        system.startActivity('weatherActivity');
+                        break;
+
+                    case '유튜브':
+                    case '유투브':
+                    case 'youtube':
+                        system.startActivity('youtubeActivity');
+                        break;
+
+                    case '앨범':
+                    case '갤러리':
+                        system.startActivity('galleryActivity');
+                        break;
+
+                    case '카메라':
+                    case '사진기':
+                    case 'camera':
+                        system.startActivity('cameraActivity');
+                        break;
+
+                    case '시계':
+                    case 'clock':
+                        system.startActivity('clockActivity');
+                        break;
+
+                    default: 
+                        speechUtterance.speak(matches[1] + ' 어플은 존재하지 않습니다.');
+                        break;
+                }
+            }
+        );
+    }
+    
     return {
         
         id : 'homeActivity',
@@ -21,41 +151,11 @@ define([
             system.attachWidget('clockWidget');
             system.attachWidget('menuWidget');
             system.attachWidget('skeletonWidget');
-            //system.attachWidget('transcriptWidget');
+            system.attachWidget('transcriptWidget');
             system.attachWidget('weatherWidget');
-            //system.attachWidget('newsWidget');
-
-            speechRecog.addEventListener('(유튜브|유투브)\\s*실행', function (isFinal) { if (isFinal) system.startActivity('youtubeActivity'); })
-            speechRecog.addEventListener('날씨\\s*실행', function (isFinal) { if (isFinal) system.startActivity('weatherActivity'); })
-            speechRecog.addEventListener('뉴스\\s*실행', function (isFinal) { if (isFinal) system.startActivity('newsActivity'); })
-            speechRecog.addEventListener('(달력|일정)\\s*실행', function (isFinal) { if (isFinal) system.startActivity('calendarActivity'); })
             
-            speechRecog.addEventListener('(.*?)\\s*(뭐지|검색)', function (isFinal, transcript) { 
-                if ( ! isFinal) {
-                    return;
-                }
-                
-                var matches = new RegExp('(.*?)\\s*(뭐지|검색)', 'i').exec(transcript)
-                
-                if (matches.length > 0) { 
-                    $.getJSON('./wiki/?q=' + encodeURIComponent(matches[1]), function (data) {
-                        if(data && data.length > 0) {
-                            console.log(data[0]);
-                            speechUtterance.speak(data[0].replace(/\([^\)]+\)/gi, "")
-                                                         .replace(/\[[^\]]+\]/gi, "")
-                                                         .replace(/\{[^\}]+\}/gi, "")
-                                                         .replace(/『[^』]+』/gi, "")
-                                                         .replace(/《[^》]+》/gi, "")
-                                                         .replace(/「[^」]+」/gi, "")
-                                                         .replace(/〈[^〉]+〉/gi, ""));
-                        } else {
-                            speechUtterance.speak('적절한 답변을 찾지 못하였습니다.');
-                        }
-                    }) 
-                } else {
-                    speechUtterance.speak('적절한 답변을 찾지 못하였습니다.');
-                }
-            })
+            registExecCommand();
+            registWikiCommand();
         },
         
         resume : function () {

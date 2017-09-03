@@ -1,175 +1,123 @@
-define(['system',
+define([
+    'system',
+    
+    'input/speechRecog',
+    
     'jquery',
     'jquery-draggable'
+], function (system, speechRecog, $) {
+    
+    var APIKEY = 'AIzaSyASFltS6aSwHYy6q9ft-KIH8wAB0-rEHfs';
+    var SEARCH_URL = "https://www.googleapis.com/youtube/v3/search";
+    
+    function searchResult(data) {
+        
+        $('#youtubeActivity').addClass('searchResult');
+        
+        var header = data.items[0];
+        
+        $('#youtubeActivity i').css('background-image', 'url(' + header.snippet.thumbnails.high.url + ')');
+        $('#youtubeActivity h1').text(header.snippet.title);
+        $('#youtubeActivity p').text(header.snippet.description);
+        
+        $('#youtubeActivity ul').empty();
+        
+        for(var n = 0; n < data.items.length; ++n) {
+            var contents = data.items[n];
+            
+            $([
+                '<li>',
+                    '<h1>', contents.snippet.title, '</h1>',
+                    '<img src="', contents.snippet.thumbnails.high.url, '">',
+                '</li>'
+            ].join('')).appendTo('#youtubeActivity ul');
+        }
+    }
+    
+    function registSearchCommand() {   
+        var speechSuffix = [
+            '찾아줘',
+            '찾아봐',
+            '찾아',
+            '검색해줘',
+            '검색해',
+            '검색',
+        ];
 
-], function (system, $) {
+        speechRecog.addEventListener(
+            '^(.*?)(' + speechSuffix.join('|') + ')', 
+            function (isFinal, transcript, matches) {
 
-            function search(e) {
-                e.preventDefault();
-//clear results
-                $('#results').html('');
-                $('#buttons').html('');
-
-//Get form input
-                query = $('#query').val();
-
-//Run get request API
-                $.get(
-                        "https://www.googleapis.com/youtube/v3/search", {
-                            part: 'snippet, id',
-                            q: query,
-                            type: 'video',
-                            key: 'AIzaSyASFltS6aSwHYy6q9ft-KIH8wAB0-rEHfs'},
-                function (data) {
-                    var nextPageToken = data.nextPageToken;
-                    var prevPageToken = data.prevPageToken;
-                    console.log(data);
-
-                    $.each(data.items, function (i, item) {
-                        //get output
-                        var output = getOutput(item);
-                        //Display results
-                        $('#results').append(output);
-                    });
-
-                    var buttons = getButtons(prevPageToken, nextPageToken);
-
-                    //Display buttons
-                    $('#buttons').append(buttons);
+                if ( ! system.isForegroundActivity('youtubeActivity')) {
+                    return false;
                 }
-                );
-            }
-
-//Next page function
-            function nextPage() {
-
-                var token = $('#next-button').data('token');
-                var query = $('#next-button').data('query');
-
-//clear results
-                $('#results').html('');
-                $('#buttons').html('');
-
-//Get form input
-                query = $('#query').val();
-
-//Run get request API
-                $.get(
-                        "https://www.googleapis.com/youtube/v3/search", {
-                            part: 'snippet, id',
-                            q: query,
-                            pageToken: token,
-                            type: 'video',
-                            key: 'AIzaSyASFltS6aSwHYy6q9ft-KIH8wAB0-rEHfs'},
-                function (data) {
-                    var nextPageToken = data.nextPageToken;
-                    var prevPageToken = data.prevPageToken;
-                    console.log(data);
-
-                    $.each(data.items, function (i, item) {
-                        //get output
-                        var output = getOutput(item);
-                        //Display results
-                        $('#results').append(output);
-                    });
-
-                    var buttons = getButtons(prevPageToken, nextPageToken);
-
-                    //Display buttons
-                    $('#buttons').append(buttons);
-                }
-                );
-
-            }
-
-            function prevPage() {
-                var token = $('#prev-button').data('token');
-                var query = $('#prev-button').data('query');
-
-//clear results
-                $('#results').html('');
-                $('#buttons').html('');
-
-//Get form input
-                query = $('#query').val();
-
-//Run get request API
-                $.get(
-                        "https://www.googleapis.com/youtube/v3/search", {
-                            part: 'snippet, id',
-                            q: query,
-                            pageToken: token,
-                            type: 'video',
-                            key: 'AIzaSyASFltS6aSwHYy6q9ft-KIH8wAB0-rEHfs'},
-                function (data) {
-                    var nextPageToken = data.nextPageToken;
-                    var prevPageToken = data.prevPageToken;
-                    console.log(data);
-
-                    $.each(data.items, function (i, item) {
-                        //get output
-                        var output = getOutput(item);
-                        //Display results
-                        $('#results').append(output);
-                    });
-
-                    var buttons = getButtons(prevPageToken, nextPageToken);
-
-                    //Display buttons
-                    $('#buttons').append(buttons);
-                }
-                );
-            }
-
-//Build output
-            function getOutput(item) {
-                var videoId = item.id.videoId;
-                var title = item.snippet.title;
-                var description = item.snippet.description;
-                var thumb = item.snippet.thumbnails.high.url;
-                var channelTitle = item.snippet.channelTitle;
-                var videoDate = item.snippet.publishedAt;
-
-//Build output String 
-                var output ='<iframe class="list-left"src="https://www.youtube.com/embed/'+ videoId +'"frameborder="0" allowfullscreen="true"></iframe>';
                 
-                return output;
-            }
-
-            function getButtons(prevPageToken, nextPageToken) {
-                if (!prevPageToken) {
-                    var btnOutput = $('<div class="button-container">' +
-                            '<button id="next-button" class="paging-button" data-token="' + nextPageToken +
-                            '" data-query="' + query + '" ></button></div>').click(nextPage);
-                } else {
-                    var nextBtn = $('<button id="next-button" data-token="' + nextPageToken +'" data-query="' + query + '"></button>').click(nextPage);
-                    var prevBtn = $('<button id="prev-button" data-token="' + prevPageToken +'" data-query="' + query + '"></button>').click(prevPage);
-                 
-                    var btnOutput = $('<div class="button-container"></div>');
-                    
-                    prevBtn.appendTo(btnOutput);
-                    nextBtn.appendTo(btnOutput);
+                if ( ! isFinal) {
+                    return false;
                 }
-                return btnOutput;
-            }
 
+                $('#youtubeActivity input[type="search"]').val(matches[1]);
+                
+                $('#youtubeActivity form').submit();
+                
+                return true;
+            }
+        )
+    }
+ 
     return {
+        
         id: 'youtubeActivity',
         title: '유튜브',
         icon: 'ic_youtube.png',
         layoutHTML: 'activity_youtube.html',
+        
         init: function () {
             console.log('youtube init');
+            
+            var outerWidth = $('#youtubeActivity > i').outerWidth();
+            var outerHeight = Math.round((outerWidth / 16) * 9); // 16:9 사이즈로 높이를 변환
+            
+            $('#youtubeActivity > i').css('height', outerHeight);
+            
+            $('#youtubeActivity input[type="search"]').center();
+            
+            $('#youtubeActivity form').submit(function (event) {
+                event.stopPropagation();
+                event.preventDefault();
+               
+                $('#youtubeActivity form')
+                    .fadeOut(1000, function () {
+                        $.get(
+                            SEARCH_URL, 
+                            { part: ['snippet', 'id'].join(','),
+                              q: $('#youtubeActivity input[type="search"]').val(),
+                              type: 'video',
+                              key: APIKEY },
+                            searchResult
+                        );  
+                    });
+            });
+            
+            registSearchCommand();
         },
+        
         resume: function () {
             console.log('youtube resume');
+                                 
+            $('#youtubeActivity').removeClass('searchResult');
+            
+            $('#youtubeActivity input[type="search"]').val('');
+            
+            $('#youtubeActivity form').show();
         },
+        
         pause: function () {
             console.log('youtube pause');
         },
+        
         destroy: function () {
             console.log('youtube destroy');
         },
-    }
-
-})
+    };
+});

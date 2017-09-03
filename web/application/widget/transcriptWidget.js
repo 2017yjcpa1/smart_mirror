@@ -18,6 +18,7 @@ define([
     }
     
     function update(isFinal, transcript) {
+        console.log('transcriptWidget', isFinal, transcript);
         var rootLayout = $('#transcriptWidget');
         
         if (isFinal) {

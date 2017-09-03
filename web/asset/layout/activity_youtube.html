@@ -1,169 +1,141 @@
 <style>
-    #youtubeActivity {
+    #youtubeActivity.searchResult i,
+    #youtubeActivity.searchResult header,
+    #youtubeActivity.searchResult ul {
+        display: block;
+    }
+    
+    #youtubeActivity input[type="search"] {
+        padding: 20px;
+        font-size: 40px;
+        border: 0px none;
+        background: transparent;
+        border-bottom: 3px solid white;
+        text-align: center;
+        text-align-last: center;
+        color: white;
+        width: 500px;
+        display: block;
+    }
+    
+    #youtubeActivity i {
+        display: none;
+        
+        position: absolute;
+        top: 100px;
+        right:0;
+        width: 80%;
+        height: auto;
+        
+        background-image: url();
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+    }
+    
+    #youtubeActivity i:before {
+        content: '';
+        display: block;
+        
+        position: absolute;
+        top: 0;
+        right:0;
+        width: 100%;
+        height: 100%;
+        
+        background-image: radial-gradient(ellipse at center, rgba(0,0,0,0) 10%,rgba(0,0,0,1) 70%);
+        background-repeat: no-repeat;
+        background-size: contain;
+    }
+    
+    #youtubeActivity header {
+        display: none;
+        
+        position: absolute;
+        top: 200px;
+        left: 80px;
+        z-index: 1;
+        width: 60%;
+    }
+    
+    #youtubeActivity header h1 {
+        font-size: 40px;
+        margin: 0 0 20px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+     
+    #youtubeActivity header p { 
+        font-size: 25px;
+    }
+</style>
+
+<form>
+    <input type="search" placeholder="무엇을 검색하시겠어요?"/>
+</form>
+ 
+<header>
+    <h1>제목</h1>
+    <p>설명</p>
+</header>
+
+<i></i> 
+
+<style>
+    #youtubeActivity ul h1 {
+        margin: 0 0 10px;
+        font-size: 24px;
+        font-weight: normal;
+        width: 100%;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+    
+    #youtubeActivity ul {
+        display: none;
+        
+        position: absolute;
+        bottom: 200px;
+        width: 9999px;
+        left: 0;
+        list-style: none;
         padding: 0;
         margin: 0;
-        height:450%;
     }
-
-    #youtubeActivity body{
-        font-family: 'Segoe' ,sans-serif;
-        line-height: 1.6em;
-        color: #666;
-        font-size: 14px;
-    }
-
-    #youtubeActivity a{
-        color: #fff;
-        text-decoration: none;
-    }
-
-    #youtubeActivity #container{
-        width: 1000px;
-        margin: 0px;
-    }
-
-    #youtubeActivity .clearfix{
-        clear: both;
-    }
-
-    #youtubeActivity header{
-        padding: 30px 20px;
-        background: #f4f4f4;
-    }
-
-    #youtubeActivity header h1{
-        color: #000;
-        margin-bottom: 5px;
-    }
-
-    #youtubeActivity header span{
-        color: #dd2826;
-    }
-
-    #youtubeActivity section{
-        padding: 30px 20px 20px 20px;
-    }
-
-    #youtubeActivity footer{
-        padding: 20px;
-        background: #f4f4f4;
-        text-align: center;
-    }
-
-    #youtubeActivity #search-form{
-        padding-top:50px;
-        display: block;
-        margin-bottom: 15px;
-    }
-
-    #youtubeActivity .fieldContainer{
-        display: block;
-        position: relative;
-        width: 90%;
-        margin: auto;
-    }
-
-    /*
-    #searchBtn:hover{
-        filter: opacity(90);
-        opacity: 0.9;
-    }
-    */
-    #youtubeActivity .search-field{
-        box-sizing: border-box;
-        display: block;
-        width: 67%;
-        padding: 11px 7px;
-        padding-right: 43px;
-        background: #fff;
-        color: #ccc;
-        border: 1px solid #c8c8c8;
-        font-size: 1.6em;
-        border-bottom-color: #d2e2e7;
-        border-radius: 1px;
-        box-shadow: inset 0 1px 2px rgba(0,0,0,0.1), 0 0 0 6px #f0f0f0;
-    }
-
-    #youtubeActivity #searchBtn{
-        position: absolute;
-        right: 295px;
-        top: 11px;
-        height: 32px;
-        width: 32px;
-        border: 0;
-        cursor: pointer;
-        transform: scale(1);
-        /*    filter: opacity(65);*/
-        opacity: 0.65;
-        background: transparent url(./asset/drawable/youtube_images/search.png) top left no-repeat;
-    }
-
-    #youtubeActivity #results{
-        padding: 10px 0;
-        display: inline;
-        overflow: hidden;
-        white-space: nowrap;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    #youtubeActivity .list-left{
+    
+    #youtubeActivity ul li { 
         float: left;
-        padding: 10px;
-        width: 550px;
-            height: 350px;
-        margin-left: 6%;
-        margin-bottom: 10%;
+        width: 300px;
+        margin: 0 15px 0;
     }
-
-    #youtubeActivity .cTitle{
-        color: #dd2826; 
+    
+    #youtubeActivity ul img {
+        max-width: 100%;
+        vertical-align: middle;
     }
-
-    #youtubeActivity .button-container{
-        margin-left: auto;
-        margin-right: auto;
-        margin-top: 25px;
-        width:300px;
-        height:200px;
-    }
-
-    #youtubeActivity #next-button {
-        height: 100px;
-        width: 100px;
-        background: url(./asset/drawable/y_next2.png);
-        border: black;
-    }
-
-    #youtubeActivity #prev-button {
-        height: 100px;
-        width: 100px;
-        background: url(./asset/drawable/y_prev2.png);
-        border: black;
-        margin-left: -32%;
-    margin-right: 15%;
-    }
-/*    #youtubeActivity .paging-button{
-        background: #f4f4f4;
-        padding: 8px 13px;
-        border-radius: 5px;
-        color: #333;
-        margin: 10px;
-        cursor: pointer; 
-    }*/
-
 </style>
-<div id="container">
 
-    <section>
-        <form id="search-form" name="search-form">
-            <div class="fieldContainer">
-                <input type="search" id="query" class="search-field" placeholder="Search Youtube ...">
-                <input type="submit" name="searchBtn" id="searchBtn" value="">
-            </div>
-        </form>
-        <ul id="results"></ul>
-        <div id="buttons"></div>
-    </section>
-
-</div>
+<ul class="clearFix">
+    <li>
+        <h1>제목</h1>
+        <img src=""/>
+    </li>
+    <li>
+        <h1>제목</h1>
+        <img src=""/>
+    </li>
+    <li>
+        <h1>제목</h1>
+        <img src=""/>
+    </li>
+    <li>
+        <h1>제목</h1>
+        <img src=""/>
+    </li>
+    <li>
+        <h1>제목</h1>
+        <img src=""/>
+    </li>
+</ul>

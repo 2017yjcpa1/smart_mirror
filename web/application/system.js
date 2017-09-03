@@ -31,6 +31,24 @@ define([
         this.splice(n, 1);
     }
     
+    jQuery.fn.center = function () {
+        
+        var windowHeight = $(window).height();
+        var windowWidth = $(window).width();
+        
+        var scrollTop = $(window).scrollTop();
+        var scrollLeft = $(window).scrollLeft();
+        
+        var outerHeight = $(this).outerHeight();
+        var outerWidth = $(this).outerWidth();
+        
+        return this.css({
+            'position' : 'absolute',
+            'top' : Math.max(0, ((windowHeight - outerHeight) / 2) + scrollTop) + 'px',
+            'left' : Math.max(0, ((windowWidth - outerWidth) / 2) + scrollLeft) + 'px'
+        });
+    }
+    
     function startActivity(activityId, data, doNotShowEffect) {
         if (isLock) {
             return false;
@@ -211,9 +229,19 @@ define([
                             , 2000
                         ); 
         }); 
-    } 
+    }
+    
+    function getForegroundActivity() {
+        return activities.peek();
+    }
     
     return {
+        
+        getForegroundActivity : getForegroundActivity,
+        
+        isForegroundActivity : function (activityId) {
+            return getForegroundActivity().id == activityId;
+        },
         
         /**
          * 액티비티를 시작하기위한 함수
