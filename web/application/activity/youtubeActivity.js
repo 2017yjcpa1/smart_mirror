@@ -12,7 +12,7 @@ define([
     function queryResult(data) {
         var activity = $('#youtubeActivity');
         
-        $(activity).addClass('searchResult');
+        $(activity).addClass('queryResult');
         
         var header = data.items[0];
         
@@ -118,7 +118,7 @@ define([
             
             var activity = $('#youtubeActivity');
                                  
-            $(activity).removeClass('searchResult');
+            $(activity).removeClass('queryResult');
             
             $('input[type="search"]', activity).val('');
             $('form', activity).show();
