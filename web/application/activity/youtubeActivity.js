@@ -138,7 +138,7 @@ define([
                                  
             $('.queryResult', activity).hide(); 
             $('.queryForm input[type="search"]', activity).val('');
-            $('.queryForm form', activity).show();
+            $('.queryForm', activity).show();
         },
         
         pause: function () {
