@@ -1,9 +1,9 @@
 define([
     'system', 
-    
+     
     'jquery'
 ], function (system, $) {
-
+ 
     return {
 
         id: 'calendarActivity',

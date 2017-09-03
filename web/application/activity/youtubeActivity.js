@@ -3,12 +3,11 @@ define([
     
     'input/speechRecog',
     
+    'lib/youtube-1.0', 
+    
     'jquery',
     'jquery-draggable'
-], function (system, speechRecog, $) {
-    
-    var APIKEY = 'AIzaSyASFltS6aSwHYy6q9ft-KIH8wAB0-rEHfs';
-    var SEARCH_URL = "https://www.googleapis.com/youtube/v3/search";
+], function (system, speechRecog, youtube, $) {
     
     function searchResult(data) {
         
@@ -16,9 +15,9 @@ define([
         
         var header = data.items[0];
         
-        $('#youtubeActivity i').css('background-image', 'url(' + header.snippet.thumbnails.high.url + ')');
-        $('#youtubeActivity h1').text(header.snippet.title);
-        $('#youtubeActivity p').text(header.snippet.description);
+        $('#youtubeActivity i').css('background-image', 'url(' + header.thumbnail + ')');
+        $('#youtubeActivity h1').text(header.title);
+        $('#youtubeActivity p').text(header.description);
         
         $('#youtubeActivity ul').empty();
         
@@ -27,15 +26,15 @@ define([
             
             $([
                 '<li>',
-                    '<h1>', contents.snippet.title, '</h1>',
-                    '<img src="', contents.snippet.thumbnails.high.url, '">',
+                    '<h1>', contents.title, '</h1>',
+                    '<img src="', contents.thumbnail, '">',
                 '</li>'
             ].join('')).appendTo('#youtubeActivity ul');
         }
     }
     
-    function registSearchCommand() {   
-        var speechSuffix = [
+    function registSearchCommand() {
+        var SUFFIX = [
             '찾아줘',
             '찾아봐',
             '찾아',
@@ -44,25 +43,57 @@ define([
             '검색',
         ];
 
-        speechRecog.addEventListener(
-            '^(.*?)(' + speechSuffix.join('|') + ')', 
-            function (isFinal, transcript, matches) {
+        return (function () {
+            
+            speechRecog.addEventListener(
+                '^(.*?)(' + SUFFIX.join('|') + ')', 
+                function (isFinal, transcript, matches) {
 
-                if ( ! system.isForegroundActivity('youtubeActivity')) {
-                    return false;
-                }
-                
-                if ( ! isFinal) {
-                    return false;
-                }
+                    if ( ! system.isForegroundActivity('youtubeActivity')) {
+                        return false;
+                    }
 
-                $('#youtubeActivity input[type="search"]').val(matches[1]);
-                
-                $('#youtubeActivity form').submit();
-                
-                return true;
-            }
-        )
+                    if ( ! isFinal) {
+                        return false;
+                    }
+
+                    $('#youtubeActivity input[type="search"]').val(matches[1]);
+                    $('#youtubeActivity form').submit();
+
+                    return true;
+                }
+            )
+        })();
+    }
+    
+    function __init__() {
+        
+        // 16:9 사이즈 계산하여로 가로폭 기준으로 높이를 계산
+        var outerWidth = $('#youtubeActivity > i').outerWidth();
+        var outerHeight = Math.round((outerWidth / 16) * 9);
+
+        $('#youtubeActivity i').css('height', outerHeight);
+
+        $('#youtubeActivity form')
+            .center()
+            .submit(function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+            
+                $(this)
+                    .fadeOut(
+                        1000,
+                        function () {
+                            
+                            var keyword = $('#youtubeActivity input[type="search"]').val();
+                            
+                            youtube(keyword, function (data) {
+                                            searchResult(data)
+                            });
+                            
+                        }
+                    )
+            });
     }
  
     return {
@@ -75,29 +106,7 @@ define([
         init: function () {
             console.log('youtube init');
             
-            var outerWidth = $('#youtubeActivity > i').outerWidth();
-            var outerHeight = Math.round((outerWidth / 16) * 9); // 16:9 사이즈로 높이를 변환
-            
-            $('#youtubeActivity > i').css('height', outerHeight);
-            
-            $('#youtubeActivity input[type="search"]').center();
-            
-            $('#youtubeActivity form').submit(function (event) {
-                event.stopPropagation();
-                event.preventDefault();
-               
-                $('#youtubeActivity form')
-                    .fadeOut(1000, function () {
-                        $.get(
-                            SEARCH_URL, 
-                            { part: ['snippet', 'id'].join(','),
-                              q: $('#youtubeActivity input[type="search"]').val(),
-                              type: 'video',
-                              key: APIKEY },
-                            searchResult
-                        );  
-                    });
-            });
+            __init__();
             
             registSearchCommand();
         },
@@ -108,7 +117,6 @@ define([
             $('#youtubeActivity').removeClass('searchResult');
             
             $('#youtubeActivity input[type="search"]').val('');
-            
             $('#youtubeActivity form').show();
         },
         
