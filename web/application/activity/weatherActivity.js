@@ -48,14 +48,10 @@ define([
                 function (data) {
                     console.log(data);
                     
-                    var ozoneComment = getOzoneComment(data.currently.ozoneLevel);
-                    
-                    speechUtterance.speak(ozoneComment[1]);
-                    
                     // 현재날씨
                     $('#weatherActivity .current img').attr('src', data.currently.iconPath);
                     $('#weatherActivity .current .temp').html(data.currently.temp + '℃');
-                    $('#weatherActivity .current .ozone').html(ozoneComment.join('<br/>'));
+                    $('#weatherActivity .current .ozone').html(getOzoneComment(data.currently.ozoneLevel).join('<br/>'));
                     
                     var hourlyContainer = $('#weatherActivity .hourly ul').empty();
                     var weeklyContainer = $('#weatherActivity .weekly ul').empty();

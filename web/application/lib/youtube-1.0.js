@@ -14,10 +14,10 @@
     
     var __youtube__ = {
         
-        keyword : '',
+        query : '',
          
-        init : function (keyword) {
-            this.keyword = keyword;
+        init : function (query) {
+            this.query = query;
         },
         
         renewal : function (data) {
@@ -34,7 +34,7 @@
             var self = this;
             var query = $.param({ 
                                 part: ['snippet', 'id'].join(','),
-                                q: self.keyword,
+                                q: self.query,
                                 type: 'video',
                                 key: APIKEY 
                             });
@@ -66,12 +66,12 @@
         }
     }
     
-    function youtube(keyword, loaded) {
+    function youtube(query, loaded) {
         function F() {};
         F.prototype = __youtube__;
         
         var f = new F();
-        f.init(keyword);
+        f.init(query);
         
         if (typeof(loaded) === 'function') {
             f.exec(loaded);

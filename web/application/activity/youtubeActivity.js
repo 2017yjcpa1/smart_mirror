@@ -9,19 +9,21 @@ define([
     'jquery-draggable'
 ], function (system, speechRecog, youtube, $) {
     
-    function searchResult(data) {
+    function queryResult(data) {
+        var activity = $('#youtubeActivity');
         
-        $('#youtubeActivity').addClass('searchResult');
+        $(activity).addClass('searchResult');
         
         var header = data.items[0];
         
-        $('#youtubeActivity i').css('background-image', 'url(' + header.thumbnail + ')');
-        $('#youtubeActivity h1').text(header.title);
-        $('#youtubeActivity p').text(header.description);
+        $('i', activity).css('background-image', 'url(' + header.thumbnail + ')');
+        $('h1', activity).text(header.title);
+        $('p', activity).text(header.description);
         
-        $('#youtubeActivity ul').empty();
+        $('ul', activity).empty();
         
-        for(var n = 0; n < data.items.length; ++n) {
+        for (var n = 0; n < data.items.length; ++n) {
+            
             var contents = data.items[n];
             
             $([
@@ -29,7 +31,8 @@ define([
                     '<h1>', contents.title, '</h1>',
                     '<img src="', contents.thumbnail, '">',
                 '</li>'
-            ].join('')).appendTo('#youtubeActivity ul');
+            ].join(''))
+                .appendTo('#youtubeActivity ul');
         }
     }
     
@@ -42,6 +45,8 @@ define([
             '검색해',
             '검색',
         ];
+
+        var activity = $('#youtubeActivity');
 
         return (function () {
             
@@ -57,8 +62,8 @@ define([
                         return false;
                     }
 
-                    $('#youtubeActivity input[type="search"]').val(matches[1]);
-                    $('#youtubeActivity form').submit();
+                    $('input[type="search"]', activity).val(matches[1]);
+                    $('form', activity).submit();
 
                     return true;
                 }
@@ -67,14 +72,15 @@ define([
     }
     
     function __init__() {
+        var activity = $('#youtubeActivity');
         
         // 16:9 사이즈 계산하여로 가로폭 기준으로 높이를 계산
         var outerWidth = $('#youtubeActivity > i').outerWidth();
         var outerHeight = Math.round((outerWidth / 16) * 9);
 
-        $('#youtubeActivity i').css('height', outerHeight);
+        $('i', activity).css('height', outerHeight);
 
-        $('#youtubeActivity form')
+        $('form', activity)
             .center()
             .submit(function (event) {
                 event.preventDefault();
@@ -84,13 +90,9 @@ define([
                     .fadeOut(
                         1000,
                         function () {
+                            var query = $('input[type="search"]', activity).val();
                             
-                            var keyword = $('#youtubeActivity input[type="search"]').val();
-                            
-                            youtube(keyword, function (data) {
-                                            searchResult(data)
-                            });
-                            
+                            youtube(query, queryResult);
                         }
                     )
             });
@@ -113,11 +115,13 @@ define([
         
         resume: function () {
             console.log('youtube resume');
-                                 
-            $('#youtubeActivity').removeClass('searchResult');
             
-            $('#youtubeActivity input[type="search"]').val('');
-            $('#youtubeActivity form').show();
+            var activity = $('#youtubeActivity');
+                                 
+            $(activity).removeClass('searchResult');
+            
+            $('input[type="search"]', activity).val('');
+            $('form', activity).show();
         },
         
         pause: function () {
