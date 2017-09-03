@@ -217,7 +217,7 @@ define([
             'click'
         ].join(' ');
 
-        $(document).bind(captureEvents, function () {
+        function init() {
             if (timeoutId) {
                 window.clearTimeout(timeoutId);
             }
@@ -228,7 +228,11 @@ define([
                             }
                             , 2000
                         ); 
-        }); 
+        }
+
+        $(document).bind(captureEvents, init); 
+        
+        init();
     }
     
     function getForegroundActivity() {
@@ -265,7 +269,7 @@ define([
             
             startActivity('homeActivity', null, true);
             
-            //scheduleScreenSaver();
+            scheduleScreenSaver();
         }
     };
 });

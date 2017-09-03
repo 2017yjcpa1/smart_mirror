@@ -69,29 +69,26 @@ define([
             '검색',
         ];
 
-        var activity = $('#youtubeActivity');
+        speechRecog.addEventListener(
+            '^(.+?)(' + SUFFIX.join('|') + ')', 
+            function (isFinal, transcript, matches) {
 
-        return (function () {
-            
-            speechRecog.addEventListener(
-                '^(.+?)(' + SUFFIX.join('|') + ')', 
-                function (isFinal, transcript, matches) {
-
-                    if ( ! system.isForegroundActivity('youtubeActivity')) {
-                        return false;
-                    }
-
-                    if ( ! isFinal) {
-                        return false;
-                    }
-
-                    $('.queryForm input[type="search"]', activity).val(matches[1]);
-                    $('.queryForm', activity).submit();
-
-                    return true;
+                if ( ! system.isForegroundActivity('youtubeActivity')) {
+                    return false;
                 }
-            )
-        })();
+
+                if ( ! isFinal) {
+                    return false;
+                }
+
+                var activity = $('#youtubeActivity');
+
+                $('.queryForm input[type="search"]', activity).val(matches[1]);
+                $('.queryForm', activity).submit();
+
+                return true;
+            }
+        )
     }
     
     function __init__() {
