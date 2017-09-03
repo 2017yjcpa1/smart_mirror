@@ -9,11 +9,13 @@ define([
     'jquery-draggable'
 ], function (system, speechRecog, youtube, $) {
     
-    function calcHeightByAspectRatio() {
+    function setThumbnailHeightByAspectRatio() {
+        var activity = $('#youtubeActivity');
+        
         var outerWidth = $('.resultItemView i', activity).outerWidth();
         var outerHeight = Math.round((outerWidth / 16) * 9);
         
-        return outerHeight;
+        $('.resultItemView i', activity).height(outerHeight);
     }
     
     function resultItemView(data) {
@@ -21,14 +23,12 @@ define([
         
         $('.resultItemView h1', activity).text(data.title);
         $('.resultItemView p', activity).text(data.desc);
-        $('.resultItemView i', activity)
-            .css({
-                'height' : calcHeightByAspectRatio(),
-                'background-image' : 'url(' + data.thumb + ')',
-            });
+        $('.resultItemView i', activity).css('background-image', 'url(' + data.thumb + ')');
+        
+        setThumbnailHeightByAspectRatio();
     }
     
-    function hoveredListItem() {
+    function hoverListItem() {
         var contents = $(this).data('contents');
         
         resultItemView(contents);
@@ -53,7 +53,8 @@ define([
                 '</li>'
             ].join(''))
                 .data('contents', contents)
-                .hover(hoveredListItem)
+                .hover(hoverListItem)
+                //.click(clickListItem)
                 .appendTo('#youtubeActivity .queryResult ul');
         }
     }
