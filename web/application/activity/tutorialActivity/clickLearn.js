@@ -1,6 +1,8 @@
 define([
+    'system',
+    
     'jquery'
-], function ($) {
+], function (system, $) {
     
     var successCount = 0;
     
@@ -33,6 +35,7 @@ define([
     }
  
     function complete() {
+        system.finishActivity('tutorialActivity');
     }
     
     return {
