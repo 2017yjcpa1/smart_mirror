@@ -79,6 +79,7 @@ define([
         var outerHeight = Math.round((outerWidth / 16) * 9);
 
         $('i', activity).css('height', outerHeight);
+        $('ul', activity).draggable({ axis : 'x' });
 
         $('form', activity)
             .center()

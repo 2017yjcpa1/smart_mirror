@@ -35,6 +35,7 @@
             var query = $.param({ 
                                 part: ['snippet', 'id'].join(','),
                                 q: self.query,
+                                maxResults : 50,
                                 type: 'video',
                                 key: APIKEY 
                             });
