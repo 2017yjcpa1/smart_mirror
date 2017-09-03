@@ -124,6 +124,8 @@ define([
             system.attachWidget('transcriptWidget');
             system.attachWidget('weatherWidget');
             
+            system.attachWidget('youtubeWidget');
+            
             registExecCommand();
             registWikiCommand();
         },
