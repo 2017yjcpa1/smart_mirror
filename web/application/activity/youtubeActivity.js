@@ -9,16 +9,35 @@ define([
     'jquery-draggable'
 ], function (system, speechRecog, youtube, $) {
     
+    function setHeader(data) {
+        var activity = $('#youtubeActivity');
+        
+        $('header h1', activity).text(data.title);
+        $('header p', activity).text(data.description);
+        
+        // 16:9 사이즈 계산하여로 가로폭 기준으로 높이를 계산
+        var outerWidth = $('header i', activity).outerWidth();
+        var outerHeight = Math.round((outerWidth / 16) * 9);
+
+        $('header i', activity)
+            .css({
+                'height' : outerHeight,
+                'background-image' : 'url(' + data.thumbnail + ')',
+            });
+    }
+    
+    function onHoveredListItem() {
+        var contents = $(this).data('contents');
+        
+        setHeader(contents);
+    }
+    
     function queryResult(data) {
         var activity = $('#youtubeActivity');
         
         $(activity).addClass('queryResult');
         
-        var header = data.items[0];
-        
-        $('i', activity).css('background-image', 'url(' + header.thumbnail + ')');
-        $('h1', activity).text(header.title);
-        $('p', activity).text(header.description);
+        setHeader(data.items[0]);
         
         $('ul', activity).css('left', 0).empty();
         
@@ -32,6 +51,8 @@ define([
                     '<img src="', contents.thumbnail, '">',
                 '</li>'
             ].join(''))
+                .data('contents', contents)
+                .hover(onHoveredListItem)
                 .appendTo('#youtubeActivity ul');
         }
     }
@@ -62,7 +83,7 @@ define([
                         return false;
                     }
 
-                    $('input[type="search"]', activity).val(matches[1]);
+                    $('form input[type="search"]', activity).val(matches[1]);
                     $('form', activity).submit();
 
                     return true;
@@ -74,11 +95,6 @@ define([
     function __init__() {
         var activity = $('#youtubeActivity');
         
-        // 16:9 사이즈 계산하여로 가로폭 기준으로 높이를 계산
-        var outerWidth = $('#youtubeActivity > i').outerWidth();
-        var outerHeight = Math.round((outerWidth / 16) * 9);
-
-        $('i', activity).css('height', outerHeight);
         $('ul', activity).draggable({ axis : 'x' });
 
         $('form', activity)
@@ -91,7 +107,7 @@ define([
                     .fadeOut(
                         1000,
                         function () {
-                            var query = $('input[type="search"]', activity).val();
+                            var query = $('form input[type="search"]', activity).val();
                             
                             youtube(query, queryResult);
                         }
@@ -121,7 +137,7 @@ define([
                                  
             $(activity).removeClass('queryResult');
             
-            $('input[type="search"]', activity).val('');
+            $('form input[type="search"]', activity).val('');
             $('form', activity).show();
         },
         

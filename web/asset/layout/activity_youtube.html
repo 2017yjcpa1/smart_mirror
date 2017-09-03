@@ -1,5 +1,4 @@
 <style>
-    #youtubeActivity.queryResult i,
     #youtubeActivity.queryResult header,
     #youtubeActivity.queryResult ul {
         display: block;
@@ -19,14 +18,16 @@
         margin: 0 auto;
     }
     
-    #youtubeActivity i {
-        display: none;
+    #youtubeActivity header i {
+        display: block;
         
         position: absolute;
-        top: 100px;
+        top: 0;
         right:0;
+        bottom: 0;
         width: 80%;
         height: auto;
+        margin: auto;
         
         background-image: url();
         background-repeat: no-repeat;
@@ -34,7 +35,7 @@
         background-position: center;
     }
     
-    #youtubeActivity i:before {
+    #youtubeActivity header i:before {
         content: '';
         display: block;
         
@@ -49,9 +50,16 @@
         background-size: contain;
     }
     
-    #youtubeActivity header {
+    #youtubeActivity header { 
         display: none;
-        
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 50%;
+    }
+    
+    #youtubeActivity header article {
         position: absolute;
         top: 200px;
         left: 80px;
@@ -81,11 +89,13 @@
 </form>
  
 <header>
-    <h1>제목</h1>
-    <p>설명</p>
-</header>
+    <article>
+        <h1>제목</h1>
+        <p>설명</p>
+    </article>
 
-<i></i> 
+    <i></i>
+</header>
 
 <style>
     #youtubeActivity ul h1 {
@@ -102,7 +112,7 @@
         display: none;
         
         position: absolute;
-        bottom: 200px;
+        top: 50%;
         width: 99999px;
         left: 0;
         list-style: none;
