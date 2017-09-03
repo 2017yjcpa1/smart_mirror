@@ -66,13 +66,15 @@ define([
                 .click(show)
                 .on('mouseover', show)
             
+            /*
             $('#menuWidget ul')
                 .on('dragstart drag mousemove', hideAfterWhile)
                 .on('dragend', function () { isDrag = true; })
                 .draggable({ 
                     axis: 'y',
                 })
-            
+            */
+           
             require([
                 'activity/homeActivity',
                 'activity/tutorialActivity',
@@ -80,8 +82,6 @@ define([
                 'activity/newsActivity',
                 'activity/weatherActivity',
                 'activity/youtubeActivity',
-                'activity/galleryActivity',
-                'activity/cameraActivity',
                 'activity/clockActivity',
             ], function () {
                 for(var n = 0; n < arguments.length; ++n) {
