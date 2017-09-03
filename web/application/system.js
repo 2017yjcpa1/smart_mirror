@@ -225,8 +225,8 @@ define([
             timeoutId = window.setTimeout(
                             function () {
                                 startActivity('screenSaverActivity');
-                            }
-                            , 2000
+                            }, 
+                            1000 * 60 * 3
                         ); 
         }
 
