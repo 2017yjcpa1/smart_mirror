@@ -24,8 +24,8 @@
             return {
                 id : data.id.videoId,
                 title : data.snippet.title,
-                description : data.snippet.description,
-                thumbnail : data.snippet.thumbnails.high.url,
+                desc : data.snippet.description,
+                thumb : data.snippet.thumbnails.high.url,
                 publishedAt : data.snippet.publishedAt,
             }
         },

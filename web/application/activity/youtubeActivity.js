@@ -9,37 +9,38 @@ define([
     'jquery-draggable'
 ], function (system, speechRecog, youtube, $) {
     
-    function readMore(data) {
+    function calcHeightByAspectRatio() {
+        var outerWidth = $('.resultItemView i', activity).outerWidth();
+        var outerHeight = Math.round((outerWidth / 16) * 9);
+        
+        return outerHeight;
+    }
+    
+    function resultItemView(data) {
         var activity = $('#youtubeActivity');
         
-        $('header h1', activity).text(data.title);
-        $('header p', activity).text(data.description);
-        
-        // 16:9 사이즈 계산하여로 가로폭 기준으로 높이를 계산
-        var outerWidth = $('header i', activity).outerWidth();
-        var outerHeight = Math.round((outerWidth / 16) * 9);
-
-        $('header i', activity)
+        $('.resultItemView h1', activity).text(data.title);
+        $('.resultItemView p', activity).text(data.desc);
+        $('.resultItemView i', activity)
             .css({
-                'height' : outerHeight,
-                'background-image' : 'url(' + data.thumbnail + ')',
+                'height' : calcHeightByAspectRatio(),
+                'background-image' : 'url(' + data.thumb + ')',
             });
     }
     
-    function onHoveredListItem() {
+    function hoveredListItem() {
         var contents = $(this).data('contents');
         
-        readMore(contents);
+        resultItemView(contents);
     }
     
     function queryResult(data) {
         var activity = $('#youtubeActivity');
         
         $('.queryResult', activity).show();
-        
-        readMore(data.items[0]);
-        
         $('ul', activity).css('left', 0).empty();
+        
+        resultItemView(data.items[0]);
         
         for (var n = 0; n < data.items.length; ++n) {
             
@@ -48,12 +49,12 @@ define([
             $([
                 '<li>',
                     '<h1>', contents.title, '</h1>',
-                    '<img src="', contents.thumbnail, '">',
+                    '<img src="', contents.thumb, '">',
                 '</li>'
             ].join(''))
                 .data('contents', contents)
-                .hover(onHoveredListItem)
-                .appendTo('#youtubeActivity ul');
+                .hover(hoveredListItem)
+                .appendTo('#youtubeActivity .queryResult ul');
         }
     }
     
@@ -83,8 +84,8 @@ define([
                         return false;
                     }
 
-                    $('form input[type="search"]', activity).val(matches[1]);
-                    $('form', activity).submit();
+                    $('.queryForm input[type="search"]', activity).val(matches[1]);
+                    $('.queryForm', activity).submit();
 
                     return true;
                 }
@@ -95,9 +96,9 @@ define([
     function __init__() {
         var activity = $('#youtubeActivity');
         
-        $('ul', activity).draggable({ axis : 'x' });
+        $('.queryResult ul', activity).draggable({ axis : 'x' });
 
-        $('form', activity)
+        $('.queryForm', activity)
             .center()
             .submit(function (event) {
                 event.preventDefault();
@@ -107,7 +108,7 @@ define([
                     .fadeOut(
                         1000,
                         function () {
-                            var query = $('form input[type="search"]', activity).val();
+                            var query = $('.queryForm input[type="search"]', activity).val();
                             
                             youtube(query, queryResult);
                         }
@@ -136,9 +137,8 @@ define([
             var activity = $('#youtubeActivity');
                                  
             $('.queryResult', activity).hide(); 
-            $('.watchVideo', activity).css('top', '100%');
-            $('form input[type="search"]', activity).val('');
-            $('form', activity).show();
+            $('.queryForm input[type="search"]', activity).val('');
+            $('.queryForm form', activity).show();
         },
         
         pause: function () {
