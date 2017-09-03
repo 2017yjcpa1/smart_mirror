@@ -45,7 +45,7 @@
          * 이를 방지하기위해 올바른 명령어로 말했음에도 인식을 잘못할수도 있어
          * 추천수를 지정하여 인식범위를 높여줍니다.
          */
-        speechRecog.maxAlternatives = 5;
+        speechRecog.maxAlternatives = 3;
 
         speechRecog.onerror = function (event) {
             console.log('speechRecog.onerror() = ' + event.error);
@@ -78,20 +78,32 @@
             }
             
             for (var n = 0; n < transcripts.length; ++n) { // maxAlternatives 수 만큼 인식한 문장들 
-                
-                for(var regex in listeners) {
-                    
-                    var matches = new RegExp(regex, 'i').exec(transcripts[n]);
-                    if (matches === null) {
-                        continue;
-                    }
-                     
-                    if (listeners[regex](isFinal, transcripts[n], matches)) {
-                        return; 
-                    }
+                if (dispatchEvent(isFinal, transcripts[n])) {
+                    return;
                 }
             }
         };
+    }
+    
+    function dispatchEvent(isFinal, transcript) {
+        var handlers = [];
+
+        for(var regex in listeners) {
+            
+            var matches = new RegExp(regex, 'i').exec(transcript);
+            if (matches === null) {
+                continue;
+            }
+            
+            var handlers = listeners[regex];
+            for (var n = 0; n < handlers.length; ++n) {
+                if (handlers[n](isFinal, transcript, matches)) {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
     }
     
     function start() {
@@ -104,12 +116,12 @@
     }
     
     function addEventListener(regex, listener) {
-        if (listeners[regex]) {
-            return new Error(regex + ' 명령어는 이미 존재합니다.');
+        var handlers = null;
+        if ( ! (handlers = listeners[regex])) {
+            handlers = listeners[regex] = [];
         }
         
-        listeners[regex] = listener;
-        return true;
+        handlers.push(listener);
     }
 
     return {

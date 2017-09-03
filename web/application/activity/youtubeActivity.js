@@ -20,7 +20,7 @@ define([
         $('h1', activity).text(header.title);
         $('p', activity).text(header.description);
         
-        $('ul', activity).empty();
+        $('ul', activity).css('left', 0).empty();
         
         for (var n = 0; n < data.items.length; ++n) {
             
