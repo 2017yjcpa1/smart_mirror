@@ -38,7 +38,7 @@ define([
         var activity = $('#youtubeActivity');
         
         $('.queryResult', activity).show();
-        $('ul', activity).css('left', 0).empty();
+        $('.queryResult ul', activity).css('left', 0).empty();
         
         resultItemView(data.items[0]);
         
@@ -74,7 +74,7 @@ define([
         return (function () {
             
             speechRecog.addEventListener(
-                '^(.*?)(' + SUFFIX.join('|') + ')', 
+                '^(.+?)(' + SUFFIX.join('|') + ')', 
                 function (isFinal, transcript, matches) {
 
                     if ( ! system.isForegroundActivity('youtubeActivity')) {

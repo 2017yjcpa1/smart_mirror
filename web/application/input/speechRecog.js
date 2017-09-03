@@ -74,7 +74,7 @@
                 
             // 음성인식 결과를 배열에 담음
             for (var n = 0; n < results.length; ++n) {
-                transcripts[n] = results[n].transcript.replace(/\s+/g, '');
+                transcripts[n] = results[n].transcript.trim();
             }
             
             for (var n = 0; n < transcripts.length; ++n) { // maxAlternatives 수 만큼 인식한 문장들 
@@ -90,7 +90,7 @@
 
         for(var regex in listeners) {
             
-            var matches = new RegExp(regex, 'i').exec(transcript);
+            var matches = new RegExp(regex, 'i').exec(transcript.replace(/\s/g, ''));
             if (matches === null) {
                 continue;
             }

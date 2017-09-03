@@ -23,7 +23,7 @@ define([
         
         return (function () {
             speechRecog.addEventListener(
-                '^(.*?)(' + SUFFIX.join('|') + ')', 
+                '^(.+?)(' + SUFFIX.join('|') + ')', 
                 function (isFinal, transcript, matches) {
                     console.log(isFinal, transcript, matches[1]);
 
@@ -49,6 +49,8 @@ define([
                                           .replace(/《[^》]+》/gi, "")
                                           .replace(/「[^」]+」/gi, "")
                                           .replace(/〈[^〉]+〉/gi, "");
+                                  
+                        console.log(data);
 
                         speechUtterance.speak(data);
                     }
@@ -57,7 +59,7 @@ define([
                     return true;
                 }
             )
-        });
+        })();
     }
     
     function registExecCommand() {
@@ -82,7 +84,7 @@ define([
         return (function () {
             
             speechRecog.addEventListener(
-                '^(.*?)(' + SUFFIX.join('|') + ')', 
+                '^(.+?)(' + SUFFIX.join('|') + ')', 
                 function (isFinal, transcript, matches) { 
                     console.log(isFinal, transcript, matches[1]);
 
@@ -134,7 +136,7 @@ define([
                     }
                 }
             );
-        });
+        })();
     }
     
     return {
