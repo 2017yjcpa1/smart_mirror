@@ -100,7 +100,7 @@ define([
                 return false;
             }
 
-            return false;
+            return true;
         }
         
         speechRecog.addEventListener(
