@@ -110,11 +110,13 @@ define([
     }
     
     function registCommands() {
-        var REGEX_SCREEN_MODE = '(영상|비디오|유투브|유튜브)?(확대|크게|그게)';
-        var REGEX_WIDGET_MODE = '(영상|비디오|유투브|유튜브)?(축소|작게)';
-        var REGEX_STOP = '(영상|비디오|유투브|유튜브)?(정지|스톱)';
-        var REGEX_REPLAY = '(영상|비디오|유투브|유튜브)?(재생|실행)';
-        var REGEX_DESTROY = '(영상|비디오|유투브|유튜브)?(꺼줘|꺼저|꺼져|꺼라|사라져|종료)';
+        var REGEX_PREFIX = '(영상|비디오|유투브|유튜브)?';
+        
+        var REGEX_SCREEN_MODE = REGEX_PREFIX + '(확대|크게|그게)';
+        var REGEX_WIDGET_MODE = REGEX_PREFIX + '(축소|작게)';
+        var REGEX_STOP = REGEX_PREFIX + '(정지|스톱)';
+        var REGEX_REPLAY = REGEX_PREFIX + '(재생|실행)';
+        var REGEX_DESTROY = REGEX_PREFIX + '(꺼줘|꺼저|꺼져|꺼라|꺼버려|사라져|종료)';
         
         function isValidate(isFinal) {
             if ( ! isFinal) {

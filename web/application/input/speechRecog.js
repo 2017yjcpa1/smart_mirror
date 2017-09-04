@@ -6,6 +6,9 @@
     }
 }(this, function () {
     
+    var COMMAND_START = '거울아';
+    var REGEXP_START =  COMMAND_START + '(?!.*' + COMMAND_START + ')(.*)';
+    
     var SpeechRecognition = window.SpeechRecognition ||
                             window.webkitSpeechRecognition ||
                             window.mozSpeechRecognition ||
@@ -78,7 +81,18 @@
             }
             
             for (var n = 0; n < transcripts.length; ++n) { // maxAlternatives 수 만큼 인식한 문장들 
-                if (dispatchEvent(isFinal, transcripts[n])) {
+                
+                var matches = new RegExp(REGEXP_START, 'i').exec(transcripts[n].replace(/\s+/g, ""));
+                if ( ! (matches && matches[1])) {
+                    continue;
+                }
+                
+                var speechCommand = matches[1].replace(/\s+/g, "");
+                if ( ! speechCommand) {
+                    continue;
+                }
+                
+                if (dispatchEvent(isFinal, speechCommand)) {
                     return;
                 }
             }
@@ -87,7 +101,7 @@
     
     function dispatchEvent(isFinal, transcript) {
         var handlers = [];
-
+        
         for(var regex in listeners) {
             
             var matches = new RegExp(regex, 'i').exec(transcript.replace(/\s/g, ''));
