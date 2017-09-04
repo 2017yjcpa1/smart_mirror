@@ -113,6 +113,7 @@ define([
             system.attachWidget('clockWidget');
             system.attachWidget('menuWidget');
             system.attachWidget('skeletonWidget');
+            system.attachWidget('newsWidget');
             system.attachWidget('transcriptWidget');
             system.attachWidget('weatherWidget');
             

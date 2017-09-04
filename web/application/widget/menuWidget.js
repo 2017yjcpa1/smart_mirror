@@ -5,7 +5,7 @@ define([
     'jquery-draggable',
 ], function ($, system) {
     
-    //var isDrag = false;
+    var isDrag = false;
     var timeoutId = -1;
    
     function createMenu(activity) {
@@ -17,16 +17,11 @@ define([
         '</li>')
             .appendTo('#menuWidget ul')
             .click(function () {
-                /*
                 if ( ! isDrag && system.startActivity(activity.id)) {
                     hide();
                 }
                 
                 isDrag = false;
-                */
-                if (system.startActivity(activity.id)) {
-                    hide();
-                }
             });
     }
     
@@ -73,15 +68,11 @@ define([
                 .on('mouseover', show)
             
             $('#menuWidget ul')
-                .on('mousemove', hideAfterWhile)
-            /*
-            $('#menuWidget ul')
                 .on('dragstart drag mousemove', hideAfterWhile)
                 .on('dragend', function () { isDrag = true; })
                 .draggable({ 
                     axis: 'y',
-                })
-            */
+                }) 
            
             require([
                 'activity/homeActivity',

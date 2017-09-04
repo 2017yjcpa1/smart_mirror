@@ -1,0 +1,85 @@
+<style> 
+    #notifyWidget {
+        position: absolute;
+        z-index: 5000;
+        top: 200px;
+        left: 5px; 
+    }
+    
+    #notifyWidget ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        
+        font-size: 25px;
+    }
+     
+    #notifyWidget li {
+        margin-bottom: 10px;
+        height: 40px;
+    }
+    
+    #notifyWidget li > * {
+        float: left;
+        font-size: 30px;
+        line-height: 40px;
+        vertical-align: middle; 
+        margin: 0 5px 0 0;
+        display: block;
+    }
+    
+    #notifyWidget i {
+        position: relative;
+        
+        height: 40px;
+        width: 40px;
+        border-radius: 50%;
+        margin-right: 10px;
+        
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-color: white;
+    } 
+    
+    #notifyWidget i:after {
+        content: '';
+        width: 20px;
+        border-radius: 50%;
+        background-size: cover;
+        background-repeat: no-repeat;
+        /*background-color: red;*/
+        height: 20px;
+        bottom: -5px;
+        right: -5px;
+        position: absolute;
+    } 
+    
+    #notifyWidget li[data-package="org.telegram.messenger"] i:after {background-image:url(./asset/drawable/widget_notify/ic_telegram.png)}
+    
+    #notifyWidget li[data-package="com.kakao.talk"] i:after {background-image:url(./asset/drawable/widget_notify/ic_kakaotalk.png)}
+    
+    #notifyWidget li[data-package="com.facebook.mlite"] i:after {background-image:url(./asset/drawable/widget_notify/ic_facebook_messenger.png)}
+    #notifyWidget li[data-package="com.facebook.orca"] i:after {background-image:url(./asset/drawable/widget_notify/ic_facebook_messenger.png)}
+    
+    #notifyWidget li[data-package="com.facebook.lite"] i:after {background-image:url(./asset/drawable/widget_notify/ic_facebook.png)}
+    #notifyWidget li[data-package="com.facebook.katana"] i:after {background-image:url(./asset/drawable/widget_notify/ic_facebook.png)}
+    
+    #notifyWidget h1 {
+        color: #6f6f6f;
+        max-width: 140px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+    
+    #notifyWidget p {
+        width: 300px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+</style> 
+<ul>
+    <li class="clearFix">
+    </li> 
+</ul>
