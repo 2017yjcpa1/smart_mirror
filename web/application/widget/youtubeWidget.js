@@ -20,6 +20,11 @@ define([
     var player = null;
     
     function injectPlayer(videoId) {
+        if (player) {
+            player.loadVideoById(videoId);
+            return;
+        }
+        
         return new window.YT.Player('youtubePlayer', {
             
             height : '100%',

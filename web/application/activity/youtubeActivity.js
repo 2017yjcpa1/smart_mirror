@@ -123,7 +123,7 @@ define([
     
     function registCommands() {
         var REGEX_SEARCH = '(.+?)(찾아|찾어|검색)';
-        var REGEX_PLAY = '선택.*?(실행|켜|재생)';
+        var REGEX_PLAY = '(선택.*?)?(실행|켜|재생)';
         var REGEX_NEXT_SELECT = '(다음|오른쪽)';
         var REGEX_PREV_SELECT = '(이전|왼쪽)';
         
