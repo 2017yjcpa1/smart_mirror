@@ -20,11 +20,6 @@ define([
     var player = null;
     
     function injectPlayer(videoId) {
-        if (player) {
-            player.loadVideoById(videoId);
-            return;
-        }
-        
         return new window.YT.Player('youtubePlayer', {
             
             height : '100%',
@@ -38,6 +33,7 @@ define([
                 rel : 0, // 종료시 관련동영상 출력안되게
                 controls : 0, // 컨트롤바를 없앰
                 showinfo : 0, // 동영상 정보를 출력하지않음
+                iv_load_policy : 3,
             },
             
             events : {
@@ -74,7 +70,11 @@ define([
             return false;
         }
         
-        player = injectPlayer(videoId);
+        if ( ! player) {
+            player = injectPlayer(videoId);
+        } else {
+            player.loadVideoById(videoId);
+        }
         
         return player;
     }
