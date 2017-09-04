@@ -105,6 +105,8 @@ define([
         }
         
         player = null;
+        
+        $('#youtubeWidget').hide();
     }
     
     function registCommands() {
@@ -182,7 +184,7 @@ define([
             REGEX_DESTROY, 
             function (isFinal, transcript, matches) { 
 
-                if ( ! isValidate(isFinal) || ! isScreenMode()) {
+                if ( ! isValidate(isFinal)) {
                     return false;
                 }
 
