@@ -10,7 +10,33 @@ define([
     function registCommands() {
         var REGEX_EXECUTE = '(.+?)(보여줘|띄워|꺼내|열어|실행|켜줘|켜저|켜봐|켜바)';
         var REGEX_WIKI = '(.+?)(뭐지|뭐냐|뭐야|찾아|검색)';
+        var REGEX_GO_HOME = '(홈으로|홈화면|바탕화면|메인화면|메인으로)';
+        var REGEX_REFRESH = '(새로고침)';
          
+        speechRecog.addEventListener(
+            REGEX_GO_HOME,
+            function (isFinal, transcript, matches) {
+                if ( ! isFinal) {
+                    return false;
+                }
+                
+                system.startActivity('homeActivity');
+                return true;
+            }
+        );
+         
+        speechRecog.addEventListener(
+            REGEX_REFRESH,
+            function (isFinal, transcript, matches) {
+                if ( ! isFinal) {
+                    return false;
+                }
+                
+                window.location.reload();
+                return true;
+            }
+        );
+
         speechRecog.addEventListener(
             REGEX_EXECUTE,
             function (isFinal, transcript, matches) {
