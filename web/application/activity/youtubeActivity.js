@@ -74,6 +74,28 @@ define([
         resultItemView(contents);
     }
     
+    // TODO 네이밍 바꿔야할듯...
+    function getItem(amount) {
+        var activity = $('#youtubeActivity');
+        
+        var isPrev = false;
+        var selectItem = $('.queryResult li.selected', activity);
+        
+        if (amount < 0) {
+            isPrev = true;
+        }
+        
+        for (var n = 0; n < amount; ++n) {
+            if (isPrev) {
+                selectItem = selectItem.prev();
+            } else {
+                selectItem = selectItem.next();
+            }
+        }
+        
+        return selectItem;
+    }
+    
     function queryResult(data) {
         var activity = $('#youtubeActivity');
         
@@ -100,7 +122,7 @@ define([
     }
     
     function registCommands() {
-        var REGEX_SEARCH = '.+?(찾아|찾어|검색)';
+        var REGEX_SEARCH = '(.+?)(찾아|찾어|검색)';
         var REGEX_PLAY = '선택.*?(실행|켜|재생)';
         var REGEX_NEXT_SELECT = '(다음|오른쪽)';
         var REGEX_PREV_SELECT = '(이전|왼쪽)';
@@ -141,6 +163,38 @@ define([
                 }
                 
                 playVideo();
+                return true;
+            }
+        );
+
+        speechRecog.addEventListener(
+            REGEX_NEXT_SELECT, 
+            function (isFinal, transcript, matches) {
+                if ( ! isValidate(isFinal)) {
+                    return false;
+                }
+                
+                var nextItem = getItem(1);
+        
+                $('.queryResult ul').css('left', -(nextItem.index() * nextItem.outerWidth(true)));
+                
+                selectItem(nextItem);
+                return true;
+            }
+        );
+
+        speechRecog.addEventListener(
+            REGEX_PREV_SELECT, 
+            function (isFinal, transcript, matches) {
+                if ( ! isValidate(isFinal)) {
+                    return false;
+                }
+                
+                var prevItem = getItem(-1);
+                
+                $('.queryResult ul').css('left', -(prevItem.index() * prevItem.outerWidth(true)));
+                
+                selectItem(prevItem);
                 return true;
             }
         );

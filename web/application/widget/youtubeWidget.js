@@ -87,23 +87,27 @@ define([
         }
     }
     
-    function registCommand() {
-        speechRecog.addEventListener(
-            [
-                '(영상|비디오|유투브|유튜브)',
-                '(확대|크게)',
-            ].join(''), 
-            function (isFinal, transcript, matches) { 
+    function registCommands() {
+        var REGEX_SCREEN_MODE = '(영상|비디오|유투브|유튜브)?(확대|크게|그게)';
+        var REGEX_WIDGET_MODE = '(영상|비디오|유투브|유튜브)?(축소|작게)';
+        
+        function isValidate(isFinal) {
+            if ( ! isFinal) {
+                return false;
+            }
 
-                if ( ! isFinal) {
-                    return false;
-                }
+            if ( ! isReady || player == null) {
+                return false;
+            }
+
+            return false;
+        }
+        
+        speechRecog.addEventListener(
+            REGEX_SCREEN_MODE, 
+            function (isFinal, transcript, matches) {
                 
-                if ( ! isReady || player == null) {
-                    return false;
-                }
-                
-                if (isScreenMode()) {
+                if ( ! isValidate(isFinal) || isScreenMode()) {
                     return false;
                 }
 
@@ -113,21 +117,10 @@ define([
         );
 
         speechRecog.addEventListener(
-            [
-                '(영상|비디오|유투브|유튜브)',
-                '(축소|작게)',
-            ].join(''), 
+            REGEX_WIDGET_MODE, 
             function (isFinal, transcript, matches) { 
 
-                if ( ! isFinal) {
-                    return false;
-                }
-                
-                if ( ! isReady || player == null) {
-                    return false;
-                }
-                
-                if ( ! isScreenMode()) {
+                if ( ! isValidate(isFinal) || ! isScreenMode()) {
                     return false;
                 }
 
@@ -153,7 +146,7 @@ define([
         init: function () {
             require(['https://www.youtube.com/iframe_api']);
             
-            registCommand();
+            registCommands();
         },
     }
 })
