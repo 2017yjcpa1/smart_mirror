@@ -85,6 +85,8 @@ define([
             isPrev = true;
         }
         
+        amount = Math.abs(amount);
+        
         for (var n = 0; n < amount; ++n) {
             if (isPrev) {
                 selectItem = selectItem.prev();
