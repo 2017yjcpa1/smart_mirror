@@ -44,6 +44,8 @@ define([
     
     function onPlayerReady() {
         $('#youtubeWidget').show();
+        
+        player.playVideo();
     }
     
     function onPlayerStateChange() {
