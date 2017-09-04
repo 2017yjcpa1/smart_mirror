@@ -7,85 +7,15 @@ define([
     'output/speechUtterance',
 ],function (system, $, speechRecog, speechUtterance) {
     
-    function registWikiCommand() {
-        
-        var SUFFIX = [
-            '뭐지',
-            '뭐냐',
-            '뭐야',
-            '찾아줘',
-            '찾아봐',
-            '찾아',
-            '검색해줘',
-            '검색해',
-            '검색',
-        ];
-        
-        speechRecog.addEventListener(
-            '^(.+?)(' + SUFFIX.join('|') + ')', 
-            function (isFinal, transcript, matches) {
-                console.log(isFinal, transcript, matches[1]);
-
-                if (system.isForegroundActivity('youtubeActivity')) {
-                    return false;
-                }
-
-                if ( ! isFinal) {
-                    return false;
-                }
-
-                var url = window.URL.createEndpointURL('wiki', { 'q' : matches[1] });
-                var func = function (data) {
-                    if ( ! data || data.length <= 0) {
-                        speechUtterance.speak('적절한 답변을 찾지 못하였습니다.');
-                        return;
-                    }
-
-                    var data = data[0].replace(/\([^\)]+\)/gi, "")
-                                      .replace(/\[[^\]]+\]/gi, "")
-                                      .replace(/\{[^\}]+\}/gi, "")
-                                      .replace(/『[^』]+』/gi, "")
-                                      .replace(/《[^》]+》/gi, "")
-                                      .replace(/「[^」]+」/gi, "")
-                                      .replace(/〈[^〉]+〉/gi, "");
-
-                    console.log(data);
-
-                    speechUtterance.speak(data);
-                }
-
-                $.getJSON(url, func);
-                return true;
-            }
-        )
-    }
-    
-    function registExecCommand() {
-        
-        var SUFFIX = [
-            '보여줘',
-            '띄워줘',
-            '띄워',
-            '꺼내줘',
-            '꺼내',
-            '열어줘',
-            '열어봐',
-            '열어',
-            '실행해줘',
-            '실행해',
-            '실행',
-            '켜줘',
-            '켜봐',
-            '켜'
-        ];
+    function registCommands() {
+        var REGEX_EXECUTE = '(.+?)(보여줘|띄워|꺼내|열어|실행|켜줘|켜저|켜봐|켜바)';
+        var REGEX_WIKI = '(.+?)(뭐지|뭐냐|뭐야|찾아|검색)';
          
         speechRecog.addEventListener(
-            '^(.+?)(' + SUFFIX.join('|') + ')', 
-            function (isFinal, transcript, matches) { 
-                console.log(isFinal, transcript, matches[1]);
-
+            REGEX_EXECUTE,
+            function (isFinal, transcript, matches) {
                 if ( ! isFinal) {
-                    return;
+                    return false;
                 }
 
                 var activity = matches[1].replace(/\s/g, '').toLowerCase(); 
@@ -104,6 +34,40 @@ define([
                     default:         return false;
                 }
                 
+                return true;
+            }
+        );
+
+        speechRecog.addEventListener(
+            REGEX_WIKI, 
+            function (isFinal, transcript, matches) {
+                if (system.isForegroundActivity('youtubeActivity')) {
+                    return false;
+                }
+
+                if ( ! isFinal) {
+                    return false;
+                }
+
+                var url = window.URL.createEndpointURL('wiki', { 'q' : matches[1] });
+                var handler = function (data) {
+                    if ( ! data || data.length <= 0) {
+                        speechUtterance.speak('적절한 답변을 찾지 못하였습니다.');
+                        return;
+                    }
+
+                    var data = data[0].replace(/\([^\)]+\)/gi, "")
+                                      .replace(/\[[^\]]+\]/gi, "")
+                                      .replace(/\{[^\}]+\}/gi, "")
+                                      .replace(/『[^』]+』/gi, "")
+                                      .replace(/《[^》]+》/gi, "")
+                                      .replace(/「[^」]+」/gi, "")
+                                      .replace(/〈[^〉]+〉/gi, "");
+
+                    speechUtterance.speak(data);
+                }
+
+                $.getJSON(url, handler);
                 return true;
             }
         );
@@ -126,10 +90,7 @@ define([
             system.attachWidget('transcriptWidget');
             system.attachWidget('weatherWidget');
             
-            system.attachWidget('youtubeWidget');
-            
-            registExecCommand();
-            registWikiCommand();
+            registCommands();
         },
         
         resume : function () {
