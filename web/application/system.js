@@ -269,7 +269,7 @@ define([
             
             startActivity('homeActivity', null, true);
             
-            scheduleScreenSaver();
+            //scheduleScreenSaver();
         }
     };
 });

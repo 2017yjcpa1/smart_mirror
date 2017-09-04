@@ -1,54 +1,32 @@
 define([
     'jquery',
     
-    'input/speechRecog',
-    'lib/youtube-1.0',
-], function ($, speechRecog, youtube) { 
-    
+    'input/speechRecog'
+], function ($, speechRecog) { 
     // https://developers.google.com/youtube/iframe_api_reference?hl=ko
     
-    function registResizeCommand() {
-        var PREFIX = [ '영상', '비디오', '유튜브', '유투브' ];
-        var MAKE_SMALL_SUFFIX = [ '작게', '축소' ];
-        var MAKE_LARGE_SUFFIX = [ '크게', '확대' ];
-         
-        speechRecog.addEventListener(
-            '^(' + PREFIX.join('|') + ')(.+?)(' + MAKE_SMALL_SUFFIX.join('|') + ')', 
-            function (isFinal, transcript, matches) {
-                console.log(isFinal, transcript, matches[1]);
-            }
-        );
-
-        speechRecog.addEventListener(
-            '^(' + PREFIX.join('|') + ')(.+?)(' + MAKE_LARGE_SUFFIX.join('|') + ')', 
-            function (isFinal, transcript, matches) {
-                console.log(isFinal, transcript, matches[1]);
-            }
-        );
-    }
+    var isReady = false;
     
-    var player;
-    var isYoutubeAPIReady = false;
-      
-    function stopVideo() {
-        player.stopVideo();
-    }
-    
-    function onPlayerReady() {
-        player.playVideo();
-    }
-    
-    function onPlayerStateChange() {
+    window.onYouTubeIframeAPIReady = function () {
+        console.log('onYouTubeIframeAPIReady');
         
-    }
+        isReady = true;
+        if (videoId !== null) {
+            createPlayer(videoId);
+        }
+    };
     
-    function createPlayer(id) {
-        return new YT.Player('youtubePlayer', {
-            height: '100%',
-            width: '100%',
-            videoId: id,
+    var videoId = null;
+    var player = null;
+    
+    function injectPlayer(videoId) {
+        return new window.YT.Player('youtubePlayer', {
             
-            playerVars: { 
+            height : '100%',
+            width : '100%',
+            videoId : videoId,
+
+            playerVars : { 
                 modestbranding : 1, // 유튜브 로고가 보여지지 않음
                 autoplay : 1, // 자동재생
                 loop : 1, // 반복재생
@@ -57,31 +35,80 @@ define([
                 showinfo : 0, // 동영상 정보를 출력하지않음
             },
             
-            events: {
+            events : {
                 onReady : onPlayerReady,
                 onStateChange : onPlayerStateChange
             }
         });
     }
-      
-    window.onYouTubeIframeAPIReady = function () {
-        isYoutubeAPIReady = true;
-        player = createPlayer('M7lc1UVf-VE');
-    };
+    
+    function onPlayerReady() {
+        $('#youtubeWidget').show();
+
+        setHeightByAspectRatio();
+    }
+    
+    function onPlayerStateChange() {
+        
+    }
+    
+    function setScreenMode() {
+        $('#youtubeWidget').addClass('screenMode');
+        
+        setHeightByAspectRatio();
+    }
+    
+    function setWidgetMode() {
+        $('#youtubeWidget').removeClass('screenMode');
+        
+        setHeightByAspectRatio();
+    }
+    
+    function setHeightByAspectRatio() {
+        var outerWidth = $('#youtubeWidget').outerWidth();
+        var outerHeight = Math.round((outerWidth / 16) * 9);
+        
+        $('#youtubeWidget').height(outerHeight);
+    }
+    
+    function createPlayer(videoId) {
+        if ( ! isReady) {
+            return false;
+        }
+        
+        player = injectPlayer(videoId);
+        
+        return player;
+    }
+    
+    function playVideo(_videoId) {
+        videoId = _videoId;
+        if (isReady) {
+            createPlayer(videoId);
+        }
+    }
+    
+    function stopVideo() {
+        if (player !== null) {
+            player.stopVideo();
+        }
+    }
     
     return {
         
         alwaysOnTop : true,
         layoutHTML: 'widget_youtube.html',
         
-        play : function (id) {
-            player = createPlayer(id);
-        },
+        playVideo : playVideo,
         
+        stopVideo : stopVideo,
+        
+        setScreenMode : setScreenMode,
+        
+        setWidgetMode : setWidgetMode,
+
         init: function () {
-            registResizeCommand();
-    
-            require(['https://www.youtube.com/iframe_api']);
+            require(['https://www.youtube.com/iframe_api']); 
         },
     }
 })

@@ -9,6 +9,8 @@ define([
     'jquery-draggable'
 ], function (system, speechRecog, youtube, $) {
     
+    var isDrag = false;
+    
     function setThumbnailHeightByAspectRatio() {
         var activity = $('#youtubeActivity');
         
@@ -28,10 +30,26 @@ define([
         setThumbnailHeightByAspectRatio();
     }
     
-    function hoverListItem() {
+    function onHoverListItem() {
         var contents = $(this).data('contents');
         
         resultItemView(contents);
+    }
+    
+    function onClickListItem() {
+        var contents = $(this).data('contents');
+        
+        var youtubeWidget = system.getWidget('youtubeWidget');
+        
+        if (youtubeWidget == null) {
+            return;
+        } 
+        
+        if ( ! isDrag) {
+            youtubeWidget.playVideo(contents.id);
+        }
+                
+        isDrag = false;
     }
     
     function queryResult(data) {
@@ -53,8 +71,8 @@ define([
                 '</li>'
             ].join(''))
                 .data('contents', contents)
-                .hover(hoverListItem)
-                //.click(clickListItem)
+                .hover(onHoverListItem)
+                .click(onClickListItem)
                 .appendTo('#youtubeActivity .queryResult ul');
         }
     }
@@ -94,7 +112,9 @@ define([
     function __init__() {
         var activity = $('#youtubeActivity');
         
-        $('.queryResult ul', activity).draggable({ axis : 'x' });
+        $('.queryResult ul', activity)
+            .on('dragend', function () { isDrag = true; })
+            .draggable({ axis : 'x' });
 
         $('.queryForm', activity)
             .center()
@@ -127,6 +147,8 @@ define([
             __init__();
             
             registSearchCommand();
+            
+            system.attachWidget('youtubeWidget');
         },
         
         resume: function () {
