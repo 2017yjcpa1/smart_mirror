@@ -64,6 +64,10 @@ define([
         setHeightByAspectRatio();
     }
     
+    function isScreenMode() {
+        return $('#youtubeWidget').hasClass('screenMode');
+    }
+    
     function setHeightByAspectRatio() {
         var outerWidth = $('#youtubeWidget').outerWidth();
         var outerHeight = Math.round((outerWidth / 16) * 9);
@@ -94,6 +98,56 @@ define([
         }
     }
     
+    function registCommand() {
+        speechRecog.addEventListener(
+            [
+                '(영상|비디오|유투브|유튜브)',
+                '(확대|크게)',
+            ].join(''), 
+            function (isFinal, transcript, matches) { 
+
+                if ( ! isFinal) {
+                    return false;
+                }
+                
+                if ( ! isReady || player == null) {
+                    return false;
+                }
+                
+                if (isScreenMode()) {
+                    return false;
+                }
+
+                setScreenMode();
+                return true;
+            }
+        );
+
+        speechRecog.addEventListener(
+            [
+                '(영상|비디오|유투브|유튜브)',
+                '(축소|작게)',
+            ].join(''), 
+            function (isFinal, transcript, matches) { 
+
+                if ( ! isFinal) {
+                    return false;
+                }
+                
+                if ( ! isReady || player == null) {
+                    return false;
+                }
+                
+                if ( ! isScreenMode()) {
+                    return false;
+                }
+
+                setWidgetMode();
+                return true;
+            }
+        );
+    }
+    
     return {
         
         alwaysOnTop : true,
@@ -108,7 +162,9 @@ define([
         setWidgetMode : setWidgetMode,
 
         init: function () {
-            require(['https://www.youtube.com/iframe_api']); 
+            require(['https://www.youtube.com/iframe_api']);
+            
+            registCommand();
         },
     }
 })
