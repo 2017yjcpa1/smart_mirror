@@ -98,12 +98,21 @@ define([
         }
     }
     
+    function destroy() {
+        if (player !== null) {
+            player.stopVideo();
+            player.destroy();
+        }
+        
+        player = null;
+    }
+    
     function registCommands() {
         var REGEX_SCREEN_MODE = '(영상|비디오|유투브|유튜브)?(확대|크게|그게)';
         var REGEX_WIDGET_MODE = '(영상|비디오|유투브|유튜브)?(축소|작게)';
-        var REGEX_STOP_MODE = '(영상|비디오|유투브|유튜브)?(정지|스톱)';
-        var REGEX_REPLAY_MODE = '(영상|비디오|유투브|유튜브)?(재생|실행)';
-        var REGEX_DESTROY_MODE = '(영상|비디오|유투브|유튜브)?(꺼줘|꺼저|꺼져|꺼라|사라져|종료)';
+        var REGEX_STOP = '(영상|비디오|유투브|유튜브)?(정지|스톱)';
+        var REGEX_REPLAY = '(영상|비디오|유투브|유튜브)?(재생|실행)';
+        var REGEX_DESTROY = '(영상|비디오|유투브|유튜브)?(꺼줘|꺼저|꺼져|꺼라|사라져|종료)';
         
         function isValidate(isFinal) {
             if ( ! isFinal) {
@@ -144,7 +153,7 @@ define([
         );
 
         speechRecog.addEventListener(
-            REGEX_STOP_MODE, 
+            REGEX_STOP, 
             function (isFinal, transcript, matches) { 
 
                 if ( ! isValidate(isFinal)) {
@@ -157,7 +166,7 @@ define([
         );
 
         speechRecog.addEventListener(
-            REGEX_REPLAY_MODE, 
+            REGEX_REPLAY, 
             function (isFinal, transcript, matches) { 
 
                 if ( ! isValidate(isFinal)) {
@@ -170,14 +179,14 @@ define([
         );
 
         speechRecog.addEventListener(
-            REGEX_DESTROY_MODE, 
+            REGEX_DESTROY, 
             function (isFinal, transcript, matches) { 
 
                 if ( ! isValidate(isFinal) || ! isScreenMode()) {
                     return false;
                 }
 
-                // 
+                destroy();
                 return true;
             }
         );
