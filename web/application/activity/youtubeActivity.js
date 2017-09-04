@@ -11,7 +11,7 @@ define([
     
     var isDrag = false;
     
-    function setThumbnailHeightByAspectRatio() {
+    function setThumbHeightByAspectRatio() {
         var activity = $('#youtubeActivity');
         
         var outerWidth = $('.resultItemView i', activity).outerWidth();
@@ -27,34 +27,45 @@ define([
         $('.resultItemView p', activity).text(data.desc);
         $('.resultItemView i', activity).css('background-image', 'url(' + data.thumb + ')');
         
-        setThumbnailHeightByAspectRatio();
+        setThumbHeightByAspectRatio();
     }
     
     function onHoverListItem() {
-        var index = $(this).index();
+        selectItem($(this));
+    }
+    
+    function playVideo(contents) {
+        if ( ! contents) {
+            contents = $('.queryResult .selected').data('contents');
+        }
         
-        selectItem(index);
+        var youtubeWidget = system.getWidget('youtubeWidget');
+        if (youtubeWidget == null) {
+            return;
+        } 
+        
+        youtubeWidget.playVideo(contents.id);
     }
     
     function onClickListItem() {
         var contents = $(this).data('contents');
         
-        var youtubeWidget = system.getWidget('youtubeWidget');
-        
-        if (youtubeWidget == null) {
-            return;
-        } 
-        
         if ( ! isDrag) {
-            youtubeWidget.playVideo(contents.id);
+            playVideo(contents);
         }
                 
         isDrag = false;
     }
     
-    function selectItem(index) {
+    function selectItem(target) {
         var activity = $('#youtubeActivity');
-        var selectItem = $('.queryResult li', activity).eq(index);
+        
+        var selectItem = target;
+        
+        if (typeof(target) == 'number') {
+            selectItem = $('.queryResult li', activity).eq(target);
+        }
+        
         var contents = selectItem.data('contents');
         
         $('.queryResult li', activity).removeClass('selected');
@@ -88,106 +99,51 @@ define([
         selectItem(0);
     }
     
-    function registSearchCommand() {
-        var SUFFIX = [
-            '찾아줘',
-            '찾아봐',
-            '찾아',
-            '검색해줘',
-            '검색해',
-            '검색',
-        ];
+    function registCommands() {
+        var REGEX_SEARCH = '.+?(찾아|찾어|검색)';
+        var REGEX_PLAY = '선택.*?(실행|켜|재생)';
+        var REGEX_NEXT_SELECT = '(다음|오른쪽)';
+        var REGEX_PREV_SELECT = '(이전|왼쪽)';
+        
+        var activity = $('#youtubeActivity');
+        
+        function isValidate(isFinal) {
+            if ( ! system.isForegroundActivity('youtubeActivity')) {
+                return false;
+            }
+
+            if ( ! isFinal) {
+                return false;
+            }
+            
+            return true;
+        }
 
         speechRecog.addEventListener(
-            '^(.+?)(' + SUFFIX.join('|') + ')', 
+            REGEX_SEARCH, 
             function (isFinal, transcript, matches) {
-
-                if ( ! system.isForegroundActivity('youtubeActivity')) {
+                if ( ! isValidate(isFinal)) {
                     return false;
                 }
-
-                if ( ! isFinal) {
-                    return false;
-                }
-
-                var activity = $('#youtubeActivity');
 
                 $('.queryForm input[type="search"]', activity).val(matches[1]);
                 $('.queryForm', activity).submit();
 
                 return true;
             }
-        )
-    }
-    
-    function registPlayCommand() {
-        speechRecog.addEventListener(
-            '선택.*?(실행|켜|재생|틀어)', 
-            function (isFinal, transcript, matches) {
-
-                if ( ! system.isForegroundActivity('youtubeActivity')) {
-                    return false;
-                }
-
-                if ( ! isFinal) {
-                    return false;
-                }
-
-                var selectItem = $('.queryResult li.selected');
-                var contents = selectItem.data('contents');
-                
-                var youtubeWidget = system.getWidget('youtubeWidget');
-                if (youtubeWidget == null) {
-                    return false;
-                } 
-
-                youtubeWidget.playVideo(contents.id);
-                
-                return true;
-            }
-        )
-    }
-    
-    function registCommand() {
-        speechRecog.addEventListener(
-            '(다음|오른쪽으로)', 
-            function (isFinal, transcript, matches) {
-
-                if ( ! system.isForegroundActivity('youtubeActivity')) {
-                    return false;
-                }
-
-                if ( ! isFinal) {
-                    return false;
-                }
-
-                var nextIndex = $('.queryResult li.selected').next().index();
-                
-                selectItem(nextIndex);
-                
-                return true;
-            }
         );
 
         speechRecog.addEventListener(
-            '(이전|왼쪽으로)', 
+            REGEX_PLAY, 
             function (isFinal, transcript, matches) {
-
-                if ( ! system.isForegroundActivity('youtubeActivity')) {
+                if ( ! isValidate(isFinal)) {
                     return false;
                 }
-
-                if ( ! isFinal) {
-                    return false;
-                }
-
-                var prevIndex = $('.queryResult li.selected').prev().index();
                 
-                selectItem(prevIndex);
-                
+                playVideo();
                 return true;
             }
-        )
+        );
     }
     
     function __init__() {
@@ -227,9 +183,7 @@ define([
             
             __init__();
             
-            registSearchCommand();
-            registPlayCommand();
-            registCommand();
+            registCommands();
             
             system.attachWidget('youtubeWidget');
         },
