@@ -87,12 +87,12 @@
                     continue;
                 }
                 
-                var speechCommand = matches[1].replace(/\s+/g, "");
-                if ( ! speechCommand) {
+                var transcript = matches[1].replace(/\s+/g, "");
+                if ( ! transcript) {
                     continue;
                 }
                 
-                if (dispatchEvent(isFinal, speechCommand)) {
+                if (dispatchEvent(isFinal, transcript)) {
                     return;
                 }
             }
