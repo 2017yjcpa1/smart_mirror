@@ -44,8 +44,6 @@ define([
     
     function onPlayerReady() {
         $('#youtubeWidget').show();
-
-        //setHeightByAspectRatio();
     }
     
     function onPlayerStateChange() {
@@ -54,25 +52,14 @@ define([
     
     function setScreenMode() {
         $('#youtubeWidget').addClass('screenMode');
-        
-        //setHeightByAspectRatio();
     }
     
     function setWidgetMode() {
         $('#youtubeWidget').removeClass('screenMode');
-        
-        //setHeightByAspectRatio();
     }
     
     function isScreenMode() {
         return $('#youtubeWidget').hasClass('screenMode');
-    }
-    
-    function setHeightByAspectRatio() {
-        var outerWidth = $('#youtubeWidget').outerWidth();
-        var outerHeight = Math.round((outerWidth / 16) * 9);
-        
-        $('#youtubeWidget').height(outerHeight);
     }
     
     function createPlayer(videoId) {

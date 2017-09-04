@@ -31,9 +31,9 @@ define([
     }
     
     function onHoverListItem() {
-        var contents = $(this).data('contents');
+        var index = $(this).index();
         
-        resultItemView(contents);
+        selectItem(index);
     }
     
     function onClickListItem() {
@@ -52,13 +52,22 @@ define([
         isDrag = false;
     }
     
+    function selectItem(index) {
+        var activity = $('#youtubeActivity');
+        var selectItem = $('.queryResult li', activity).eq(index);
+        var contents = selectItem.data('contents');
+        
+        $('.queryResult li', activity).removeClass('selected');
+        selectItem.addClass('selected');
+        
+        resultItemView(contents);
+    }
+    
     function queryResult(data) {
         var activity = $('#youtubeActivity');
         
         $('.queryResult', activity).show();
         $('.queryResult ul', activity).css('left', 0).empty();
-        
-        resultItemView(data.items[0]);
         
         for (var n = 0; n < data.items.length; ++n) {
             
@@ -75,6 +84,8 @@ define([
                 .click(onClickListItem)
                 .appendTo('#youtubeActivity .queryResult ul');
         }
+        
+        selectItem(0);
     }
     
     function registSearchCommand() {
@@ -104,6 +115,76 @@ define([
                 $('.queryForm input[type="search"]', activity).val(matches[1]);
                 $('.queryForm', activity).submit();
 
+                return true;
+            }
+        )
+    }
+    
+    function registPlayCommand() {
+        speechRecog.addEventListener(
+            '선택.*?(실행|켜|재생|틀어)', 
+            function (isFinal, transcript, matches) {
+
+                if ( ! system.isForegroundActivity('youtubeActivity')) {
+                    return false;
+                }
+
+                if ( ! isFinal) {
+                    return false;
+                }
+
+                var selectItem = $('.queryResult li.selected');
+                var contents = selectItem.data('contents');
+                
+                var youtubeWidget = system.getWidget('youtubeWidget');
+                if (youtubeWidget == null) {
+                    return false;
+                } 
+
+                youtubeWidget.playVideo(contents.id);
+                
+                return true;
+            }
+        )
+    }
+    
+    function registCommand() {
+        speechRecog.addEventListener(
+            '(다음|오른쪽으로)', 
+            function (isFinal, transcript, matches) {
+
+                if ( ! system.isForegroundActivity('youtubeActivity')) {
+                    return false;
+                }
+
+                if ( ! isFinal) {
+                    return false;
+                }
+
+                var nextIndex = $('.queryResult li.selected').next().index();
+                
+                selectItem(nextIndex);
+                
+                return true;
+            }
+        );
+
+        speechRecog.addEventListener(
+            '(이전|왼쪽으로)', 
+            function (isFinal, transcript, matches) {
+
+                if ( ! system.isForegroundActivity('youtubeActivity')) {
+                    return false;
+                }
+
+                if ( ! isFinal) {
+                    return false;
+                }
+
+                var prevIndex = $('.queryResult li.selected').prev().index();
+                
+                selectItem(prevIndex);
+                
                 return true;
             }
         )
@@ -147,6 +228,8 @@ define([
             __init__();
             
             registSearchCommand();
+            registPlayCommand();
+            registCommand();
             
             system.attachWidget('youtubeWidget');
         },

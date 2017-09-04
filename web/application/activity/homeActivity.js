@@ -101,8 +101,10 @@ define([
                     case '카메라': 
                     case '사진기':   system.startActivity('cameraActivity'); break;
                     case '시계':     system.startActivity('clockActivity'); break;
-                    default:         speechUtterance.speak(matches[1] + ' 어플은 존재하지 않습니다.'); break;
+                    default:         return false;
                 }
+                
+                return true;
             }
         );
     }
