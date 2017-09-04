@@ -45,7 +45,7 @@ define([
     function onPlayerReady() {
         $('#youtubeWidget').show();
 
-        setHeightByAspectRatio();
+        //setHeightByAspectRatio();
     }
     
     function onPlayerStateChange() {
@@ -55,13 +55,13 @@ define([
     function setScreenMode() {
         $('#youtubeWidget').addClass('screenMode');
         
-        setHeightByAspectRatio();
+        //setHeightByAspectRatio();
     }
     
     function setWidgetMode() {
         $('#youtubeWidget').removeClass('screenMode');
         
-        setHeightByAspectRatio();
+        //setHeightByAspectRatio();
     }
     
     function isScreenMode() {
