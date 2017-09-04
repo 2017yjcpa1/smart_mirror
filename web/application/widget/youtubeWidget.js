@@ -95,6 +95,7 @@ define([
     function registCommands() {
         var REGEX_SCREEN_MODE = '(영상|비디오|유투브|유튜브)?(확대|크게|그게)';
         var REGEX_WIDGET_MODE = '(영상|비디오|유투브|유튜브)?(축소|작게)';
+        var REGEX_STOP_MODE = '(영상|비디오|유투브|유튜브)?(꺼|스톱|사라져|종료)';
         
         function isValidate(isFinal) {
             if ( ! isFinal) {
@@ -130,6 +131,19 @@ define([
                 }
 
                 setWidgetMode();
+                return true;
+            }
+        );
+
+        speechRecog.addEventListener(
+            REGEX_STOP_MODE, 
+            function (isFinal, transcript, matches) { 
+
+                if ( ! isValidate(isFinal)) {
+                    return false;
+                }
+
+                stopVideo();
                 return true;
             }
         );
