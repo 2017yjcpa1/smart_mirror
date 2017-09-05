@@ -1,7 +1,7 @@
 <style> 
     #clockWidget {
         position: absolute;
-        top: 0px;
+        top: 0;
         left: 0;
         font-family: 'Open Sans', sans-serif; 
         
@@ -9,8 +9,8 @@
     }
     
     #clockWidget .currentTime .hoursMinutes {
-        font-size: 70px;
-        line-height: 60px;
+        font-size: 50px;
+        line-height: 40px;
         display: inline-block;
         transition: font-size 0.5s;
     } 
@@ -18,13 +18,13 @@
     #clockWidget .seconds {
         opacity: 1;
         vertical-align: bottom;
-        font-size: 25px;
-        
+        font-size: 20px;
         transition: opacity 0.5s;
+        line-height: 20px;
     }
     
     #clockWidget .currentDate { 
-        font-size: 25px;
+        font-size: 17px;
     } 
     
     #clockWidget.shownSmall .currentDate,
@@ -34,13 +34,13 @@
     }
     
     #clockWidget.shownSmall .hoursMinutes { 
-        font-size: 50px;
+        font-size: 30px;
         line-height: normal;
     } 
     
     #clockWidget .currentTime {
         position: absolute;
-        top: 30px;
+        top: 20px;
         
         transition: top 0.5s;
     }

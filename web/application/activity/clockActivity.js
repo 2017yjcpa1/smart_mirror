@@ -13,10 +13,14 @@ define([ 'system', 'jquery', 'jquery-draggable' ],function (system, $) {
         
         resume : function () {
             console.log('clock resume');
+            
+            $('#clockWidget').hide();
         },
         
         pause : function () {
             console.log('clock pause');
+            
+            $('#clockWidget').show();
         },
         
         destroy : function () {

@@ -63,7 +63,7 @@ define([
             
             $('#clockWidget')
                 .addClass('shownSmall')
-                .css({ 'left' : windowWidth / 2 - 130 / 2  });
+                .css({ 'left' : windowWidth / 2 - 80 / 2  });
         },
         
         focus : function () {
