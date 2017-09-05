@@ -1,8 +1,11 @@
 define([
     'system',
     
-    'jquery'
-], function (system, $) {
+    'jquery',
+    
+    'output/speech',
+    'output/speechUtterance',
+], function (system, $, speechUtter) {
     
     var successCount = 0;
     
@@ -35,6 +38,8 @@ define([
     }
  
     function complete() {
+        speechUtter.speak('모션학습을 모두 완료하셨습니다.');
+        
         system.finishActivity('tutorialActivity');
     }
     

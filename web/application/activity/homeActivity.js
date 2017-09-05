@@ -5,7 +5,7 @@ define([
     
     'input/speechRecog',
     'output/speechUtterance',
-],function (system, $, speechRecog, speechUtterance) {
+],function (system, $, speechRecog, speechUtter) {
     
     function registCommands() {
         var REGEX_EXECUTE = '(.+?)(보여줘|띄워|꺼내|열어|실행|켜줘|켜저|켜봐|켜바)';
@@ -78,7 +78,7 @@ define([
                 var url = window.URL.createEndpointURL('wiki', { 'q' : matches[1] });
                 var handler = function (data) {
                     if ( ! data || data.length <= 0) {
-                        speechUtterance.speak('적절한 답변을 찾지 못하였습니다.');
+                        speechUtter.speak('적절한 답변을 찾지 못하였습니다.');
                         return;
                     }
 
@@ -90,7 +90,7 @@ define([
                                       .replace(/「[^」]+」/gi, "")
                                       .replace(/〈[^〉]+〉/gi, "");
 
-                    speechUtterance.speak(data);
+                    speechUtter.speak(data);
                 }
 
                 $.getJSON(url, handler);
