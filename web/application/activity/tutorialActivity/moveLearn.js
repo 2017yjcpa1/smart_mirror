@@ -24,7 +24,7 @@ define([
             reset();
         }
 
-        learnWrapper.load('asset/layout/activity_tutorial/move_learn.html', layoutLoaded);
+        learnWrapper.load('asset/layout/activity_tutorial/move_learn.html?bust=' + (new Date()).getTime(), layoutLoaded);
     }
 
     function success() {
