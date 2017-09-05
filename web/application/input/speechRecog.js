@@ -48,7 +48,7 @@
          * 이를 방지하기위해 올바른 명령어로 말했음에도 인식을 잘못할수도 있어
          * 추천수를 지정하여 인식범위를 높여줍니다.
          */
-        speechRecog.maxAlternatives = 3;
+        speechRecog.maxAlternatives = 10;
 
         speechRecog.onerror = function (event) {
             console.log('speechRecog.onerror() = ' + event.error);
