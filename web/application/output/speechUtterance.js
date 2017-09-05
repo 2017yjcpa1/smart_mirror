@@ -43,7 +43,7 @@
         return null;
     }
     
-    function speak(text, voiceName) {
+    function speak(text, end, voiceName) {
         if (isSpeaking()) {
             cancel();
             
@@ -54,7 +54,7 @@
 
             timeoutId = window.setTimeout(
                             function () { 
-                                speak(text, voiceName); 
+                                speak(text, end, voiceName); 
                             }, 
                             500
                         );
@@ -68,6 +68,10 @@
         speechUtter.volume = 1;
         speechUtter.rate = 1;
         speechUtter.pitch = 1; 
+        
+        if (typeof(end) == 'function') {
+            speechUtter.onend = end;
+        }
         
         if (voiceName) {
             speechUtter.voice =  getVoice(voiceName);

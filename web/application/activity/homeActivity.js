@@ -8,8 +8,7 @@ define([
 ],function (system, $, speechRecog, speechUtter) {
     
     function registCommands() {
-        var REGEX_EXECUTE = '(.+?)(보여줘|띄워|꺼내|열어|실행|켜줘|켜저|켜봐|켜바)';
-        var REGEX_WIKI = '(.+?)(뭐지|뭐냐|뭐야|찾아|검색)';
+        var REGEX_EXECUTE = '(.+?)(보여줘|띄워|꺼내|열어|실행|켜줘|켜저|켜봐|켜바)'; 
         var REGEX_GO_HOME = '(홈으로|홈화면|바탕화면|메인화면|메인으로)';
         var REGEX_REFRESH = '(새로고침)';
          
@@ -63,40 +62,6 @@ define([
                 return true;
             }
         );
-
-        speechRecog.addEventListener(
-            REGEX_WIKI, 
-            function (isFinal, transcript, matches) {
-                if (system.isForegroundActivity('youtubeActivity')) {
-                    return false;
-                }
-
-                if ( ! isFinal) {
-                    return false;
-                }
-
-                var url = window.URL.createEndpointURL('wiki', { 'q' : matches[1] });
-                var handler = function (data) {
-                    if ( ! data || data.length <= 0) {
-                        speechUtter.speak('적절한 답변을 찾지 못하였습니다.');
-                        return;
-                    }
-
-                    var data = data[0].replace(/\([^\)]+\)/gi, "")
-                                      .replace(/\[[^\]]+\]/gi, "")
-                                      .replace(/\{[^\}]+\}/gi, "")
-                                      .replace(/『[^』]+』/gi, "")
-                                      .replace(/《[^》]+》/gi, "")
-                                      .replace(/「[^」]+」/gi, "")
-                                      .replace(/〈[^〉]+〉/gi, "");
-
-                    speechUtter.speak(data);
-                }
-
-                $.getJSON(url, handler);
-                return true;
-            }
-        );
     }
     
     return {
@@ -116,6 +81,7 @@ define([
             system.attachWidget('newsWidget');
             system.attachWidget('transcriptWidget');
             system.attachWidget('weatherWidget');
+            system.attachWidget('wikiWidget');
             
             registCommands();
         },
