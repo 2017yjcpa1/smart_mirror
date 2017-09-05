@@ -3,7 +3,6 @@ define([
     
     'jquery',
     
-    'output/speech',
     'output/speechUtterance',
 ], function (system, $, speechUtter) {
     
