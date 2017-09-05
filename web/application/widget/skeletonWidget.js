@@ -13,7 +13,18 @@ define([
         canvas = $('canvas', this.rootLayout);
         context = canvas[0].getContext('2d');
         
+        setWidgetByAspectRatio();
+        
         kinectBridge.addEventListener('skeleton', update);
+    }
+    
+    function setWidgetByAspectRatio() {
+        var widget = $('#skeletonWidget');
+        
+        var outerHeight = $('canvas', widget).outerHeight();
+        var outerWidth = Math.round((outerHeight / 16) * 9);
+        
+        $('canvas', widget).attr('width', outerWidth);
     }
     
     function update(data) {

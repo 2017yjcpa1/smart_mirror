@@ -15,8 +15,8 @@ define([
             function (data) {                    
                 $('#weatherWidget img').attr('src', data.currently.iconPath);
 
-                $('#weatherWidget .temp').text(data.currently.temp + '℃');
-                $('#weatherWidget .precipProbabl').text('강수확률' + data.currently.precipProbabl + '%');
+                $('#weatherWidget .weatherTemp').text(data.currently.temp + '℃');
+                $('#weatherWidget .precipProbabl').text('강수확률 ' + data.currently.precipProbabl + '%');
             }
         )
     }

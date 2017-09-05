@@ -77,10 +77,10 @@ define([
             require([
                 'activity/homeActivity',
                 'activity/tutorialActivity',
-                'activity/calendarActivity',
+                //'activity/calendarActivity',
                 'activity/weatherActivity',
                 'activity/youtubeActivity',
-                'activity/cameraActivity',
+                //'activity/cameraActivity',
                 'activity/clockActivity',
             ], function () {
                 for(var n = 0; n < arguments.length; ++n) {
