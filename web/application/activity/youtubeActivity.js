@@ -12,20 +12,20 @@ define([
     var isDrag = false;
     
     function setThumbHeightByAspectRatio() {
-        var activity = $('#youtubeActivity');
+        var rootLayout = $('#youtubeActivity');
         
-        var outerWidth = $('.resultItemView i', activity).outerWidth();
+        var outerWidth = $('.resultItemView i', rootLayout).outerWidth();
         var outerHeight = Math.round((outerWidth / 16) * 9);
         
-        $('.resultItemView i', activity).height(outerHeight);
+        $('.resultItemView i', rootLayout).height(outerHeight);
     }
     
     function resultItemView(data) {
-        var activity = $('#youtubeActivity');
+        var rootLayout = $('#youtubeActivity');
         
-        $('.resultItemView h1', activity).text(data.title);
-        $('.resultItemView p', activity).text(data.desc);
-        $('.resultItemView i', activity).css('background-image', 'url(' + data.thumb + ')');
+        $('.resultItemView h1', rootLayout).text(data.title);
+        $('.resultItemView p', rootLayout).text(data.desc);
+        $('.resultItemView i', rootLayout).css('background-image', 'url(' + data.thumb + ')');
         
         setThumbHeightByAspectRatio();
     }
@@ -58,17 +58,17 @@ define([
     }
     
     function selectItem(target) {
-        var activity = $('#youtubeActivity');
+        var rootLayout = $('#youtubeActivity');
         
         var selectItem = target;
         
         if (typeof(target) == 'number') {
-            selectItem = $('.queryResult li', activity).eq(target);
+            selectItem = $('.queryResult li', rootLayout).eq(target);
         }
         
         var contents = selectItem.data('contents');
         
-        $('.queryResult li', activity).removeClass('selected');
+        $('.queryResult li', rootLayout).removeClass('selected');
         selectItem.addClass('selected');
         
         resultItemView(contents);
@@ -76,10 +76,10 @@ define([
     
     // TODO 네이밍 바꿔야할듯...
     function getItem(amount) {
-        var activity = $('#youtubeActivity');
+        var rootLayout = $('#youtubeActivity');
         
         var isPrev = false;
-        var selectItem = $('.queryResult li.selected', activity);
+        var selectItem = $('.queryResult li.selected', rootLayout);
         
         if (amount < 0) {
             isPrev = true;
@@ -99,10 +99,10 @@ define([
     }
     
     function queryResult(data) {
-        var activity = $('#youtubeActivity');
+        var rootLayout = $('#youtubeActivity');
         
-        $('.queryResult', activity).show();
-        $('.queryResult ul', activity).css('left', 0).empty();
+        $('.queryResult', rootLayout).show();
+        $('.queryResult ul', rootLayout).css('left', 0).empty();
         
         for (var n = 0; n < data.items.length; ++n) {
             
@@ -129,7 +129,7 @@ define([
         var REGEX_NEXT_SELECT = '(다음|오른쪽)';
         var REGEX_PREV_SELECT = '(이전|왼쪽)';
         
-        var activity = $('#youtubeActivity');
+        var rootLayout = $('#youtubeActivity');
         
         function isValidate(isFinal) {
             if ( ! system.isForegroundActivity('youtubeActivity')) {
@@ -150,8 +150,8 @@ define([
                     return false;
                 }
 
-                $('.queryForm input[type="search"]', activity).val(matches[1]);
-                $('.queryForm', activity).submit();
+                $('.queryForm input[type="search"]', rootLayout).val(matches[1]);
+                $('.queryForm', rootLayout).submit();
 
                 return true;
             }
@@ -203,13 +203,13 @@ define([
     }
     
     function __init__() {
-        var activity = $('#youtubeActivity');
+        var rootLayout = $('#youtubeActivity');
         
-        $('.queryResult ul', activity)
+        $('.queryResult ul', rootLayout)
             .on('dragend', function () { isDrag = true; })
             .draggable({ axis : 'x' });
 
-        $('.queryForm', activity)
+        $('.queryForm', rootLayout)
             .center()
             .submit(function (event) {
                 event.preventDefault();
@@ -219,7 +219,7 @@ define([
                     .fadeOut(
                         1000,
                         function () {
-                            var query = $('.queryForm input[type="search"]', activity).val();
+                            var query = $('.queryForm input[type="search"]', rootLayout).val();
                             
                             youtube(query, queryResult);
                         }
@@ -247,11 +247,11 @@ define([
         resume: function () {
             console.log('youtube resume');
             
-            var activity = $('#youtubeActivity');
+            var rootLayout = $('#youtubeActivity');
                                  
-            $('.queryResult', activity).hide(); 
-            $('.queryForm input[type="search"]', activity).val('');
-            $('.queryForm', activity).show();
+            $('.queryResult', rootLayout).hide(); 
+            $('.queryForm input[type="search"]', rootLayout).val('');
+            $('.queryForm', rootLayout).show();
         },
         
         pause: function () {

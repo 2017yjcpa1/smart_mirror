@@ -81,7 +81,7 @@ define([
                 'activity/weatherActivity',
                 'activity/youtubeActivity',
                 //'activity/cameraActivity',
-                'activity/clockActivity',
+                'activity/timerActivity',
             ], function () {
                 for(var n = 0; n < arguments.length; ++n) {
                     createMenu(arguments[n]);

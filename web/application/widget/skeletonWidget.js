@@ -19,12 +19,12 @@ define([
     }
     
     function setWidgetByAspectRatio() {
-        var widget = $('#skeletonWidget');
+        var rootLayout = $('#skeletonWidget');
         
-        var outerHeight = $('canvas', widget).outerHeight();
+        var outerHeight = $('canvas', rootLayout).outerHeight();
         var outerWidth = Math.round((outerHeight / 16) * 9);
         
-        $('canvas', widget).attr('width', outerWidth);
+        $('canvas', rootLayout).attr('width', outerWidth);
     }
     
     function update(data) {
