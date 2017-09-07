@@ -7,6 +7,7 @@
     }
 }(this, function ($) {
     
+    var useCache = true;
     // 일정시간이 지나면 캐시를 지워야함.
     var caches = {};
     
@@ -120,7 +121,7 @@
                             lon : self.lon
                         });
                         
-            if (caches[query]) {
+            if (useCache && caches[query]) {
                 func(caches[query]);
                 return;
             }
@@ -149,7 +150,9 @@
                     
                     renewal.currently = self.renewal(currently);
                     
-                    caches[query] = renewal;
+                    if (useCache) {
+                        caches[query] = renewal;
+                    }
                     
                     func(renewal);
                 }

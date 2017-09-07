@@ -171,13 +171,13 @@ define([
         resume : function () {
             console.log('timer resume');
             
-            $('#timerActivity em').show();
+            $('#timerActivity em').fadeIn();
         },
         
         pause : function () {
             console.log('timer pause');
 
-            $('#timerActivity em').hide();
+            $('#timerActivity em').fadeOut();
         },
         
         destroy : function () {
