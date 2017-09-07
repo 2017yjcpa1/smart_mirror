@@ -55,7 +55,7 @@ define([
                     case '유투브':   system.startActivity('youtubeActivity'); break;
                     case '카메라': 
                     case '사진기':   system.startActivity('cameraActivity'); break;
-                    case '시계':     system.startActivity('clockActivity'); break;
+                    case '타이머':   system.startActivity('timerActivity'); break;
                     default:         return false;
                 }
                 

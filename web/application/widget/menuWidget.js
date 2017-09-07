@@ -6,7 +6,7 @@ define([
 ], function ($, system) {
     
     var isDrag = false;
-    var timeoutId = -1;
+    var scheduleId = -1;
    
     function createMenu(activity) {
         $('<li>' +
@@ -27,13 +27,13 @@ define([
     
     
     function hideAfterWhile() {
-        if (timeoutId !== -1) {
-            window.clearTimeout(timeoutId);
+        if (scheduleId !== -1) {
+            window.clearTimeout(scheduleId);
             
-            timeoutId = -1;
+            scheduleId = -1;
         }
         
-        timeoutId = window.setTimeout(hide, 1000 * 5);  
+        scheduleId = window.setTimeout(hide, 1000 * 5);  
     }
    
     function show() {

@@ -81,6 +81,7 @@
             }
             
             for (var n = 0; n < transcripts.length; ++n) { // maxAlternatives 수 만큼 인식한 문장들 
+                console.log(transcripts[n]);
                 
                 var matches = new RegExp(REGEXP_START, 'i').exec(transcripts[n].replace(/\s+/g, ""));
                 if ( ! (matches && matches[1])) {

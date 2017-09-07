@@ -206,7 +206,7 @@ define([
     }
     
     function scheduleScreenSaver() {
-        var timeoutId = null;
+        var scheduleId = null;
 
         var captureEvents = [
             'mouseover',
@@ -218,11 +218,11 @@ define([
         ].join(' ');
 
         function init() {
-            if (timeoutId) {
-                window.clearTimeout(timeoutId);
+            if (scheduleId) {
+                window.clearTimeout(scheduleId);
             }
 
-            timeoutId = window.setTimeout(
+            scheduleId = window.setTimeout(
                             function () {
                                 startActivity('screenSaverActivity');
                             }, 

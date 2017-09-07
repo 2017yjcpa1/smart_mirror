@@ -17,7 +17,7 @@
     var speechSynthesis = window.speechSynthesis; 
     var speechUtter = null;
     
-    var timeoutId = null;
+    var scheduleId = null;
     
     function isSpeaking() {
         return speechSynthesis && speechSynthesis.speaking;
@@ -47,12 +47,12 @@
         if (isSpeaking()) {
             cancel();
             
-            if (timeoutId) {
-                window.clearTimeout(timeoutId);
-                timeoutId = null;
+            if (scheduleId) {
+                window.clearTimeout(scheduleId);
+                scheduleId = null;
             }
 
-            timeoutId = window.setTimeout(
+            scheduleId = window.setTimeout(
                             function () { 
                                 speak(text, end, voiceName); 
                             }, 

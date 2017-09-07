@@ -4,11 +4,11 @@ define([
     'input/speechRecog'
 ], function ($, speechRecog) {
     
-    var timeoutId = -1;
+    var scheduleId = -1;
     
     function init() {
-        if (timeoutId > -1) {
-            window.clearTimeout(timeoutId);
+        if (scheduleId > -1) {
+            window.clearTimeout(scheduleId);
         }
         
         var rootLayout = $('#transcriptWidget');
@@ -24,7 +24,7 @@ define([
         if (isFinal) {
             rootLayout.addClass('recognized');
             
-            timeoutId = window.setTimeout(init, 1000 * 3);
+            scheduleId = window.setTimeout(init, 1000 * 3);
         }
         
         $('span', rootLayout).text(transcript);
