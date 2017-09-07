@@ -4,7 +4,8 @@ define([
     
     'input/speechRecog',
     'output/speechUtterance',
-],function (system, $, speechRecog, speechUtter) {
+    'output/audioPlayer',
+],function (system, $, speechRecog, speechUtter, audioPlayer) {
 
     var isRunning = false;
     
@@ -41,7 +42,7 @@ define([
     }
     
     function bomb() {
-        speechUtter.speak('빼애ㅐㅐㅐㅐㅐㅐㅐㅐㅐ액');
+        audioPlayer.play();
     }
 
     function start(seconds) {

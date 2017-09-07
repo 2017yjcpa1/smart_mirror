@@ -1,10 +1,9 @@
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         define(factory);
+    } else {
+        root.speechUtterance = factory();
     }
-    
-    root.speechUtterance = factory();
-    
 }(this, function () {
     
     var VOICE_KOREAN = '한국';
