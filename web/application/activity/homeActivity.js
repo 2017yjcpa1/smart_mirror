@@ -46,6 +46,7 @@ define([
                 var activity = matches[1].replace(/\s/g, '').toLowerCase(); 
 
                 switch (activity) {
+                    case '튜토리얼': 
                     case '모션학습': system.startActivity('tutorialActivity'); break;
                     case '일정': 
                     case '달력':     system.startActivity('calendarActivity'); break;
