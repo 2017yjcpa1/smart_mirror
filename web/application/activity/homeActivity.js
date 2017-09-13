@@ -46,6 +46,8 @@ define([
                 var activity = matches[1].replace(/\s/g, '').toLowerCase(); 
 
                 switch (activity) {
+                    case '화면보호기':
+                    case '액자모드': system.startActivity('screenSaverActivity'); break;
                     case '튜토리얼': 
                     case '모션학습': system.startActivity('tutorialActivity'); break;
                     case '일정': 
