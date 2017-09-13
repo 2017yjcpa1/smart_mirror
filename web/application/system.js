@@ -209,12 +209,9 @@ define([
         var scheduleId = null;
 
         var captureEvents = [
-            'mouseover',
-            'mouseout',
             'mousemove', 
             'mouseup',
-            'mousedown', 
-            'click'
+            'mousedown',
         ].join(' ');
 
         function init() {
@@ -226,7 +223,7 @@ define([
                             function () {
                                 startActivity('screenSaverActivity');
                             }, 
-                            1000 * 60 * 3
+                            1000 * 3
                         ); 
         }
 
@@ -269,7 +266,7 @@ define([
             
             startActivity('homeActivity', null, true);
             
-            //scheduleScreenSaver();
+            scheduleScreenSaver();
         }
     };
 });

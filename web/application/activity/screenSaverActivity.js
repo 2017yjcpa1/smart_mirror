@@ -1,15 +1,23 @@
-define(['system', 'jquery'], function (system, $) {
+define([
+    'system', 
+    'jquery',
+    'input/speechRecog',
+], function (system, $, speechRecog) {
 
     var intervalId = null;
 
     var captureEvents = [
-        'mouseover',
-        'mouseout',
         'mousemove', 
         'mouseup',
-        'mousedown', 
-        'click'
+        'mousedown'
     ].join(' ');
+    
+    function wakeup() { 
+        //system.finishActivity('screenSaverActivity');
+        system.startActivity('homeActivity');
+
+        $(document).unbind(captureEvents, wakeup);
+    }
 
     return {
 
@@ -19,7 +27,15 @@ define(['system', 'jquery'], function (system, $) {
         layoutHTML: 'activity_screen_saver.html',
  
         init: function () {
-            console.log('screensaver init'); 
+            console.log('screensaver init');
+            
+            speechRecog.addEventListener('.+', function () {
+                system.startActivity('homeActivity');
+
+                $(document).unbind(captureEvents, wakeup);
+                
+                return false;
+            });
         },
 
         resume: function () {
@@ -31,19 +47,19 @@ define(['system', 'jquery'], function (system, $) {
             
             intervalId = window.setInterval(
                              function () {
-                                 $('#screenSaverActivity li:first-child')
-                                     .detach()
-                                     .appendTo("#screenSaverActivity ul"); 
-                             }
-                             , 1000
+                                 $('#screenSaverActivity li:last-child')
+                                     .fadeOut(function () {
+                                         $(this)
+                                             .detach()
+                                             .show()
+                                             .prependTo("#screenSaverActivity ul");
+                                     });
+                             }, 
+                             1000 * 3
                          );
                  
                  
-            $(document).bind(captureEvents, function () { 
-                system.finishActivity('screenSaverActivity'); 
-                
-                $(document).unbind(captureEvents, arguments.callee)
-            });  
+            $(document).bind(captureEvents, wakeup);
         },
 
         pause: function () {
@@ -52,12 +68,12 @@ define(['system', 'jquery'], function (system, $) {
             if (intervalId) {
                 window.clearInterval(intervalId);
             }
+            
+            system.scheduleScreenSaver();
         },
 
         destroy: function () {
             console.log('screensaver destroy');
-            
-            system.scheduleScreenSaver();
         },
     }
 })

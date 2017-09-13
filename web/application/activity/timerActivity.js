@@ -118,6 +118,22 @@ define([
     
     function registCommands() {
         speechRecog.addEventListener(
+            '(타이머)?(스톱|취소|종료|정지|꺼줘|꺼져|꺼저|꺼라|꺼버려)',
+            function (isFinal, transcript, matches) {
+                if ( ! isRunning) {
+                    return false;
+                }
+                
+                if ( ! isFinal) {
+                    return false;
+                }
+                
+                reset();
+                return true;
+            }
+        );
+        
+        speechRecog.addEventListener(
             '(([0-9]{1,2})분)?(([0-9]{1,2})초)?',
             function (isFinal, transcript, matches) {
                 if ( ! system.isForegroundActivity('timerActivity')) {
