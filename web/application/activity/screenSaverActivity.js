@@ -30,6 +30,11 @@ define([
             console.log('screensaver init');
             
             speechRecog.addEventListener('.+', function () {
+                
+                if ( ! system.isForegroundActivity('screenSaverActivity')) {
+                    return false;
+                }
+                
                 system.startActivity('homeActivity');
 
                 $(document).unbind(captureEvents, wakeup);

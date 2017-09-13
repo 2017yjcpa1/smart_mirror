@@ -152,6 +152,10 @@ define([
                 var minutes = matches[regexGroups.MINUTES] || 0;
                 var seconds = matches[regexGroups.SECONDS] || 0;
                 
+                if ( ! minutes && ! seconds) {
+                    return false;
+                }
+                
                 console.log('타이머', minutes + '분', seconds + '초');
                 
                 minutes = parseInt(minutes, 10);

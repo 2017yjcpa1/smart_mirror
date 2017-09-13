@@ -223,7 +223,7 @@ define([
                             function () {
                                 startActivity('screenSaverActivity');
                             }, 
-                            1000 * 3
+                            1000 * 60
                         ); 
         }
 
