@@ -7,7 +7,7 @@ define([
     'mat2d',
 ], function ($, kinectBridge, vec2d, mat2d) {
     
-    var SENSITIVITY = 0.03;
+    var SENSITIVITY = 0.35;
     
     var oldTarget = null;
     
