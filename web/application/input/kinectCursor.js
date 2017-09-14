@@ -145,6 +145,10 @@ define([
     }
     
     function updatePos(data) {
+        if ( ! data.handRight.isTrusted) {
+            return;
+        }
+        
         if (capturePos === null) {
             capturePos = data.handRight;
         }
