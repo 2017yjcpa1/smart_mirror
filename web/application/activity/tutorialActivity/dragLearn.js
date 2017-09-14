@@ -22,7 +22,7 @@ define([
     function success() {
         successCount++;
 
-        if (successCount < 3) {
+        if (successCount < 2) {
             return;
         }
 
