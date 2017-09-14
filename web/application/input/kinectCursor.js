@@ -145,7 +145,7 @@ define([
     }
     
     function updatePos(data) {
-        if ( ! data.handRight.isTrusted) {
+        if ( ! data.handRight.isTracked) {
             return;
         }
         
