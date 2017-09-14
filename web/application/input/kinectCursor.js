@@ -279,14 +279,9 @@ define([
             deactivate();
             return false;
         }
-        
-        if (data.handRight.y < data.hipRight.y) {
-            deactivate();
-            return false;
-        }
         */
         
-        if (data.handRight.y < data.spineBase.y) {
+        if (data.handRight.y < data.hipRight.y) {
             deactivate();
             return false;
         }
