@@ -8,6 +8,7 @@ define([
 ], function ($, kinectBridge, vec2d, mat2d) {
     
     var SENSITIVITY = 0.27;
+    var CURSOR = 'wristRight';
     
     var oldTarget = null;
     
@@ -145,18 +146,18 @@ define([
     }
     
     function updatePos(data) {
-        if ( ! data.handRight.isTracked) {
+        if ( ! data[CURSOR].isTracked) {
             return;
         }
         
         if (capturePos === null) {
-            capturePos = data.handRight;
+            capturePos = data[CURSOR];
         }
         
         var windowWidth = $(window).width();
         var windowHeight = $(window).height();
         
-        var currentPos = data.handRight;
+        var currentPos = data[CURSOR];
         
         var newX = (currentPos.x - capturePos.x) / SENSITIVITY * windowWidth + windowWidth / 2;
         var newY = -(currentPos.y - capturePos.y) / SENSITIVITY * windowHeight + windowHeight / 2;
@@ -285,7 +286,7 @@ define([
         }
         */
         
-        if (data.handRight.y < data.hipRight.y) {
+        if (data[CURSOR].y < data.hipRight.y) {
             deactivate();
             return false;
         }
