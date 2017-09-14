@@ -286,7 +286,7 @@ define([
         }
         */
         
-        if (data.handRight.y < data.spineMid.y) {
+        if (data.handRight.y < data.spineBase.y) {
             deactivate();
             return false;
         }
