@@ -7,6 +7,8 @@ define([
     'mat2d',
 ], function ($, kinectBridge, vec2d, mat2d) {
     
+    var SENSITIVITY = 0.15;
+    
     var oldTarget = null;
     
     var isOpened = true;
@@ -152,8 +154,8 @@ define([
         
         var currentPos = data.handRight;
         
-        var newX = (currentPos.x - capturePos.x) / 0.2 * windowWidth + windowWidth / 2;
-        var newY = -(currentPos.y - capturePos.y) / 0.2 * windowHeight + windowHeight / 2;
+        var newX = (currentPos.x - capturePos.x) / SENSITIVITY * windowWidth + windowWidth / 2;
+        var newY = -(currentPos.y - capturePos.y) / SENSITIVITY * windowHeight + windowHeight / 2;
         
         isProgressCancelled = vec2d(oldX, oldY).distance(newX, newY) >= 30; 
         
