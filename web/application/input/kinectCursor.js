@@ -157,7 +157,14 @@ define([
         var newX = (currentPos.x - capturePos.x) / SENSITIVITY * windowWidth + windowWidth / 2;
         var newY = -(currentPos.y - capturePos.y) / SENSITIVITY * windowHeight + windowHeight / 2;
         
-        isProgressCancelled = vec2d(oldX, oldY).distance(newX, newY) >= 30; 
+        var dist = vec2d(oldX, oldY).distance(newX, newY);
+        
+        isProgressCancelled = dist >= 30; 
+        
+        // 갑자기 튄경우
+        if (dist > 100) {
+            return;
+        }
         
         handCursor.css({
             'left' : newX,
