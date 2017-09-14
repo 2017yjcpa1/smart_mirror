@@ -2,9 +2,17 @@ define(function () {
     
     var listeners = [];
     var kinectServer = new WebSocket("ws://127.0.0.1:9003/");
+    
+    var dispatchedDate;
 
     kinectServer.onmessage = function (event) {
+        if ((new Date().getTime() - dispatchedDate) <= (1000 / 30)) {
+            return;
+        }
+        
         dispatchEvent('skeleton', event.data);
+        
+        dispatchedDate = new Date().getTime();
     }
     
     function dispatchEvent(type, data) {
