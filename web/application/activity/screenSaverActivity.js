@@ -16,7 +16,7 @@ define([
         //system.finishActivity('screenSaverActivity');
         system.startActivity('homeActivity');
 
-        $(document).unbind(captureEvents, wakeup);
+        //$(document).unbind(captureEvents, wakeup);
     }
 
     return {
@@ -64,7 +64,7 @@ define([
                          );
                  
                  
-            $(document).bind(captureEvents, wakeup);
+            //$(document).bind(captureEvents, wakeup);
         },
 
         pause: function () {
