@@ -274,17 +274,17 @@ define([
     function update(data) { 
         updateImage(data);
         
-        /*
         if (data.handRight.y < data.elbowRight.y) {
             deactivate();
             return false;
         }
-        */
         
+        /*
         if (data.handRight.y < data.hipRight.y) {
             deactivate();
             return false;
         }
+        */
         
         /*
         if (data.handRight.x < data.shoulderRight.x) {
