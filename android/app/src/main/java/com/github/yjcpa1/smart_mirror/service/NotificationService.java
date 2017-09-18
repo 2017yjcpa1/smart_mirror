@@ -79,7 +79,7 @@ public class NotificationService extends NotificationListenerService {
             @Override
             protected String doInBackground(String[] params) {
                 try {
-                    SimpleHttpClient.post("http://aw9223.synology.me/notify/push/", "message", new Gson().toJson(o));
+                    SimpleHttpClient.post("http://aw9223.synology.me/api/index.php/notify/push/", "message", new Gson().toJson(o));
                 }
                 catch(IOException e) {
                     e.printStackTrace();
