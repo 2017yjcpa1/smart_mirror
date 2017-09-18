@@ -77,7 +77,7 @@ define([
         init : function () {
             console.log('home init');
             
-            //system.attachWidget('notifyWidget');
+            system.attachWidget('notifyWidget');
             system.attachWidget('clockWidget');
             system.attachWidget('menuWidget');
             system.attachWidget('skeletonWidget');
