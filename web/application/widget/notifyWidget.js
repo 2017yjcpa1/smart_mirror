@@ -23,7 +23,7 @@ define([
 
                         var message = messages[n];
 
-                        speechUtterance.speak(message['contents']);
+                        //speechUtterance.speak(message['contents']);
 
                         $('<li class="clearFix"></li>')
                              .attr('data-package', message.packageName)
